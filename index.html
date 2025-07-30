@@ -6,14 +6,34 @@
     <title>irojasr</title>
     <style>
     body {
-        background-image: url('bg.png'); /* or 'images/background.png' */
-        background-size: cover;        /* Makes the image cover the screen */
-        background-repeat: no-repeat;  /* Prevents tiling */
-        background-attachment: fixed;  /* Keeps the background from scrolling */
-        background-position: center;   /* Centers the image nicely */
+        background-image: url('bg.png'); /* or whatever your path is */
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+        background-position: center;
         font-family: sans-serif;
-        color: #000;
-        padding: 20px;
+        margin: 0;
+        padding: 0;
+    }
+
+    #overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.4); /* lower alpha = less dim */
+        z-index: 0;
+    }
+
+    .content {
+        position: relative;
+        z-index: 1;
+        padding: 2rem;
+        background-color: rgba(255, 255, 255, 0.85); /* Optional: white content box */
+        max-width: 800px;
+        margin: 50px auto;
+        border-radius: 10px;
     }
 </style>
 </head>
