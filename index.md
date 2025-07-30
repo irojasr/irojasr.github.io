@@ -32,7 +32,7 @@ layout: page
     </td>
     <td valign="top" width="33%" style="background-color:#f9f9f9; border-radius:10px;">
       <strong>🖼️ Pictures</strong><br />
-      <a href="pics.md">Important Pictures</a>
+      <a href="pics">Important Pictures</a>
     </td>
   </tr>
 </table>
