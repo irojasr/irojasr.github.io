@@ -7,7 +7,7 @@ layout: page
 ---
 # Ignacio Rojas
 <div style="text-align: center;">
-  <img src="https://postimg.cc/SXZGPNLw" width="650pt" alt="photo of Ignacio Rojas in Dresden Hbf" style="border-radius: 10px;" />
+  <img src="https://i.postimg.cc/y8vZhVX9/mfw-Dresden.jpg" width="650pt" alt="photo of Ignacio Rojas in Dresden Hbf" style="border-radius: 10px;" />
 </div>
 
 <div style="max-width: 800px; margin: 0 auto; padding-top: 1em;">
@@ -34,10 +34,14 @@ layout: page
       <strong>🖼️ Pictures</strong><br />
       <a href="pics">Important Pictures</a>
     </td>
+    <td valign="top" width="33%" style="background-color:#f9f9f9; border-radius:10px;">
+      <strong>📄✍ Teaching</strong><br />
+      <a href="teaching">class notes or hws</a>
+    </td>
   </tr>
 </table>
 
 &nbsp;
 
 <h3>TO DO</h3>
-<p>Add like a teaching link with pdfs with answers to my old homeworks</p>
+<p>Actually put the links to my notes and past hws in the teaching link. Fix the important pictures.</p>
