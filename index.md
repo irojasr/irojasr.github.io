@@ -7,7 +7,7 @@ layout: page
 ---
 # Ignacio Rojas
 <div style="text-align: center;">
-  <img src="https://cdn.discordapp.com/attachments/980723299384426526/1400032446682234890/92c5b916-1d09-4484-bd38-3e3f32a3ac991.jpg?ex=688b2952&is=6889d7d2&hm=c2a4925c08114ab871cee8b8b044af69b76663425f44dfe3b897c845a50af725&" width="650pt" alt="photo of Ignacio Rojas in Dresden Hbf" style="border-radius: 10px;" />
+  <img src="https://postimg.cc/SXZGPNLw" width="650pt" alt="photo of Ignacio Rojas in Dresden Hbf" style="border-radius: 10px;" />
 </div>
 
 <div style="max-width: 800px; margin: 0 auto; padding-top: 1em;">
