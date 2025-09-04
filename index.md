@@ -22,21 +22,21 @@ layout: page
 
 <table width="100%" cellpadding="10" cellspacing="10" border="0">
   <tr>
-    <td valign="top" width="33%" style="background-color:#f9f9f9; border-radius:10px;">
+    <td valign="top" width="25%" style="background-color:#f9f9f9; border-radius:10px;">
       <strong>📬 Mail</strong><br />
       <a href="mailto:ir@colostate.edu">ir@colostate.edu</a>
     </td>
-    <td valign="top" width="33%" style="background-color:#f9f9f9; border-radius:10px;">
+    <td valign="top" width="25%" style="background-color:#f9f9f9; border-radius:10px;">
       <strong>📄 CV</strong><br />
       <a href="cvJIRReng.pdf" target="_blank">my CV</a>
     </td>
-    <td valign="top" width="33%" style="background-color:#f9f9f9; border-radius:10px;">
+    <td valign="top" width="25%" style="background-color:#f9f9f9; border-radius:10px;">
       <strong>🖼️ Pictures</strong><br />
       <a href="pics">Important Pictures</a>
     </td>
-    <td valign="top" width="33%" style="background-color:#f9f9f9; border-radius:10px;">
+    <td valign="top" width="25%" style="background-color:#f9f9f9; border-radius:10px;">
       <strong>📄✍ Teaching</strong><br />
-      <a href="teaching">class notes or hws</a>
+      <a href="teaching">Notes and HWs</a>
     </td>
   </tr>
 </table>
