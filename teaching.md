@@ -7,5 +7,7 @@ layout: page
 ---
 # Teaching
 
+Please look in my math github repository for most of the material I've produced during my time as a student.
+
 <h3>TO DO</h3>
-<p>Add like pdfs with answers to my old homeworks and class notes</p>
+<p>Add cool links to pdfs with answers to my old homeworks and class notes</p>
