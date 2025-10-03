@@ -24,7 +24,7 @@ layout: page
   <tr>
     <td valign="top" width="25%" style="background-color:#f9f9f9; border-radius:10px;">
       <strong>📬 Mail</strong><br />
-      name[1]lastName[1](at)colostate.edu
+      <a href="mailto:ir@colostate.edu">ir@colostate.edu</a>
     </td>
     <td valign="top" width="25%" style="background-color:#f9f9f9; border-radius:10px;">
       <strong>📄 CV</strong><br />
@@ -44,4 +44,4 @@ layout: page
 &nbsp;
 
 <h3>TO DO</h3>
-<p>Actually put cool links to my notes and past hws in the teaching link. Fix the important pictures.</p>
+<p>Actually put the cool links to my notes and past hws in the teaching link. Fix the important pictures.</p>
