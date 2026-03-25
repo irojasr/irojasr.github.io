@@ -32,12 +32,12 @@ layout: page
     </td>
     <td valign="top" width="25%" style="background-color:#f9f9f9; border-radius:10px;">
       <strong>📁 Important stuffs</strong><br />
-      <a href="pics.md">Important Pictures</a><br />
+      <a href="pics">Important Pictures</a><br />
       <a href="oqSolver/oqSolver.html">oqSolver</a>
     </td>
     <td valign="top" width="25%" style="background-color:#f9f9f9; border-radius:10px;">
       <strong>📄✍ Teaching</strong><br />
-      <a href="teaching.md">Notes and HWs</a>
+      <a href="teaching">Notes and HWs</a>
     </td>
   </tr>
 </table>
