@@ -24,3 +24,7 @@ Poster session will occur on a random day of the week, no easels or thingys to p
 <p>
 Include night activities at some point, def dancing at scumpys on thursday (let's gooo)
 </p>
+
+<div style="text-align: center; padding-top: 2em;">
+  <a href="index">← Back to main page</a>
+</div>
