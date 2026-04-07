@@ -24,9 +24,16 @@ layout: page
 # The "I'm turning 30" conference
 
 <div style="max-width: 800px; margin: 0 auto; padding-top: 1em;">
-  Mfw it's my 30th birthday, and we are celebrating with a week conference during <strong>September 21-25, 2026</strong>.
+  Mfw it's my 30th birthday, and we are celebrating with a week long conference during <strong>September 21-25, 2026</strong>.
   <br><br>
   This is a -very chill- conference. People don't even need to talk about math and they can talk about whatever they want. It's just a conference for the funsies.
+  <br><br>
+  <strong>📍 Logistics:</strong>
+  <ul>
+    <li>Note: There is <strong>no funding</strong> available.</li>
+    <li>Talks will take place somewhere in <strong>Fort Collins</strong> (see the registration page for details).</li>
+    <li>Exact rooms and locations will be finalized and communicated at a later date.</li>
+  </ul>
 </div>
 
 &nbsp;
