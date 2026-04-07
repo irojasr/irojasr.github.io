@@ -1,26 +1,79 @@
 ---
 id: 4
-title: Birthday Conference
-date: 2025-12-29T23:00:00+07:00
+title: "The 'I'm turning 30' conference"
+date: 2026-04-07T12:39:14-06:00
 author: irojasr
 layout: page
 ---
-# My 30th birthday conference
 
-(let's gooo)
+<style>
+  .background-turtle {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 400px;
+    opacity: 0.1;
+    z-index: -1;
+    pointer-events: none;
+  }
+</style>
 
-<h3>TO DO</h3>
-<p>say conference has no funding, email me to dibs on my only extra space (only if coming out of foco, can be in foco but uwu), talks will be at random places (drinking before/during/after encouraged) in foco possibly buddies houses (create form to apply for hosting a talk), can talk about w/ever you want. Can apply to be a plenary speaker</p>
+<img src="https://fonts.gstatic.com/s/e/notoemoji/latest/1f422/emoji.svg" class="background-turtle" alt="turtle">
 
-<p>
-Form for applying to talk/poster asks: name, age, last time you remember farting, potential title of your talk/poster, potential abstract of talk/poster, SSN (or equivalent if international),  want to be a plenary speaker (Y/N), mom maiden name (or equivalent if internationational), wants to commit tax fraud (Y/N), wants to chair a session (Y/N), send link to your website so that I can link to it on the "speakers" tab or something like that
-</p>
+# The "I'm turning 30" conference
 
-<p>
-Poster session will occur on a random day of the week, no easels or thingys to put your poster, only tape. Maybe cocktail sess (if peeps bring the drinkys)
-</p>
+<div style="max-width: 800px; margin: 0 auto; padding-top: 1em;">
+  Mfw it's my 30th birthday, and we are celebrating with a week conference during <strong>September 21-25, 2026</strong>.
+  <br><br>
+  This is a -very chill- conference. People don't even need to talk about math and they can talk about whatever they want. It's just a conference for the funsies.
+</div>
 
+&nbsp;
 
-<p>
-Include night activities at some point, def dancing at scumpys on thursday (let's gooo)
-</p>
+<table width="100%" cellpadding="10" cellspacing="10" border="0">
+  <tr>
+    <td valign="top" style="background-color:#f9f9f9; border-radius:10px; text-align: center;">
+      <strong>📝 Registration</strong><br />
+      Please register on the 
+      <a href="https://forms.gle/odoLrbLM3bEC791P8">dedicated web page</a>.
+    </td>
+  </tr>
+</table>
+
+&nbsp;
+
+<div style="max-width: 800px; margin: 0 auto; background-color:#f9f9f9; border-radius:10px; padding: 20px;">
+  <strong>🐢 Some important notes:</strong>
+  <ul>
+    <li>Drinking is encouraged before, during, and after talks.</li>
+    <li>Poster presenters: I actually may get some tape, I don't know, but plan on getting something to make your poster visible.</li>
+  </ul>
+</div>
+
+&nbsp;
+
+<h3>🌟 Plenary Speakers</h3>
+<div style="max-width: 800px; margin: 0 auto; background-color:#f9f9f9; border-radius:10px; padding: 20px; margin-bottom: 2em;">
+  Will fill out when I get your details from the form.
+</div>
+
+<h3>📢 Speakers</h3>
+<div style="max-width: 800px; margin: 0 auto; background-color:#f9f9f9; border-radius:10px; padding: 20px; margin-bottom: 2em;">
+  Will fill out when I get your details from the form.
+</div>
+
+<h3>🖼️ Posters</h3>
+<div style="max-width: 800px; margin: 0 auto; background-color:#f9f9f9; border-radius:10px; padding: 20px; margin-bottom: 2em;">
+  Will fill out when I get your details from the form.
+</div>
+
+<h3>📅 Schedule</h3>
+<div style="max-width: 800px; margin: 0 auto; background-color:#f9f9f9; border-radius:10px; padding: 20px; margin-bottom: 2em;">
+  Schedule coming soon! 
+</div>
+
+<div style="text-align: center; padding-top: 2em;">
+  <a href="index">← Back to main page</a>
+</div>
+
