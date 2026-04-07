@@ -36,7 +36,7 @@ layout: page
     <td valign="top" style="background-color:#f9f9f9; border-radius:10px; text-align: center;">
       <strong>📝 Registration</strong><br />
       Please register on the 
-      <a href="https://forms.gle/odoLrbLM3bEC791P8">dedicated web page</a>.
+      <a href="https://forms.gle/n6R6DgoDrTwgrANZ7">dedicated web page</a>.
     </td>
   </tr>
 </table>
@@ -46,8 +46,8 @@ layout: page
 <div style="max-width: 800px; margin: 0 auto; background-color:#f9f9f9; border-radius:10px; padding: 20px;">
   <strong>🐢 Some important notes:</strong>
   <ul>
-    <li>Drinking is encouraged before, during, and after talks.</li>
-    <li>Poster presenters: I actually may get some tape, I don't know, but plan on getting something to make your poster visible.</li>
+    <li>Drinking is encouraged before, during, and after talks. Remember, drinking too little water is too easy, but drinking too much water is too hard.</li>
+    <li>Poster presenters: I actually may get some tape to put up your posters, unsure lol. Plan on getting something to make them visible.</li>
   </ul>
 </div>
 

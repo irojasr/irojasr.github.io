@@ -22,22 +22,30 @@ layout: page
 
 <table width="100%" cellpadding="10" cellspacing="10" border="0">
   <tr>
-    <td valign="top" width="25%" style="background-color:#f9f9f9; border-radius:10px;">
+    <td valign="top" width="33%" style="background-color:#f9f9f9; border-radius:10px;">
       <strong>📬 Mail</strong><br />
       <a href="mailto:ir@colostate.edu">ir@colostate.edu</a>
     </td>
-    <td valign="top" width="25%" style="background-color:#f9f9f9; border-radius:10px;">
+    <td valign="top" width="33%" style="background-color:#f9f9f9; border-radius:10px;">
       <strong>📄 CV</strong><br />
       <a href="cvJIRReng.pdf" target="_blank">my CV</a>
     </td>
-    <td valign="top" width="25%" style="background-color:#f9f9f9; border-radius:10px;">
-      <strong>📁 Important stuffs</strong><br />
-      <a href="pics">Important Pictures</a><br />
-      <a href="oqSolver/oqSolver.html">oqSolver</a>
-    </td>
-    <td valign="top" width="25%" style="background-color:#f9f9f9; border-radius:10px;">
-      <strong>📄✍ Teaching</strong><br />
+    <td valign="top" width="33%" style="background-color:#f9f9f9; border-radius:10px;">
+      <strong>📝 Notes</strong><br />
       <a href="teaching">Notes and HWs</a>
+    </td>
+  </tr>
+</table>
+
+<table width="100%" cellpadding="10" cellspacing="10" border="0">
+  <tr>
+    <td valign="top" style="background-color:#f9f9f9; border-radius:10px;">
+      <strong>📁 Important stuffs</strong><br />
+      <div style="padding-top: 0.5em;">
+        • <a href="pics">Important Pictures</a><br />
+        • <a href="oqSolver/oqSolver.html">oqSolver</a><br />
+        • <a href="30yoConf">30yoConf</a>
+      </div>
     </td>
   </tr>
 </table>
