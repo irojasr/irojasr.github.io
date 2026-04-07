@@ -39,12 +39,19 @@ layout: page
 
 <table width="100%" cellpadding="10" cellspacing="10" border="0">
   <tr>
-    <td valign="top" style="background-color:#f9f9f9; border-radius:10px;">
+    <td valign="top" width="50%" style="background-color:#f9f9f9; border-radius:10px;">
       <strong>📁 Important stuffs</strong><br />
       <div style="padding-top: 0.5em;">
         • <a href="pics">Important Pictures</a><br />
-        • <a href="oqSolver/oqSolver.html">oqSolver</a><br />
         • <a href="30yoConf">30yoConf</a>
+      </div>
+    </td>
+    <td valign="top" width="50%" style="background-color:#f9f9f9; border-radius:10px;">
+      <strong>🎮 Play</strong><br />
+      <div style="padding-top: 0.5em;">
+        • <a href="o/ocPlay.html">Play oc</a><br />
+        • <a href="o/oqPlay.html">Play oq</a><br />
+        • <a href="o/oqSolver.html">oqSolver</a>
       </div>
     </td>
   </tr>

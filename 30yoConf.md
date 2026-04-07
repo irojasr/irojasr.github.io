@@ -73,6 +73,14 @@ layout: page
   Schedule coming soon! 
 </div>
 
+<div style="text-align: center; padding-top: 1em; padding-bottom: 1em;">
+  <div style="max-width: 400px; margin: 0 auto; background-color:#f9f9f9; border-radius:10px; padding: 15px; border: 1px dashed #ccc;">
+    <strong>📝 Registration link</strong><br />
+    (again, because you probably skipped it from the top, lol)<br />
+    <a href="https://forms.gle/n6R6DgoDrTwgrANZ7" style="font-weight: bold;">Click here to register!</a>
+  </div>
+</div>
+
 <div style="text-align: center; padding-top: 2em;">
   <a href="index">← Back to main page</a>
 </div>

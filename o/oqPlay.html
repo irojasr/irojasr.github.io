@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Play Mudae Oq</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #0b0d17;
+            --panel-bg: rgba(255, 255, 255, 0.03);
+            --border-color: rgba(255, 255, 255, 0.1);
+            --text-main: #e2e8f0;
+            --text-muted: #94a3b8;
+            --accent-pink: #ff006a;
+            --accent-cyan: #00f0ff;
+            --safe-green: #10b981;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            user-select: none;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            overflow-x: hidden;
+            padding: 20px;
+            background-image: radial-gradient(circle at 50% 0%, #1a1528 0%, #0b0d17 100%);
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+            width: 100%;
+            max-width: 500px;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--accent-cyan), var(--accent-pink));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 8px;
+            text-shadow: 0 0 20px rgba(255, 0, 106, 0.2);
+        }
+
+        p.subtitle {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            line-height: 1.4;
+        }
+
+        .status-panel {
+            width: 100%;
+            max-width: 500px;
+            background: var(--panel-bg);
+            border: 1px solid var(--border-color);
+            padding: 16px;
+            border-radius: 12px;
+            margin-bottom: 24px;
+            backdrop-filter: blur(10px);
+            text-align: center;
+        }
+
+        .grid-container {
+            width: 100%;
+            max-width: 400px;
+            margin-bottom: 30px;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 10px;
+            aspect-ratio: 1;
+        }
+
+        .tile {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .tile:hover {
+            transform: translateY(-2px);
+            background: rgba(255, 255, 255, 0.08);
+            border-color: rgba(255, 255, 255, 0.2);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        .tile:active {
+            transform: translateY(1px);
+        }
+
+        .reset-btn {
+            background: transparent;
+            border: 1px solid var(--border-color);
+            color: var(--text-muted);
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            margin-top: 10px;
+            margin-right: 5px;
+        }
+
+        .reset-btn:hover {
+            color: var(--text-main);
+            border-color: var(--text-main);
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        /* Mudae Cycle Background Colors */
+        .bg-purple {
+            background-color: #a855f7 !important;
+            border-color: #c084fc !important;
+            color: white !important;
+        }
+
+        .bg-blue {
+            background-color: #3b82f6 !important;
+            border-color: #60a5fa !important;
+            color: white !important;
+        }
+
+        .bg-teal {
+            background-color: #14b8a6 !important;
+            border-color: #2dd4bf !important;
+            color: white !important;
+        }
+
+        .bg-green {
+            background-color: #10b981 !important;
+            border-color: #34d399 !important;
+            color: white !important;
+        }
+
+        .bg-yellow {
+            background-color: #eab308 !important;
+            border-color: #facc15 !important;
+            color: white !important;
+        }
+
+        .bg-orange {
+            background-color: #f97316 !important;
+            border-color: #fb923c !important;
+            color: white !important;
+        }
+
+        .bg-red {
+            background-color: #ef4444 !important;
+            border-color: #f87171 !important;
+            color: white !important;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="header">
+        <a href="../index"
+            style="color: var(--text-muted); text-decoration: none; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 5px; display: inline-block;">&larr;
+            Back to Home</a>
+        <br>
+        <a href="ocPlay.html"
+            style="color: var(--accent-cyan); text-decoration: none; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 5px; display: inline-block;">&rarr;
+            Play oc instead</a>
+        <br>
+        <a href="oqSolver.html"
+            style="color: var(--accent-cyan); text-decoration: none; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 5px; display: inline-block;">&rarr;
+            Open Solver</a>
+        <h1>Play oq</h1>
+        <p class="subtitle">Find 3 targets to reveal the Red Tile, then click it before running out of clicks!</p>
+        <div style="margin-top: 15px; display: flex; gap: 10px; justify-content: center; align-items: center;">
+            <div
+                style="background: rgba(255,255,255,0.05); padding: 5px 15px; border-radius: 8px; border: 1px solid var(--border-color);">
+                <span id="clicksRemaining"
+                    style="font-weight: 800; color: var(--accent-cyan); font-size: 1.2rem;">7</span>
+                <span style="font-size: 0.8rem; color: var(--text-muted); text-transform: uppercase;"> Clicks
+                    Left</span>
+            </div>
+            <div
+                style="background: rgba(255,255,255,0.05); padding: 5px 15px; border-radius: 8px; border: 1px solid var(--border-color);">
+                <span id="currentScore" style="font-weight: 800; color: #fbbf24; font-size: 1.2rem;">0</span>
+                <span style="font-size: 0.8rem; color: var(--text-muted); text-transform: uppercase;"> Points</span>
+            </div>
+        </div>
+        <div
+            style="margin-top: 15px; display: flex; gap: 10px; justify-content: center; align-items: center; flex-wrap: wrap;">
+            <label for="bonusValue" style="color: var(--text-muted); font-size: 0.9rem;">Bonus (B):</label>
+            <input type="number" id="bonusValue" value="16"
+                style="width: 70px; background: rgba(0,0,0,0.3); border: 1px solid var(--border-color); color: white; padding: 5px; border-radius: 5px; text-align: center;"
+                onchange="recalculatePoints()">
+            <button class="reset-btn" style="margin-top: 0;" onclick="initGame()">Restart Game</button>
+        </div>
+    </div>
+
+    <div class="status-panel" id="gameMessage" style="color: var(--safe-green); font-weight: bold; display: none;">
+        Status Message
+    </div>
+
+    <div class="grid-container">
+        <div class="grid" id="grid">
+            <!-- Tiles generated by JS -->
+        </div>
+    </div>
+
+    <script>
+        let boardState = Array(25).fill(0);    // The actual numerical values hidden behind the board
+        let tileIdentities = Array(25).fill(''); // 'P' for Purple, 'R' for Red (upgraded from P)
+        let playerRevealed = Array(25).fill(false); // Has player clicked it?
+
+        let clicksLeft = 7;
+        let purplesFound = 0;
+        let totalScoreBase = 0; // Points without B factored in yet for easy recalculation
+        let gameStatus = 'playing'; // 'playing', 'won', 'lost'
+
+        function getAdjCount(boardIndices, r, c) {
+            let count = 0;
+            for (const tIndex of boardIndices) {
+                const tr = Math.floor(tIndex / 5);
+                const tc = tIndex % 5;
+                if (Math.max(Math.abs(tr - r), Math.abs(tc - c)) <= 1 && tIndex !== (r * 5 + c)) {
+                    count++;
+                }
+            }
+            return count;
+        }
+
+        function initGame() {
+            clicksLeft = 7;
+            purplesFound = 0;
+            gameStatus = 'playing';
+
+            playerRevealed.fill(false);
+            boardState.fill(0);
+            tileIdentities.fill('');
+            totalScoreBase = 0;
+
+            document.getElementById('gameMessage').style.display = 'none';
+
+            // Randomly choose 4 target indices
+            let coords = Array.from({ length: 25 }, (_, i) => i);
+            let targets = [];
+            for (let i = 0; i < 4; i++) {
+                let r = Math.floor(Math.random() * coords.length);
+                targets.push(coords[r]);
+                coords.splice(r, 1);
+            }
+
+            // Populate board
+            for (let i = 0; i < 25; i++) {
+                if (targets.includes(i)) {
+                    boardState[i] = 'T';
+                    tileIdentities[i] = 'P'; // Initialized as Purple
+                } else {
+                    boardState[i] = getAdjCount(targets, Math.floor(i / 5), i % 5);
+                }
+            }
+
+            renderBoard();
+        }
+
+        function clickTile(index) {
+            if (gameStatus !== 'playing') return;
+            // Only allow click if not revealed OR if it's the specific Red tile awaiting his win click
+            if (playerRevealed[index] && tileIdentities[index] !== 'R') return;
+
+            if (!playerRevealed[index]) {
+                playerRevealed[index] = true;
+            } else if (tileIdentities[index] === 'R') {
+                // If it's already revealed as Red, clicking it again "activates" the win
+                // We keep it revealed, but let the logic fall through to the target check
+            }
+            const val = boardState[index];
+
+            if (val === 'T') {
+                if (tileIdentities[index] === 'P') {
+                    purplesFound++;
+                    totalScoreBase += 5; // Base for Purple
+                    if (purplesFound === 3) {
+                        // 4th purple intrinsically becomes Red
+                        for (let j = 0; j < 25; j++) {
+                            if (boardState[j] === 'T' && !playerRevealed[j]) {
+                                tileIdentities[j] = 'R';
+                                playerRevealed[j] = true; // Auto-reveal
+                                // We don't add points for Red yet, player must CLICK it to win
+                            }
+                        }
+                        document.getElementById('gameMessage').style.display = 'block';
+                        document.getElementById('gameMessage').style.color = '#ff4444';
+                        document.getElementById('gameMessage').innerHTML = '🚨 3 Purples Found: The RED TILE is revealed! 🚨';
+                    }
+                } else if (tileIdentities[index] === 'R') {
+                    clicksLeft--;
+                    purplesFound++;
+                    totalScoreBase += 150; // Base for Red
+                    // Update message but don't end game yet -> Allow farming
+                    document.getElementById('gameMessage').style.display = 'block';
+                    document.getElementById('gameMessage').style.color = '#10b981';
+                    document.getElementById('gameMessage').innerHTML = '🎉 Red Tile Claimed! Use remaining clicks to FARM points! 🎉';
+                }
+            } else {
+                // Number tile points mapping: 0->10, 1->20, 2->35, 3->55, 4->90
+                const baseMap = [10, 20, 35, 55, 90];
+                totalScoreBase += baseMap[val] || 0;
+                clicksLeft--;
+            }
+
+            if (clicksLeft <= 0) {
+                // If we ran out of clicks, evaluate final state
+                if (purplesFound >= 4) {
+                    gameStatus = 'won';
+                    document.getElementById('gameMessage').innerHTML = '🏆 FINAL SCORE TIED! Board fully revealed. 🏆';
+                } else {
+                    gameStatus = 'lost';
+                    document.getElementById('gameMessage').style.display = 'block';
+                    document.getElementById('gameMessage').style.color = '#ff4444';
+                    document.getElementById('gameMessage').innerHTML = '💥 Game Over! Out of clicks. 💥';
+                }
+                revealAll();
+            }
+
+            renderBoard();
+        }
+
+        function revealAll() {
+            playerRevealed.fill(true);
+        }
+
+        function renderBoard() {
+            document.getElementById('clicksRemaining').textContent = Math.max(0, clicksLeft);
+
+            // Calculate final points with B: Each revealed tile gets +B
+            let B = parseInt(document.getElementById('bonusValue').value) || 0;
+            let revealedCount = playerRevealed.filter((r, i) => r).length;
+            // Note: If win, purplesFound is 4 (3P + 1R). If lose it varies. 
+            // Better to just count actual icons on board or use totalScoreBase + count * B
+            document.getElementById('currentScore').textContent = totalScoreBase + (revealedCount * B);
+
+            const grid = document.getElementById('grid');
+            grid.innerHTML = '';
+
+            for (let i = 0; i < 25; i++) {
+                const tile = document.createElement('div');
+                tile.className = 'tile';
+
+                if (playerRevealed[i]) {
+                    const val = boardState[i];
+                    if (val === 'T') {
+                        if (tileIdentities[i] === 'R') {
+                            tile.textContent = '🔴';
+                            tile.classList.add('bg-red');
+                            // If it's a Red tile that's revealed but NOT clicked yet, allow clicking
+                            if (gameStatus === 'playing') {
+                                tile.style.cursor = 'pointer';
+                                tile.onclick = () => clickTile(i);
+                            }
+                        } else {
+                            tile.textContent = '🎯';
+                            tile.classList.add('bg-purple');
+                        }
+                    } else {
+                        tile.textContent = val;
+                        if (val === 0) tile.classList.add('bg-blue');
+                        if (val === 1) tile.classList.add('bg-teal');
+                        if (val === 2) tile.classList.add('bg-green');
+                        if (val === 3) tile.classList.add('bg-yellow');
+                        if (val === 4) tile.classList.add('bg-orange');
+                    }
+                } else {
+                    tile.onclick = () => clickTile(i);
+                }
+
+                grid.appendChild(tile);
+            }
+        }
+
+        function recalculatePoints() {
+            renderBoard();
+        }
+
+        // init on load
+        initGame();
+    </script>
+</body>
+
+</html>

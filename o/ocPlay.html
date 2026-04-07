@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Play Mudae Oc</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #0b0d17;
+            --panel-bg: rgba(255, 255, 255, 0.03);
+            --border-color: rgba(255, 255, 255, 0.1);
+            --text-main: #e2e8f0;
+            --text-muted: #94a3b8;
+            --accent-pink: #ff006a;
+            --accent-cyan: #00f0ff;
+            --safe-green: #10b981;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            user-select: none;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            overflow-x: hidden;
+            padding: 20px;
+            background-image: radial-gradient(circle at 50% 0%, #1a1528 0%, #0b0d17 100%);
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+            width: 100%;
+            max-width: 500px;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--accent-cyan), var(--accent-pink));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 8px;
+            text-shadow: 0 0 20px rgba(255, 0, 106, 0.2);
+        }
+
+        p.subtitle {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            line-height: 1.4;
+        }
+
+        .status-panel {
+            width: 100%;
+            max-width: 500px;
+            background: var(--panel-bg);
+            border: 1px solid var(--border-color);
+            padding: 16px;
+            border-radius: 12px;
+            margin-bottom: 24px;
+            backdrop-filter: blur(10px);
+            text-align: center;
+        }
+
+        .grid-container {
+            width: 100%;
+            max-width: 400px;
+            margin-bottom: 30px;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 10px;
+            aspect-ratio: 1;
+        }
+
+        .tile {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .tile:hover {
+            transform: translateY(-2px);
+            background: rgba(255, 255, 255, 0.08);
+            border-color: rgba(255, 255, 255, 0.2);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        .tile:active {
+            transform: translateY(1px);
+        }
+
+        .reset-btn {
+            background: transparent;
+            border: 1px solid var(--border-color);
+            color: var(--text-muted);
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            margin-top: 10px;
+            margin-right: 5px;
+        }
+
+        .reset-btn:hover {
+            color: var(--text-main);
+            border-color: var(--text-main);
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        /* Mudae Cycle Background Colors */
+        .bg-purple {
+            background-color: #a855f7 !important;
+            border-color: #c084fc !important;
+            color: white !important;
+        }
+
+        .bg-blue {
+            background-color: #3b82f6 !important;
+            border-color: #60a5fa !important;
+            color: white !important;
+        }
+
+        .bg-teal {
+            background-color: #14b8a6 !important;
+            border-color: #2dd4bf !important;
+            color: white !important;
+        }
+
+        .bg-green {
+            background-color: #10b981 !important;
+            border-color: #34d399 !important;
+            color: white !important;
+        }
+
+        .bg-yellow {
+            background-color: #eab308 !important;
+            border-color: #facc15 !important;
+            color: white !important;
+        }
+
+        .bg-orange {
+            background-color: #f97316 !important;
+            border-color: #fb923c !important;
+            color: white !important;
+        }
+
+        .bg-red {
+            background-color: #ef4444 !important;
+            border-color: #f87171 !important;
+            color: white !important;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="header">
+        <a href="../index"
+            style="color: var(--text-muted); text-decoration: none; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 5px; display: inline-block;">&larr;
+            Back to Home</a>
+        <br>
+        <a href="oqPlay.html"
+            style="color: var(--accent-cyan); text-decoration: none; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 5px; display: inline-block;">&rarr;
+            Play oq instead</a>
+        <br>
+        <a href="https://mudaehelper.pages.dev/oc-solver" target="_blank"
+            style="color: var(--accent-cyan); text-decoration: none; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 5px; display: inline-block;">&rarr;
+            oc solver</a>
+        <h1>Play oc</h1>
+        <p class="subtitle">Find the 1 red sphere before running out of clicks! Pay attention to the colors.</p>
+        <div
+            style="margin-top: 15px; display: flex; gap: 10px; justify-content: center; align-items: center; flex-wrap: wrap;">
+            <div
+                style="background: rgba(255,255,255,0.05); padding: 5px 15px; border-radius: 8px; border: 1px solid var(--border-color);">
+                <span id="clicksRemaining"
+                    style="font-weight: 800; color: var(--accent-cyan); font-size: 1.2rem;">5</span>
+                <span style="font-size: 0.8rem; color: var(--text-muted); text-transform: uppercase;"> Clicks
+                    Left</span>
+            </div>
+            <div
+                style="background: rgba(255,255,255,0.05); padding: 5px 15px; border-radius: 8px; border: 1px solid var(--border-color);">
+                <span id="currentScore" style="font-weight: 800; color: #fbbf24; font-size: 1.2rem;">0</span>
+                <span style="font-size: 0.8rem; color: var(--text-muted); text-transform: uppercase;"> Points</span>
+            </div>
+        </div>
+        <div
+            style="margin-top: 15px; display: flex; gap: 10px; justify-content: center; align-items: center; flex-wrap: wrap;">
+            <label for="bonusValue" style="color: var(--text-muted); font-size: 0.9rem;">Bonus (B):</label>
+            <input type="number" id="bonusValue" value="16"
+                style="width: 70px; background: rgba(0,0,0,0.3); border: 1px solid var(--border-color); color: white; padding: 5px; border-radius: 5px; text-align: center;"
+                onchange="recalculatePoints()">
+            <button class="reset-btn" style="margin-top: 0;" onclick="initGame()">Restart Game</button>
+        </div>
+    </div>
+
+    <div class="status-panel" id="gameMessage" style="color: var(--safe-green); font-weight: bold; display: none;">
+        Status Message
+    </div>
+
+    <div class="grid-container">
+        <div class="grid" id="grid">
+            <!-- Tiles generated by JS -->
+        </div>
+    </div>
+
+    <script>
+        let boardState = Array(25).fill('');
+        let playerRevealed = Array(25).fill(false); // Has player clicked it?
+
+        let clicksLeft = 5;
+        let redFound = false;
+        let totalScoreBase = 0;
+        let gameStatus = 'playing'; // 'playing', 'won', 'lost'
+
+        function initGame() {
+            clicksLeft = 5;
+            redFound = false;
+            totalScoreBase = 0;
+            gameStatus = 'playing';
+
+            playerRevealed.fill(false);
+            boardState.fill('');
+
+            document.getElementById('gameMessage').style.display = 'none';
+
+            // 1. Red
+            let possibleRed = [];
+            for (let i = 0; i < 25; i++) {
+                if (i !== 12) possibleRed.push(i);
+            }
+            let redTile = possibleRed[Math.floor(Math.random() * possibleRed.length)];
+            boardState[redTile] = 'R';
+            let R_r = Math.floor(redTile / 5);
+            let R_c = redTile % 5;
+
+            // 2. Orange (orthogonal)
+            let orth = [];
+            if (R_r > 0) orth.push((R_r - 1) * 5 + R_c);
+            if (R_r < 4) orth.push((R_r + 1) * 5 + R_c);
+            if (R_c > 0) orth.push(R_r * 5 + R_c - 1);
+            if (R_c < 4) orth.push(R_r * 5 + R_c + 1);
+
+            orth.sort(() => Math.random() - 0.5);
+            let orangeTiles = orth.slice(0, 2);
+            orangeTiles.forEach(i => boardState[i] = 'O');
+
+            // 3. Yellow (diagonal)
+            let diag = [];
+            for (let i = 0; i < 25; i++) {
+                if (i === redTile) continue;
+                let r = Math.floor(i / 5);
+                let c = i % 5;
+                if (Math.abs(r - R_r) === Math.abs(c - R_c)) {
+                    diag.push(i);
+                }
+            }
+            diag.sort(() => Math.random() - 0.5);
+            let yellowTiles = diag.slice(0, 3);
+            yellowTiles.forEach(i => boardState[i] = 'Y');
+
+            // 4. Green (row/col)
+            let rowCol = [];
+            for (let i = 0; i < 25; i++) {
+                if (i === redTile || boardState[i] !== '') continue; // Skip already assigned Orange
+                let r = Math.floor(i / 5);
+                let c = i % 5;
+                if (r === R_r || c === R_c) {
+                    rowCol.push(i);
+                }
+            }
+            rowCol.sort(() => Math.random() - 0.5);
+            let greenTiles = rowCol.slice(0, 4);
+            greenTiles.forEach(i => boardState[i] = 'G');
+
+            // 5. Teal & Blue
+            for (let i = 0; i < 25; i++) {
+                if (boardState[i] !== '') continue;
+                let r = Math.floor(i / 5);
+                let c = i % 5;
+                if (r === R_r || c === R_c || Math.abs(r - R_r) === Math.abs(c - R_c)) {
+                    boardState[i] = 'T'; // Teal
+                } else {
+                    boardState[i] = 'B'; // Blue
+                }
+            }
+
+            renderBoard();
+        }
+
+        function clickTile(index) {
+            if (gameStatus !== 'playing') return;
+            if (playerRevealed[index]) return; // already revealed
+
+            playerRevealed[index] = true;
+            clicksLeft--;
+
+            const val = boardState[index];
+
+            // Point Mapping (Base): Red=150, Orange=90, Yellow=55, Green=35, Teal=20, Blue=10
+            if (val === 'R') {
+                redFound = true;
+                totalScoreBase += 150;
+                document.getElementById('gameMessage').style.display = 'block';
+                document.getElementById('gameMessage').style.color = '#10b981';
+                document.getElementById('gameMessage').innerHTML = '🎉 Red Tile Found! Use remaining clicks to FARM points! 🎉';
+            } else {
+                const pointsMap = { 'O': 90, 'Y': 55, 'G': 35, 'T': 20, 'B': 10 };
+                totalScoreBase += pointsMap[val] || 0;
+            }
+
+            if (clicksLeft <= 0) {
+                if (redFound) {
+                    gameStatus = 'won';
+                    document.getElementById('gameMessage').innerHTML = '🏆 FINAL SCORE REACHED! Board fully revealed. 🏆';
+                } else {
+                    gameStatus = 'lost';
+                    document.getElementById('gameMessage').style.display = 'block';
+                    document.getElementById('gameMessage').style.color = '#ff4444';
+                    document.getElementById('gameMessage').innerHTML = '💥 Game Over! Red Tile not found. 💥';
+                }
+                revealAll();
+            }
+
+            renderBoard();
+        }
+
+        function revealAll() {
+            playerRevealed.fill(true);
+        }
+
+        function renderBoard() {
+            document.getElementById('clicksRemaining').textContent = Math.max(0, clicksLeft);
+
+            let B = parseInt(document.getElementById('bonusValue').value) || 0;
+            let revealedCount = playerRevealed.filter(r => r).length;
+            document.getElementById('currentScore').textContent = totalScoreBase + (revealedCount * B);
+
+            const grid = document.getElementById('grid');
+            grid.innerHTML = '';
+
+            for (let i = 0; i < 25; i++) {
+                const tile = document.createElement('div');
+                tile.className = 'tile';
+
+                if (playerRevealed[i]) {
+                    const val = boardState[i];
+                    if (val === 'R') {
+                        tile.textContent = 'R';
+                        tile.classList.add('bg-red');
+                    } else if (val === 'O') {
+                        tile.textContent = '4';
+                        tile.classList.add('bg-orange');
+                    } else if (val === 'Y') {
+                        tile.textContent = '3';
+                        tile.classList.add('bg-yellow');
+                    } else if (val === 'G') {
+                        tile.textContent = '2';
+                        tile.classList.add('bg-green');
+                    } else if (val === 'T') {
+                        tile.textContent = '1';
+                        tile.classList.add('bg-teal');
+                    } else if (val === 'B') {
+                        tile.textContent = '0';
+                        tile.classList.add('bg-blue');
+                    }
+                } else {
+                    tile.onclick = () => clickTile(i);
+                }
+
+                grid.appendChild(tile);
+            }
+        }
+
+        function recalculatePoints() {
+            renderBoard();
+        }
+
+        // init on load
+        initGame();
+    </script>
+</body>
+
+</html>
