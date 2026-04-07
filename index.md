@@ -31,8 +31,9 @@ layout: page
       <a href="cvJIRReng.pdf" target="_blank">my CV</a>
     </td>
     <td valign="top" width="25%" style="background-color:#f9f9f9; border-radius:10px;">
-      <strong>🖼️ Pictures</strong><br />
-      <a href="pics">Important Pictures</a>
+      <strong>📁 Important stuffs</strong><br />
+      <a href="pics">Important Pictures</a><br />
+      <a href="oqSolver/oqSolver.html">oqSolver</a>
     </td>
     <td valign="top" width="25%" style="background-color:#f9f9f9; border-radius:10px;">
       <strong>📄✍ Teaching</strong><br />
