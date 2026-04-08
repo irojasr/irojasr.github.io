@@ -44,7 +44,7 @@ layout: page
         "I'm drinking my guavaberry without watching the sun go down.",
         "if I was from place, it'd have be from here.",
         "if I was from another place, it'd have be from here as well.",
-        "drinking Coyol I don't pass the football game.",
+        "drinking Coyol, I don't pass the football game.",
         "when the air had tints of blue, all of the light didn't fit in the backyard.",
         "my lovely land, even if I love you, I only sing to you my partial son.",
         "I'm falling asleep, but she's not calling a cab.",
@@ -80,15 +80,16 @@ layout: page
 
 &nbsp;
 
-<table width="100%" cellpadding="10" cellspacing="10" border="0">
-  <tr>
-    <td valign="top" style="background-color:#f9f9f9; border-radius:10px; text-align: center;">
-      <strong>📝 Registration</strong><br />
-      Please register on the 
-      <a href="https://forms.gle/n6R6DgoDrTwgrANZ7">dedicated web page</a>.
-    </td>
-  </tr>
-</table>
+<div style="max-width: 400px; margin: 0 auto; padding-top: 1em; padding-bottom: 1em;">
+  <table width="100%" cellpadding="10" cellspacing="10" border="0">
+    <tr>
+      <td valign="top" style="background-color:#f9f9f9; border-radius:10px; text-align: center;">
+        <strong>📝 Registration link</strong><br />
+        <a href="https://forms.gle/n6R6DgoDrTwgrANZ7" style="font-weight: bold;">Click here to register!</a>
+      </td>
+    </tr>
+  </table>
+</div>
 
 &nbsp;
 
