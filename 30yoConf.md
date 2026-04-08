@@ -22,6 +22,48 @@ layout: page
 <img src="https://fonts.gstatic.com/s/e/notoemoji/latest/1f422/emoji.svg" class="background-turtle" alt="turtle">
 
 # The "I'm turning 30" conference
+<div style="font-style: italic; color: #94a3b8; padding-bottom: 1em; font-size: 1.1rem; font-family: 'Inter', sans-serif;">
+  <script>
+    (function() {
+      const phrases = [
+        "what you say about his company isn't what you say about society.",
+        "they won't carry me away for the last time.",
+        "it isn't the dawning of the age of Aquarius.",
+        "it isn't hard to get by just upon a smile.",
+        "I know how to sing, know how to dance.",
+        "while one's alive, one should love as much as one can.",
+        "you didn't teach me how to love, nor how to dance.",
+        "I have a Vespa, but Sunday isn't yet.",
+        "I haven't met my destiny in quite a similar way.",
+        "she won't push and pull you down.",
+        "this farawayness doesn't hurt every day.",
+        "without 'are' there's no 'sauce'.",
+        "you'll see the world spinning and you won't be in the same place.",
+        "'atambéate' is a word in Spanish.",
+        "I would'nt like to live in the street of San Pedro de Macorís.",
+        "I'm drinking my guavaberry without watching the sun go down.",
+        "if I was from place, it'd have be from here.",
+        "if I was from another place, it'd have be from here as well.",
+        "drinking Coyol I don't pass the football game.",
+        "when the air had tints of blue, all of the light didn't fit in the backyard.",
+        "my lovely land, even if I love you, I only sing to you my partial son.",
+        "I'm falling asleep, but she's not calling a cab.",
+        "I can look, it's not killing me.",
+        "that sea of peeps, the different sun and the concrete hills, it does cause something on me.",
+        "the truth of the matter is that I did let you go.",
+        "from that love of light music, everything frees us, everything remains.",
+        "we did everything right, now I'm on the inside.",
+        "tis' and ain't, it ain't what it was, and it'll always be what it ev'r was.",
+        "you know I know how to find where your feet left me on the never and the nevermore."
+      ];
+      const p = phrases[Math.floor(Math.random() * phrases.length)];
+      document.write("In which the gang discovers that " + p);
+    })();
+  </script>
+</div>
+
+<!-- The subtitle is populated by the script at the bottom of the page -->
+
 
 <div style="max-width: 800px; margin: 0 auto; padding-top: 1em;">
   Mfw it's my 30th birthday, and we are celebrating with a week long conference during <strong>September 21-25, 2026</strong>.
@@ -91,4 +133,6 @@ layout: page
 <div style="text-align: center; padding-top: 2em;">
   <a href="index">← Back to main page</a>
 </div>
+
+
 
