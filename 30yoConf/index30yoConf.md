@@ -132,7 +132,7 @@ layout: page
 </div>
 
 <div style="text-align: center; padding-top: 2em;">
-  <a href="../indexLandingPage">← Back to main page</a>
+  <a href="../index">← Back to main page</a>
 </div>
 
 
