@@ -43,7 +43,7 @@ layout: page
       <strong>📁 Important stuffs</strong><br />
       <div style="padding-top: 0.5em;">
         • <a href="pics">Important Pictures</a><br />
-        • <a href="30yoConf">30yoConf</a>
+        • <a href="30yoConf/index30yoConf.html">30yoConf</a>
       </div>
     </td>
     <td valign="top" width="50%" style="background-color:#f9f9f9; border-radius:10px;">

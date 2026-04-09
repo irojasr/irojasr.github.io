@@ -105,7 +105,7 @@ layout: page
 
 <h3>🌟 Plenary Speakers</h3>
 <div style="max-width: 800px; margin: 0 auto; background-color:#f9f9f9; border-radius:10px; padding: 20px; margin-bottom: 2em;">
-  Will fill out when I get your details from the form.
+  • <strong><a href="https://sites.google.com/view/makennagreenwalt/home" target="_blank">Makenna Greenwalt</a></strong>: <a href="TalksPosters">Mathematicians or Moles? A First Study in the Mesmerizing Psychology of Derek Moran and Enrique Mercado</a>
 </div>
 
 <h3>📢 Speakers</h3>
@@ -132,7 +132,7 @@ layout: page
 </div>
 
 <div style="text-align: center; padding-top: 2em;">
-  <a href="index">← Back to main page</a>
+  <a href="../indexLandingPage">← Back to main page</a>
 </div>
 
 
