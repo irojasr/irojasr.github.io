@@ -28,7 +28,7 @@ layout: page
     </td>
     <td valign="top" width="33%" style="background-color:#f9f9f9; border-radius:10px;">
       <strong>📄 CV</strong><br />
-      <a href="cvJIRReng.pdf" target="_blank">my CV</a>
+      <a href="cvENG/cvJIRReng.pdf" target="_blank">my CV</a>
     </td>
     <td valign="top" width="33%" style="background-color:#f9f9f9; border-radius:10px;">
       <strong>📝 Notes</strong><br />

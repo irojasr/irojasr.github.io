@@ -48,3 +48,7 @@
 *.db
 
 *.tex
+
+# Ignore everything in cvENG besides the PDF
+cvENG/*
+!cvENG/cvJIRReng.pdf
