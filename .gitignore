@@ -49,6 +49,9 @@
 
 *.tex
 
-# Ignore everything in cvENG besides the PDF
+# Ignore everything in cvENG besides the actual cv
 cvENG/*
 !cvENG/cvJIRReng.pdf
+
+# Ignore everything in Oficios
+Oficios/*

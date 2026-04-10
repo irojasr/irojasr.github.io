@@ -110,7 +110,8 @@ layout: page
 
 <h3>📢 Speakers</h3>
 <div style="max-width: 800px; margin: 0 auto; background-color:#f9f9f9; border-radius:10px; padding: 20px; margin-bottom: 2em;">
-  Will fill out when I get your details from the form.
+  • <strong>Marieca</strong>: <a href="TalksPosters">Why YoonHyuk Kim is literally the devil</a><br>
+  • <strong><a href="https://www.jon-kim.net" target="_blank">Jon Kim</a></strong>: <a href="TalksPosters">🤷 yet</a>
 </div>
 
 <h3>🖼️ Posters</h3>

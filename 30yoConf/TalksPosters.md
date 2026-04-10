@@ -41,9 +41,39 @@ In this study, we propose a novel explanation for these qualities, as well as su
 <!-- Regular Speakers Box -->
 <div style="background-color: #ffffff; border: 1px solid #000000; border-radius: 15px; padding: 30px; margin-bottom: 30px;">
 <h2 style="margin-top: 0; color: #000000; text-align: center; border-bottom: 1px solid #000000; padding-bottom: 10px;">📢 Speakers</h2>
-<div style="text-align: center; color: #64748b; padding: 20px; font-style: italic;">
-Coming soon!
+
+<!-- Marieca -->
+<div style="background-color:#fff; border-radius:12px; padding: 25px; margin-top: 20px; border: 1px solid #000;">
+<h3 style="margin-top: 0; color: #334155;">Why YoonHyuk Kim is literally the devil</h3>
+<p style="font-size: 1.1rem; font-weight: 600; margin-bottom: 10px;">
+Marieca
+</p>
+<div style="background: #f8fafc; padding: 15px; border-radius: 8px; border-left: 4px solid #000000; margin: 20px 0;">
+<div style="font-style: italic; color: #475569; line-height: 1.6;">
+Sharing the dangers of working under YoonHyuk Kim.
 </div>
+</div>
+<div style="font-size: 0.85rem; color: #94a3b8; border-top: 1px solid #eee; padding-top: 10px; margin-top: 10px;">
+<strong>Type:</strong> Virtual | <strong>Conflict of Interest:</strong> If Yoon is there thst eould be a conflict
+</div>
+</div>
+
+<!-- Jon Kim -->
+<div style="background-color:#fff; border-radius:12px; padding: 25px; margin-top: 20px; border: 1px solid #000;">
+<h3 style="margin-top: 0; color: #334155;">🤷 yet</h3>
+<p style="font-size: 1.1rem; font-weight: 600; margin-bottom: 10px;">
+<a href="https://www.jon-kim.net" target="_blank">Jon Kim</a> 
+</p>
+<div style="background: #f8fafc; padding: 15px; border-radius: 8px; border-left: 4px solid #000000; margin: 20px 0;">
+<div style="font-style: italic; color: #475569; line-height: 1.6;">
+🤷 yet
+</div>
+</div>
+<div style="font-size: 0.85rem; color: #94a3b8; border-top: 1px solid #eee; padding-top: 10px; margin-top: 10px;">
+<strong>Type:</strong> In-person | <strong>Conflict of Interest:</strong> None reported
+</div>
+</div>
+
 </div>
 
 <!-- Posters Box -->
