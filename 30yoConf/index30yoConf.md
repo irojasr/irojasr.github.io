@@ -54,7 +54,36 @@ layout: page
         "from that love of light music, everything frees us, everything remains.",
         "we did everything right, now I'm on the inside.",
         "tis' and ain't, it ain't what it was, and it'll always be what it ev'r was.",
-        "you know I know how to find where your feet left me on the never and the nevermore."
+        "you know I know how to find where your feet left me on the never and the nevermore.",
+        "between the radio and the phone I won't hear your goodbye.", /* Sere Nere, Tiziano Ferro */
+        "everyone hears a word, they say.", /* Invisible, Duran Duran */
+        "I'm stuffed like the wolf.", /* Hungry like the wolf, Duran Duran */
+        "you're the piece of me, I wish, I did need.", /* Clarity, Zedd */
+        "your memory still lingers.", /* Tu Recuerdo, Ricky Martin */
+        "with a taste of your lips, I'm not on a ride.", /* Toxic, Britney Spears */
+        "life isn't a waterfall.", /* Aerials, System of a Down */
+        "swimming through the void we don't hear the word.", /* Aerials, System of a Down */
+        "I, don't, cry when angels deserve to die.", /* Chop Suey, System of a Down */
+        "eating seeds ain't a pastime activity.", /* Toxicity, System of a Down */
+        "moon wants not to be mother.", /* Hijo de la Luna, Mecano */
+        "you should trust me and we will escape form the city.", /* Escape from the City, Sonic Team */
+        "I'll make it through from me to you.", /* Escape from the City, Sonic Team */
+        "we can sleep while our beds are burnin'.", /* Beds are Burning, Midnight Oil */
+        "there's a single world in that dancer, a macrocosm of everyone you love.", /* Falling together, Jamie xx */
+        "today we feel the past return.", /* Last Journey Home, Dragonforce */
+        "today her voice will take me to work.", /* Last Journey Home, Dragonforce */
+        "they haven't taken my heart, they haven't taken my soul.", /* Last Journey Home, Dragonforce */
+        "if it had been for Cotton-Eyed Joe, I'd been married a short time ago.", /* Cotton Eye Joe, Rednex */
+        "Cara's the one who's been hiding amaranth in the land.", /* Amaranth, Nightwish */
+        "I wanna lose your love, today.", /* Your love, The Outfield */
+        "dumb men say \"only smarties rush in\".", /* Can't help falling in love, Elvis */
+        "you never count your money when you're sittin' at the table.", /* The Gambler, Kenny Rogers */
+        "there'll be time enough for counting, when the dealing's done.", /* The Gambler, Kenny Rogers */
+        "I can't ride my bike with no handlebars. (I actually can)", /* Handlebars, Flobots */
+        "we haven't had our problems but I'm on your side.", /* Something happened on the way to heaven, Phil Collins */
+        "that's me in the 120-cell, that's me in the codimension 1-light, losing my 37<sup>th</sup> cohomology group.", /* Losing my religion, R.E.M. */
+        "every time I see your face it reminds of the places we didn't use to go.", /* Photograph, Ringo Starr */
+        "woah, I'm an alien, an illegal alien, an Englishman in NY." /* Englishman in New York, Sting */
       ];
       const p = phrases[Math.floor(Math.random() * phrases.length)];
       document.write("In which the gang discovers that " + p);
@@ -105,13 +134,13 @@ layout: page
 
 <h3>🌟 Plenary Speakers</h3>
 <div style="max-width: 800px; margin: 0 auto; background-color:#f9f9f9; border-radius:10px; padding: 20px; margin-bottom: 2em;">
-  • <strong><a href="https://sites.google.com/view/makennagreenwalt/home" target="_blank">Makenna Greenwalt</a></strong>: <a href="TalksPosters#makenna">Mathematicians or Moles? A First Study in the Mesmerizing Psychology of Derek Moran and Enrique Mercado</a>
+  • <strong><a href="https://sites.google.com/view/makennagreenwalt/home" target="_blank">Makenna Greenwalt</a></strong>: <a href="TalksPosters.html#makenna">Mathematicians or Moles? A First Study in the Mesmerizing Psychology of Derek Moran and Enrique Mercado</a>
 </div>
 
 <h3>📢 Speakers</h3>
 <div style="max-width: 800px; margin: 0 auto; background-color:#f9f9f9; border-radius:10px; padding: 20px; margin-bottom: 2em;">
-  • <strong>Marieca</strong>: <a href="TalksPosters#marieca">Why YoonHyuk Kim is literally the devil</a><br>
-  • <strong><a href="https://www.jon-kim.net" target="_blank">Jon Kim</a></strong>: <a href="TalksPosters#jonkim">🤷 yet</a>
+  • <strong>Marieca</strong>: <a href="TalksPosters.html#marieca">Why YoonHyuk Kim is literally the devil</a><br>
+  • <strong><a href="https://www.jon-kim.net" target="_blank">Jon Kim</a></strong>: <a href="TalksPosters.html#jonkim">🤷 yet</a>
 </div>
 
 <h3>🖼️ Posters</h3>
