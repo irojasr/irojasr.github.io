@@ -105,13 +105,13 @@ layout: page
 
 <h3>🌟 Plenary Speakers</h3>
 <div style="max-width: 800px; margin: 0 auto; background-color:#f9f9f9; border-radius:10px; padding: 20px; margin-bottom: 2em;">
-  • <strong><a href="https://sites.google.com/view/makennagreenwalt/home" target="_blank">Makenna Greenwalt</a></strong>: <a href="TalksPosters">Mathematicians or Moles? A First Study in the Mesmerizing Psychology of Derek Moran and Enrique Mercado</a>
+  • <strong><a href="https://sites.google.com/view/makennagreenwalt/home" target="_blank">Makenna Greenwalt</a></strong>: <a href="TalksPosters#makenna">Mathematicians or Moles? A First Study in the Mesmerizing Psychology of Derek Moran and Enrique Mercado</a>
 </div>
 
 <h3>📢 Speakers</h3>
 <div style="max-width: 800px; margin: 0 auto; background-color:#f9f9f9; border-radius:10px; padding: 20px; margin-bottom: 2em;">
-  • <strong>Marieca</strong>: <a href="TalksPosters">Why YoonHyuk Kim is literally the devil</a><br>
-  • <strong><a href="https://www.jon-kim.net" target="_blank">Jon Kim</a></strong>: <a href="TalksPosters">🤷 yet</a>
+  • <strong>Marieca</strong>: <a href="TalksPosters#marieca">Why YoonHyuk Kim is literally the devil</a><br>
+  • <strong><a href="https://www.jon-kim.net" target="_blank">Jon Kim</a></strong>: <a href="TalksPosters#jonkim">🤷 yet</a>
 </div>
 
 <h3>🖼️ Posters</h3>

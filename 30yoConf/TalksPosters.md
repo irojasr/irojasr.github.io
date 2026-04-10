@@ -18,7 +18,7 @@ layout: page
 <div style="background-color: #ffffff; border: 2px solid #000000; border-radius: 15px; padding: 30px; margin-bottom: 30px; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);">
 <h2 style="margin-top: 0; color: #000000; text-align: center; border-bottom: 1px solid #000000; padding-bottom: 10px;">🌟 Plenary Speakers</h2>
 
-<div style="background-color:#fff; border-radius:12px; padding: 25px; margin-top: 20px; border: 1px solid #000;">
+<div id="makenna" style="background-color:#fff; border-radius:12px; padding: 25px; margin-top: 20px; border: 1px solid #000;">
 <h3 style="margin-top: 0; color: #334155;">Mathematicians or Moles? A First Study in the Mesmerizing Psychology of Derek Moran and Enrique Mercado</h3>
 <p style="font-size: 1.1rem; font-weight: 600; margin-bottom: 10px;">
 <a href="https://sites.google.com/view/makennagreenwalt/home" target="_blank">Makenna Greenwalt</a> 
@@ -43,7 +43,7 @@ In this study, we propose a novel explanation for these qualities, as well as su
 <h2 style="margin-top: 0; color: #000000; text-align: center; border-bottom: 1px solid #000000; padding-bottom: 10px;">📢 Speakers</h2>
 
 <!-- Marieca -->
-<div style="background-color:#fff; border-radius:12px; padding: 25px; margin-top: 20px; border: 1px solid #000;">
+<div id="marieca" style="background-color:#fff; border-radius:12px; padding: 25px; margin-top: 20px; border: 1px solid #000;">
 <h3 style="margin-top: 0; color: #334155;">Why YoonHyuk Kim is literally the devil</h3>
 <p style="font-size: 1.1rem; font-weight: 600; margin-bottom: 10px;">
 Marieca
@@ -59,7 +59,7 @@ Sharing the dangers of working under YoonHyuk Kim.
 </div>
 
 <!-- Jon Kim -->
-<div style="background-color:#fff; border-radius:12px; padding: 25px; margin-top: 20px; border: 1px solid #000;">
+<div id="jonkim" style="background-color:#fff; border-radius:12px; padding: 25px; margin-top: 20px; border: 1px solid #000;">
 <h3 style="margin-top: 0; color: #334155;">🤷 yet</h3>
 <p style="font-size: 1.1rem; font-weight: 600; margin-bottom: 10px;">
 <a href="https://www.jon-kim.net" target="_blank">Jon Kim</a> 
