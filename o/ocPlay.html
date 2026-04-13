@@ -83,8 +83,10 @@
         .grid {
             display: grid;
             grid-template-columns: repeat(5, 1fr);
+            grid-template-rows: repeat(5, 1fr);
             gap: 10px;
-            aspect-ratio: 1;
+            aspect-ratio: 1 / 1;
+            width: 100%;
         }
 
         .tile {
@@ -92,7 +94,6 @@
             border: 1px solid rgba(255, 255, 255, 0.1);
             border-radius: 8px;
             display: flex;
-            flex-direction: column;
             align-items: center;
             justify-content: center;
             font-weight: 600;
@@ -100,6 +101,8 @@
             cursor: pointer;
             transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            height: 100%;
         }
 
         .tile:hover {
@@ -111,6 +114,12 @@
 
         .tile:active {
             transform: translateY(1px);
+        }
+
+        .tile.clicked {
+            border: 3px dashed white !important;
+            box-shadow: 0 0 10px rgba(0,0,0,0.5);
+            z-index: 2;
         }
 
         .reset-btn {
@@ -179,17 +188,14 @@
 
 <body>
     <div class="header">
-        <a href="../index"
-            style="color: var(--text-muted); text-decoration: none; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 5px; display: inline-block;">&larr;
-            Back to Home</a>
-        <br>
-        <a href="oqPlay.html"
-            style="color: var(--accent-cyan); text-decoration: none; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 5px; display: inline-block;">&rarr;
-            Play oq instead</a>
-        <br>
-        <a href="https://mudaehelper.pages.dev/oc-solver" target="_blank"
-            style="color: var(--accent-cyan); text-decoration: none; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 5px; display: inline-block;">&rarr;
-            oc solver</a>
+        <a href="../index" style="color: var(--text-muted); text-decoration: none; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 5px; display: inline-block;">&larr; Back to Home</a>
+        <div style="margin-top: 5px; display: flex; gap: 15px; justify-content: center; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1px;">
+            <a href="oqPlay.html" style="color: var(--accent-cyan); text-decoration: none;">&rarr; Play oq</a>
+            <a href="otPlay.html" style="color: var(--accent-cyan); text-decoration: none;">&rarr; Play ot</a>
+        </div>
+        <div style="margin-top: 5px; display: flex; gap: 15px; justify-content: center; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1px;">
+            <a href="https://mudaehelper.pages.dev/oc-solver" target="_blank" style="color: var(--accent-pink); text-decoration: none;">&rarr; oc Solver</a>
+        </div>
         <h1>Play oc</h1>
         <p class="subtitle">Find the 1 red tile before running out of clicks!</p>
         
@@ -208,28 +214,20 @@
                 </ul>
             </ul>
         </div>
-        <div
-            style="margin-top: 15px; display: flex; gap: 10px; justify-content: center; align-items: center; flex-wrap: wrap;">
-            <div
-                style="background: rgba(255,255,255,0.05); padding: 5px 15px; border-radius: 8px; border: 1px solid var(--border-color);">
-                <span id="clicksRemaining"
-                    style="font-weight: 800; color: var(--accent-cyan); font-size: 1.2rem;">5</span>
-                <span style="font-size: 0.8rem; color: var(--text-muted); text-transform: uppercase;"> Clicks
-                    Left</span>
+        <div style="margin-top: 15px; display: flex; gap: 10px; justify-content: center; align-items: center; flex-wrap: wrap;">
+            <div style="background: rgba(255,255,255,0.05); padding: 5px 15px; border-radius: 8px; border: 1px solid var(--border-color);">
+                <span id="clicksRemaining" style="font-weight: 800; color: var(--accent-cyan); font-size: 1.2rem;">5</span>
+                <span style="font-size: 0.8rem; color: var(--text-muted); text-transform: uppercase;"> Clicks</span>
             </div>
-            <div
-                style="background: rgba(255,255,255,0.05); padding: 5px 15px; border-radius: 8px; border: 1px solid var(--border-color);">
+            <div style="background: rgba(255,255,255,0.05); padding: 5px 15px; border-radius: 8px; border: 1px solid var(--border-color);">
                 <span id="currentScore" style="font-weight: 800; color: #fbbf24; font-size: 1.2rem;">0</span>
                 <span style="font-size: 0.8rem; color: var(--text-muted); text-transform: uppercase;"> Points</span>
             </div>
-        </div>
-        <div
-            style="margin-top: 15px; display: flex; gap: 10px; justify-content: center; align-items: center; flex-wrap: wrap;">
-            <label for="bonusValue" style="color: var(--text-muted); font-size: 0.9rem;">Bonus (B):</label>
-            <input type="number" id="bonusValue" value="16"
-                style="width: 70px; background: rgba(0,0,0,0.3); border: 1px solid var(--border-color); color: white; padding: 5px; border-radius: 5px; text-align: center;"
-                onchange="recalculatePoints()">
-            <button class="reset-btn" style="margin-top: 0;" onclick="initGame()">Restart Game</button>
+            <div style="display: flex; align-items: center; gap: 5px; background: rgba(255,255,255,0.05); padding: 5px 10px; border-radius: 8px; border: 1px solid var(--border-color);">
+                <label for="bonusValue" style="color: var(--text-muted); font-size: 0.8rem; text-transform: uppercase;">Bonus (B):</label>
+                <input type="number" id="bonusValue" value="16" style="width: 50px; background: transparent; border: none; color: white; text-align: center; font-weight: 800;" onchange="recalculatePoints()">
+            </div>
+            <button class="reset-btn" style="margin-top: 0;" onclick="initGame()">Restart</button>
         </div>
     </div>
 
@@ -246,6 +244,7 @@
     <script>
         let boardState = Array(25).fill('');
         let playerRevealed = Array(25).fill(false); // Has player clicked it?
+        let playerClicked = Array(25).fill(false); // Specifically awarded points for clicking?
 
         let clicksLeft = 5;
         let redFound = false;
@@ -259,6 +258,7 @@
             gameStatus = 'playing';
 
             playerRevealed.fill(false);
+            playerClicked.fill(false);
             boardState.fill('');
 
             document.getElementById('gameMessage').style.display = 'none';
@@ -332,6 +332,7 @@
             if (playerRevealed[index]) return; // already revealed
 
             playerRevealed[index] = true;
+            playerClicked[index] = true;
             clicksLeft--;
 
             const val = boardState[index];
@@ -351,12 +352,12 @@
             if (clicksLeft <= 0) {
                 if (redFound) {
                     gameStatus = 'won';
-                    document.getElementById('gameMessage').innerHTML = '🏆 FINAL SCORE REACHED! Board fully revealed. 🏆';
+                    document.getElementById('gameMessage').innerHTML = '🏆 RED TILE FOUND! Moves exhausted. 🏆';
                 } else {
                     gameStatus = 'lost';
                     document.getElementById('gameMessage').style.display = 'block';
                     document.getElementById('gameMessage').style.color = '#ff4444';
-                    document.getElementById('gameMessage').innerHTML = '💥 Game Over! Red Tile not found. 💥';
+                    document.getElementById('gameMessage').innerHTML = '💥 Moves exhausted! The Red Tile was missed. 💥';
                 }
                 revealAll();
             }
@@ -372,8 +373,8 @@
             document.getElementById('clicksRemaining').textContent = Math.max(0, clicksLeft);
 
             let B = parseInt(document.getElementById('bonusValue').value) || 0;
-            let revealedCount = playerRevealed.filter(r => r).length;
-            document.getElementById('currentScore').textContent = totalScoreBase + (revealedCount * B);
+            let clickedCount = playerClicked.filter(c => c).length;
+            document.getElementById('currentScore').textContent = totalScoreBase + (clickedCount * B);
 
             const grid = document.getElementById('grid');
             grid.innerHTML = '';
@@ -381,6 +382,9 @@
             for (let i = 0; i < 25; i++) {
                 const tile = document.createElement('div');
                 tile.className = 'tile';
+                if (playerClicked[i]) {
+                    tile.classList.add('clicked');
+                }
 
                 if (playerRevealed[i]) {
                     const val = boardState[i];

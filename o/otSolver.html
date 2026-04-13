@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>otSolver - Mudae Ot Solver</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #0b0d17;
+            --panel-bg: rgba(255, 255, 255, 0.03);
+            --border-color: rgba(255, 255, 255, 0.1);
+            --text-main: #e2e8f0;
+            --text-muted: #94a3b8;
+            --accent-pink: #ff006a;
+            --accent-cyan: #00f0ff;
+            --safe-green: #10b981;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            user-select: none;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            overflow-x: hidden;
+            padding: 20px;
+            background-image: radial-gradient(circle at 50% 0%, #1a1528 0%, #0b0d17 100%);
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+            width: 100%;
+            max-width: 500px;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--accent-cyan), var(--accent-pink));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 8px;
+            text-shadow: 0 0 20px rgba(255, 0, 106, 0.2);
+        }
+
+        .controls {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 15px;
+            background: var(--panel-bg);
+            border: 1px solid var(--border-color);
+            padding: 10px 20px;
+            border-radius: 12px;
+        }
+
+        .control-group {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+        }
+
+        .control-input {
+            background: rgba(0, 0, 0, 0.2);
+            border: 1px solid var(--border-color);
+            color: white;
+            font-weight: bold;
+            padding: 4px 8px;
+            border-radius: 4px;
+            width: 60px;
+            text-align: center;
+        }
+
+        .status-panel {
+            width: 100%;
+            max-width: 500px;
+            background: var(--panel-bg);
+            border: 1px solid var(--border-color);
+            padding: 16px;
+            border-radius: 12px;
+            margin-bottom: 24px;
+            backdrop-filter: blur(10px);
+            text-align: center;
+        }
+
+        .remaining-text {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .best-move {
+            color: var(--accent-cyan);
+            font-size: 0.95rem;
+            font-weight: 600;
+        }
+
+        .grid-container {
+            width: 100%;
+            max-width: 400px;
+            margin-bottom: 30px;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 10px;
+            aspect-ratio: 1;
+        }
+
+        .tile {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            height: 100%;
+            aspect-ratio: 1;
+        }
+
+        .tile:hover {
+            transform: translateY(-2px);
+            background: rgba(255, 255, 255, 0.08);
+            border-color: rgba(255, 255, 255, 0.2);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        .tile.selected {
+            border-color: var(--accent-pink);
+            box-shadow: 0 0 15px rgba(255, 0, 106, 0.3);
+            background: rgba(255, 0, 106, 0.05);
+            z-index: 2;
+        }
+
+        .prob-text {
+            font-size: 0.75rem;
+            opacity: 0.7;
+            margin-top: 2px;
+        }
+
+        .keypad-wrapper {
+            position: fixed;
+            bottom: -500px;
+            left: 0;
+            width: 100%;
+            background: rgba(15, 17, 26, 0.95);
+            backdrop-filter: blur(20px);
+            border-top: 1px solid var(--border-color);
+            transition: bottom 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            padding: 20px;
+            z-index: 100;
+            box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.5);
+            display: flex;
+            justify-content: center;
+        }
+
+        .keypad-wrapper.visible {
+            bottom: 0;
+        }
+
+        .keypad {
+            width: 100%;
+            max-width: 500px;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 12px;
+        }
+
+        .keypad-title {
+            grid-column: 1 / -1;
+            text-align: center;
+            margin-bottom: 10px;
+            font-weight: 600;
+            color: var(--text-muted);
+        }
+
+        .key-btn {
+            background: var(--panel-bg);
+            border: 1px solid var(--border-color);
+            color: var(--text-main);
+            padding: 15px 0;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .key-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: scale(1.05);
+        }
+
+        /* Mudae Colors */
+        .bg-blue { background-color: #3b82f6 !important; color: white !important; }
+        .bg-teal { background-color: #14b8a6 !important; color: white !important; }
+        .bg-green { background-color: #10b981 !important; color: white !important; }
+        .bg-yellow { background-color: #eab308 !important; color: white !important; }
+        .bg-orange { background-color: #f97316 !important; color: white !important; }
+        .bg-red { background-color: #ef4444 !important; color: white !important; }
+        .bg-void { background-color: #475569 !important; color: white !important; }
+        .bg-white { background-color: #f8fafc !important; color: #0f172a !important; }
+        .bg-rainbow { background: linear-gradient(45deg, #ff0000, #ff7f00, #ffff00, #00ff00, #0000ff, #4b0082, #8f00ff) !important; color: white !important; text-shadow: 1px 1px 2px black;}
+
+        .guaranteed-target {
+            border: 2px solid var(--accent-pink) !important;
+            box-shadow: 0 0 15px rgba(255, 0, 106, 0.3) !important;
+            animation: pulse 1.5s infinite;
+        }
+        
+        .guaranteed-safe {
+            border: 2px solid var(--safe-green) !important;
+            box-shadow: 0 0 15px rgba(16, 185, 129, 0.2) !important;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.03); }
+            100% { transform: scale(1); }
+        }
+
+        #loader {
+            display: none;
+            color: var(--accent-cyan);
+            font-size: 0.9rem;
+            margin-top: 10px;
+        }
+
+        .reset-grid-btn {
+            background: transparent;
+            border: 1px solid var(--border-color);
+            color: var(--text-muted);
+            padding: 8px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.2s;
+            margin-top: 10px;
+        }
+        
+        .reset-grid-btn:hover {
+            color: var(--text-main);
+            border-color: var(--text-main);
+        }
+
+    </style>
+</head>
+
+<body>
+    <div class="header">
+        <a href="../index" style="color: var(--text-muted); text-decoration: none; font-size: 0.8rem; text-transform: uppercase;">&larr; Back Home</a>
+        <div style="margin-top: 5px; display: flex; gap: 15px; justify-content: center; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1px;">
+            <a href="otPlay.html" style="color: var(--accent-cyan); text-decoration: none;">&rarr; Play ot</a>
+        </div>
+        <h1>otSolver</h1>
+        
+        <div class="controls">
+            <div class="control-group">
+                <label for="numColors">Total Colors:</label>
+                <select id="numColors" class="control-input" onchange="initSolver()">
+                    <option value="5">5</option>
+                    <option value="6" selected>6</option>
+                    <option value="7">7</option>
+                    <option value="8">8</option>
+                    <option value="9">9</option>
+                </select>
+            </div>
+        </div>
+        
+        <div style="font-weight: 800; color: var(--accent-cyan); font-size: 1.1rem; margin-top: 10px; display: flex; gap: 20px; justify-content: center;">
+            <span>Clicks Left: <span id="clicksLeft" style="color: var(--accent-pink);">4</span></span>
+            <span style="color: var(--text-muted);">|</span>
+            <span style="color: #fbbf24;">Targets Remaining: <span id="targetsLeft">--</span></span>
+        </div>
+    </div>
+
+    <div class="status-panel">
+        <div class="remaining-text" id="remainingText">Waiting for engine...</div>
+        <div class="best-move" id="bestMoveText">Ready!</div>
+        <div id="loader">🔄 Calculating configurations...</div>
+        <button class="reset-grid-btn" onclick="resetBoard()">Reset Grid</button>
+    </div>
+
+    <div class="grid-container">
+        <div class="grid" id="grid"></div>
+    </div>
+
+    <div class="keypad-wrapper" id="keypadWrapper">
+        <div class="keypad">
+            <div class="keypad-title" id="keypadTitle">Select Tile</div>
+            
+            <button class="key-btn bg-blue" onclick="setTileState('B')">Blue</button>
+            <button class="key-btn bg-teal" onclick="setTileState('T')">Teal</button>
+            <button class="key-btn bg-green" onclick="setTileState('G')">Green</button>
+            <button class="key-btn bg-yellow" onclick="setTileState('Y')">Yellow</button>
+            
+            <div style="grid-column: 1 / -1; height: 1px; background: rgba(255,255,255,0.1); margin: 5px 0;"></div>
+            
+            <button class="key-btn bg-orange" onclick="setTileState('O')">Orange</button>
+            <button class="key-btn bg-red" onclick="setTileState('R')">Red</button>
+            <button class="key-btn bg-void" onclick="setTileState('V')">Void (?)</button>
+            <button class="key-btn bg-white" onclick="setTileState('W')">White (!)</button>
+            <button class="key-btn bg-rainbow" onclick="setTileState('A')" style="grid-column: 2 / 4;">Rainbow (*)</button>
+
+            <div style="grid-column: 1 / -1; height: 1px; background: rgba(255,255,255,0.1); margin: 5px 0;"></div>
+            
+            <button class="key-btn" style="grid-column: 1 / 3; color: #ff4444;" onclick="setTileState(null)">Clear Tile</button>
+            <button class="key-btn" style="grid-column: 3 / 5;" onclick="closeKeypad()">Cancel</button>
+        </div>
+    </div>
+
+    <script id="workerScript" type="javascript/worker">
+        self.onmessage = function(e) {
+            const numColors = e.data.numColors;
+            const shipLengths = [4, 3, 3];
+            const numRares = numColors - 4;
+            for(let i=0; i<numRares; i++) shipLengths.push(2);
+
+            function getPlacements(size) {
+                let ps = [];
+                for (let r = 0; r < 5; r++) {
+                    for (let c = 0; c < 5; c++) {
+                        if (c + size <= 5) {
+                            let mask = 0;
+                            for (let i = 0; i < size; i++) mask |= (1 << (r * 5 + c + i));
+                            ps.push(mask);
+                        }
+                        if (size > 1 && r + size <= 5) {
+                            let mask = 0;
+                            for (let i = 0; i < size; i++) mask |= (1 << ((r + i) * 5 + c));
+                            ps.push(mask);
+                        }
+                    }
+                }
+                return ps;
+            }
+
+            let pLists = shipLengths.map(getPlacements);
+            let packings = [];
+
+            function dfs(idx, usedMask, currentPack) {
+                if (idx === shipLengths.length) {
+                    packings.push([...currentPack]);
+                    return;
+                }
+                for (let i = 0; i < pLists[idx].length; i++) {
+                    let mask = pLists[idx][i];
+                    if (idx > 0 && shipLengths[idx] === shipLengths[idx-1]) {
+                        if (mask <= currentPack[idx-1]) continue; 
+                    }
+                    if ((mask & usedMask) === 0) {
+                        currentPack.push(mask);
+                        dfs(idx + 1, usedMask | mask, currentPack);
+                        currentPack.pop();
+                    }
+                }
+            }
+            
+            // Only returns mathematical geometries. Memory usage is completely minimal!
+            dfs(0, 0, []);
+            postMessage({ packings, numRares });
+        };
+    </script>
+
+    <script>
+        const gridEl = document.getElementById('grid');
+        for (let i = 0; i < 25; i++) {
+            const tile = document.createElement('div');
+            tile.className = 'tile';
+            tile.id = `tile-${i}`;
+            tile.onclick = () => selectTile(i);
+            const vSpan = document.createElement('span');
+            vSpan.id = `value-${i}`;
+            const pSpan = document.createElement('span');
+            pSpan.id = `prob-${i}`;
+            pSpan.className = 'prob-text';
+            tile.appendChild(vSpan);
+            tile.appendChild(pSpan);
+            gridEl.appendChild(tile);
+        }
+
+        let tileState = Array(25).fill(null);
+        let selectedIndex = null;
+        let genericPackings = [];
+        let numRaresCount = 0;
+        let worker;
+
+        const LABEL_MAP = {'T': '1', 'G': '2', 'Y': '3', 'O': '4', 'R': 'R', 'V': '?', 'W': '!', 'A': '*', 'B': '0'};
+        const CLASS_MAP = {'T': 'bg-teal', 'G': 'bg-green', 'Y': 'bg-yellow', 'O': 'bg-orange', 'R': 'bg-red', 'V': 'bg-void', 'W': 'bg-white', 'A': 'bg-rainbow', 'B': 'bg-blue'};
+
+        function initSolver() {
+            document.getElementById('loader').style.display = 'block';
+            document.getElementById('remainingText').innerHTML = "Finding geometries...";
+            
+            if (worker) worker.terminate();
+
+            const blob = new Blob([document.getElementById('workerScript').textContent], {type: "text/javascript"});
+            worker = new Worker(window.URL.createObjectURL(blob));
+
+            worker.onmessage = function(e) {
+                genericPackings = e.data.packings;
+                numRaresCount = e.data.numRares;
+                document.getElementById('loader').style.display = 'none';
+                updateSolver(); 
+            };
+
+            const numCols = parseInt(document.getElementById('numColors').value);
+            worker.postMessage({ numColors: numCols });
+        }
+
+        function resetBoard() {
+            tileState.fill(null);
+            closeKeypad();
+            updateSolver();
+        }
+
+        function selectTile(index) {
+            if (selectedIndex !== null) document.getElementById(`tile-${selectedIndex}`).classList.remove('selected');
+            selectedIndex = index;
+            document.getElementById(`tile-${selectedIndex}`).classList.add('selected');
+            document.getElementById('keypadWrapper').classList.add('visible');
+        }
+
+        function closeKeypad() {
+            if (selectedIndex !== null) document.getElementById(`tile-${selectedIndex}`).classList.remove('selected');
+            selectedIndex = null;
+            document.getElementById('keypadWrapper').classList.remove('visible');
+        }
+
+        function setTileState(state) {
+            if (selectedIndex === null) return;
+            tileState[selectedIndex] = state;
+            updateSolver(); 
+            closeKeypad();  
+        }
+
+        function updateSolver() {
+            let blueClicks = tileState.filter(s => s === 'B').length;
+            let targetsFound = tileState.filter(s => s !== null && s !== 'B').length;
+            let totalTargets = 10 + (numRaresCount * 2);
+            document.getElementById('clicksLeft').textContent = Math.max(0, 4 - blueClicks);
+            document.getElementById('targetsLeft').textContent = Math.max(0, totalTargets - targetsFound);
+
+            if (genericPackings.length === 0) return;
+
+            let uBMask = 0, uTMask = 0, uGMask = 0, uYMask = 0, uRareMasks = {};
+            for (let i=0; i<25; i++) {
+                let s = tileState[i];
+                if (!s) continue;
+                let m = (1<<i);
+                if (s === 'B') uBMask |= m;
+                else if (s === 'T') uTMask |= m;
+                else if (s === 'G') uGMask |= m;
+                else if (s === 'Y') uYMask |= m;
+                else {
+                    if (!uRareMasks[s]) uRareMasks[s] = 0;
+                    uRareMasks[s] |= m;
+                }
+            }
+
+            let uAllRaresMask = 0;
+            for(let key in uRareMasks) uAllRaresMask |= uRareMasks[key];
+            let userShipMask = uTMask | uGMask | uYMask | uAllRaresMask;
+            
+            let probTally = Array(25).fill(0);
+            let totalValidConcrete = 0;
+
+            for (let i = 0; i < genericPackings.length; i++) {
+                let p = genericPackings[i];
+                let uPack = 0;
+                for(let mask of p) uPack |= mask;
+
+                if ((uPack & uBMask) !== 0) continue;
+                if ((uPack & userShipMask) !== userShipMask) continue;
+                
+                let mT = p[0], mG1 = p[1], mG2 = p[2];
+                if ((mT & uTMask) !== uTMask) continue;
+                if ((mT & (uGMask | uYMask | uAllRaresMask)) !== 0) continue;
+
+                let gy1 = (mG1 & uGMask) === uGMask && (mG1 & uYMask) === 0 && (mG2 & uYMask) === uYMask && (mG2 & uGMask) === 0;
+                let gy2 = (mG1 & uYMask) === uYMask && (mG1 & uGMask) === 0 && (mG2 & uGMask) === uGMask && (mG2 & uYMask) === 0;
+
+                if (!gy1 && !gy2) continue;
+                if (((mG1 | mG2) & uAllRaresMask) !== 0) continue;
+
+                let gyWays = (gy1 && gy2) ? 2 : 1;
+
+                let rareMasks = p.slice(3);
+                let isValidRares = true;
+                let boundMasks = 0;
+
+                for (let j=0; j<rareMasks.length; j++) {
+                    let rm = rareMasks[j];
+                    let intersects = 0;
+                    for (let key in uRareMasks) {
+                        let urM = uRareMasks[key];
+                        if ((rm & urM) !== 0) {
+                            intersects++;
+                            if ((rm & urM) !== urM) isValidRares = false;
+                        }
+                    }
+                    if (intersects > 1) isValidRares = false;
+                    if (intersects === 1) boundMasks++;
+                }
+
+                if (!isValidRares) continue;
+
+                // Combinatorial permutations for unassigned generic rare types!
+                let k = numRaresCount - boundMasks; 
+                let f = 1; for(let n=2; n<=k; n++) f*=n;
+                let rareWays = f;
+
+                let concreteWays = gyWays * rareWays;
+                if (concreteWays === 0) continue;
+                totalValidConcrete += concreteWays;
+
+                for (let c=0; c<25; c++) {
+                    let bit = 1<<c;
+                    if ((uPack & bit) !== 0) probTally[c] += concreteWays;
+                }
+            }
+
+            document.getElementById('remainingText').innerHTML = `Valid Permutations Left: <b>${totalValidConcrete.toLocaleString()}</b>`;
+            const bestMoveEL = document.getElementById('bestMoveText');
+
+            if (totalValidConcrete === 0) {
+                bestMoveEL.innerHTML = `<span style="color: #ff4444;">Error: Collision detected. Check your inputs!</span>`;
+            } else {
+                let bestIdx = -1;
+                let maxProb = -1;
+                let guaranteed = [];
+
+                for (let i = 0; i < 25; i++) {
+                    if (tileState[i] !== null) continue;
+                    let probT = probTally[i] / totalValidConcrete;
+                    if (probT === 1.0) guaranteed.push(i);
+                    
+                    if (probT > maxProb) { maxProb = probT; bestIdx = i; }
+                }
+
+                if (guaranteed.length > 0) {
+                    let g = guaranteed[0];
+                    bestMoveEL.innerHTML = `BEST MOVE: Click <b>[${Math.floor(g / 5) + 1}, ${(g % 5) + 1}]</b>! FREE TARGET (No click consumed).`;
+                } else if (bestIdx !== -1 && (4 - blueClicks) > 0) {
+                    bestMoveEL.innerHTML = `BEST MOVE: Click <b>[${Math.floor(bestIdx / 5) + 1}, ${(bestIdx % 5) + 1}]</b> 
+                                            (Target Chance: ${( (probTally[bestIdx]/totalValidConcrete) * 100).toFixed(1)}%)`;
+                } else if ((4 - blueClicks) <= 0) {
+                    bestMoveEL.innerHTML = `<span style="color: #ff4444;">Oh! You've run out of clicks! Game over.</span>`;
+                } else {
+                    bestMoveEL.innerHTML = `<span style="color: var(--safe-green);">Board completely solved!</span>`;
+                }
+            }
+
+            for (let i = 0; i < 25; i++) {
+                const tile = document.getElementById(`tile-${i}`);
+                const vSpan = document.getElementById(`value-${i}`);
+                const pSpan = document.getElementById(`prob-${i}`);
+                const s = tileState[i];
+                let prob = totalValidConcrete > 0 ? (probTally[i] / totalValidConcrete) : 0;
+
+                tile.className = 'tile' + (i === selectedIndex ? ' selected' : '');
+                tile.style.background = ''; tile.style.borderColor = ''; tile.style.color = '';
+
+                if (s !== null) {
+                    vSpan.textContent = LABEL_MAP[s];
+                    pSpan.textContent = '';
+                    tile.className += ' ' + CLASS_MAP[s];
+                } else {
+                    vSpan.textContent = '';
+                    if (totalValidConcrete === 0) {
+                        pSpan.textContent = '-'; tile.style.background = 'rgba(255,255,255,0.05)';
+                    } else {
+                        if (prob === 1.0) {
+                            vSpan.textContent = '🎯'; pSpan.textContent = '100%';
+                            tile.classList.add('guaranteed-target');
+                            tile.style.background = 'rgba(255, 0, 106, 0.1)'; pSpan.style.color = 'var(--accent-pink)';
+                        } else if (prob === 0.0) {
+                            vSpan.textContent = '0%'; pSpan.textContent = 'Safe';
+                            tile.classList.add('guaranteed-safe');
+                            tile.style.background = 'rgba(16, 185, 129, 0.1)'; pSpan.style.color = 'var(--safe-green)';
+                        } else {
+                            pSpan.textContent = (prob * 100).toFixed(1) + '%';
+                            let r = 255, g = 255, b = 255, op = 0.5;
+                            if (prob > 0.5) {
+                                g = Math.floor(255 - (prob - 0.5) * 510);
+                                b = Math.floor(255 - (prob - 0.5) * 510);
+                                op = 0.5 + (prob - 0.5);
+                            }
+                            pSpan.style.color = `rgba(${r}, ${g}, ${b}, ${op})`;
+                            tile.style.background = 'rgba(255, 255, 255, 0.05)';
+                            tile.style.borderColor = 'rgba(255, 255, 255, 0.1)';
+                        }
+                    }
+                }
+            }
+        }
+        window.onload = initSolver;
+    </script>
+</body>
+</html>

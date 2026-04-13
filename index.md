@@ -51,7 +51,9 @@ layout: page
       <div style="padding-top: 0.5em;">
         • <a href="o/ocPlay.html">Play oc</a><br />
         • <a href="o/oqPlay.html">Play oq</a><br />
-        • <a href="o/oqSolver.html">oqSolver</a>
+        • <a href="o/otPlay.html">Play ot</a><br />
+        • <a href="o/oqSolver.html">oqSolver</a><br />
+        • <a href="o/otSolver.html">otSolver</a>
       </div>
     </td>
   </tr>
