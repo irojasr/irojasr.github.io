@@ -498,24 +498,15 @@
                 return true;
             });
 
-            // Calculate probabilities and expected points (Efficiency)
+            // Calculate probabilities exclusively
             probabilities.fill(0);
-            window.expectedPoints = Array(25).fill(0);
             if (validBoards.length > 0) {
                 let tCounts = Array(25).fill(0);
-                let expectedNumPtsArray = Array(25).fill(0);
-
-                let B = parseInt(document.getElementById('bonusValue').value) || 0;
-                let pointsMapping = [10 + B, 20 + B, 35 + B, 55 + B, 90 + B];
-                let targetPts = (tsFound === 3) ? (150 + B) : (5 + B);
 
                 for (const board of validBoards) {
                     for (let i = 0; i < 25; i++) {
                         if (board.includes(i)) {
                             tCounts[i]++;
-                        } else {
-                            let val = getAdjCount(board, Math.floor(i / 5), i % 5);
-                            expectedNumPtsArray[i] += pointsMapping[val];
                         }
                     }
                 }
@@ -524,31 +515,9 @@
 
                     let probT = tCounts[i] / validBoards.length;
                     probabilities[i] = probT;
-
-                    let expectedNumPts = expectedNumPtsArray[i] / validBoards.length;
-
-                    let unkNeighbors = 0;
-                    let r = Math.floor(i / 5);
-                    let c = i % 5;
-                    for (let dr = -1; dr <= 1; dr++) {
-                        for (let dc = -1; dc <= 1; dc++) {
-                            if (dr === 0 && dc === 0) continue;
-                            let nr = r + dr, nc = c + dc;
-                            if (nr >= 0 && nr < 5 && nc >= 0 && nc < 5) {
-                                if (tileState[nr * 5 + nc] === null) unkNeighbors++;
-                            }
-                        }
-                    }
-                    let infoBonus = unkNeighbors * B * 0.2;
-
-                    let expMoves = (tsFound === 3) ? 1.0 : (1 - probT);
-                    if (expMoves < 0.0001) expMoves = 0.0001;
-
-                    window.expectedPoints[i] = (probT * targetPts + expectedNumPts + infoBonus) / expMoves;
                 }
             } else {
                 probabilities.fill(0);
-                window.expectedPoints = Array(25).fill(0);
             }
 
             renderUI();
@@ -563,17 +532,16 @@
                 bestMoveText.innerHTML = `<span style="color: #ff4444;">Error: No valid boards left. Check for contradiction!</span>`;
             } else {
                 let guaranteedTargets = [];
-                let bestGuess = { index: -1, exp: -1, prob: -1 };
+                let bestGuess = { index: -1, prob: -1 };
 
                 for (let i = 0; i < 25; i++) {
                     if (tileState[i] !== null) continue;
                     const p = probabilities[i];
-                    const exp = window.expectedPoints[i];
 
                     if (p === 1.0) guaranteedTargets.push(i);
 
-                    if (exp > bestGuess.exp) {
-                        bestGuess = { index: i, exp: exp, prob: p };
+                    if (p > bestGuess.prob) {
+                        bestGuess = { index: i, prob: p };
                     }
                 }
 
@@ -587,7 +555,7 @@
                     bestMoveText.innerHTML = `BEST MOVE: Click <b>[${Math.floor(i / 5) + 1}, ${(i % 5) + 1}]</b>! RED TILE (150+B pts).`;
                 } else {
                     const i = bestGuess.index;
-                    bestMoveText.innerHTML = `BEST MOVE: Click <b>[${Math.floor(i / 5) + 1}, ${(i % 5) + 1}]</b> (Chance: ${(bestGuess.prob * 100).toFixed(1)}%, Efficiency: ${bestGuess.exp.toFixed(1)})`;
+                    bestMoveText.innerHTML = `BEST MOVE: Click <b>[${Math.floor(i / 5) + 1}, ${(i % 5) + 1}]</b> (Target Chance: ${(bestGuess.prob * 100).toFixed(1)}%)`;
                 }
 
                 // If solved and 4 targets found, show farmable
