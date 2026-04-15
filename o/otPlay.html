@@ -176,7 +176,10 @@
                 <label for="bonusValue" style="color: var(--text-muted); font-size: 0.8rem; text-transform: uppercase;">Bonus (B):</label>
                 <input type="number" id="bonusValue" value="16" style="width: 50px; background: transparent; border: none; color: white; text-align: center; font-weight: 800;" onchange="render()">
             </div>
-            <button class="reset-btn" onclick="initGame()">Restart</button>
+            <div style="display: flex; gap: 5px;">
+                <button class="reset-btn" style="margin-top: 0; padding: 5px 10px; font-size: 0.8rem;" onclick="document.getElementById('bonusValue').value = 0; render()">Use Default B=0</button>
+                <button class="reset-btn" style="margin-top: 0;" onclick="initGame()">Restart</button>
+            </div>
         </div>
     </div>
 
@@ -184,6 +187,23 @@
 
     <div class="grid-container">
         <div class="grid" id="grid"></div>
+
+
+    <div style="margin-top: 10px; display: flex; justify-content: center;">
+        <label style="color: var(--text-muted); font-size: 0.8rem; cursor: pointer; display: flex; align-items: center; gap: 5px;">
+            <input type="checkbox" id="debugToggle" onchange="toggleDebugMode()">
+            Enable Debug Mode
+        </label>
+    </div>
+    <div id="debugPanel" style="display: none; margin-top: 15px; margin-bottom: 30px; background: rgba(0,0,0,0.2); border: 1px dashed var(--accent-pink); padding: 10px; border-radius: 8px; text-align: left; max-width: 400px; margin-left: auto; margin-right: auto;">
+        <div style="font-size: 0.85rem; color: var(--accent-pink); margin-bottom: 5px; font-family: monospace; word-wrap: break-word;">Sol: <span id="debugSolution" style="color: var(--text-main);"></span></div>
+        <div style="font-size: 0.85rem; color: var(--accent-cyan); margin-bottom: 12px; font-family: monospace; word-wrap: break-word;">Mov: <span id="debugMoves" style="color: var(--text-main);"></span></div>
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 10px;">
+            <span style="color: var(--accent-pink); font-weight: bold; font-size: 0.85rem;">MOVE HISTORY LOG</span>
+            <button class="reset-btn" style="padding: 4px 10px; font-size: 0.8rem; border-color: var(--accent-pink); color: var(--accent-pink); margin-top: 0;" onclick="undoMove()">Undo Last Move</button>
+        </div>
+        <ul id="historyList" style="list-style: decimal inside; padding: 0; margin: 0; font-size: 0.8rem; color: var(--text-muted); max-height: 120px; overflow-y: auto;">
+        </ul>
     </div>
 
     <script>
@@ -193,6 +213,48 @@
         let clicksLeft = 4;
         let scoreBase = 0;
         let gameActive = true;
+        let moveHistoryStack = [];
+        let debugMovesArray = Array(25).fill(0);
+        let debugMoveCount = 0;
+
+        function updateDebugStrings() {
+            document.getElementById('debugSolution').textContent = board.join('');
+            document.getElementById('debugMoves').textContent = debugMovesArray.join('');
+        }
+
+        function toggleDebugMode() {
+            const isDebug = document.getElementById('debugToggle').checked;
+            document.getElementById('debugPanel').style.display = isDebug ? 'block' : 'none';
+        }
+
+        function undoMove() {
+            if (moveHistoryStack.length === 0) return;
+            const snap = moveHistoryStack.pop();
+            revealed = snap.revealed;
+            clicked = snap.clicked;
+            clicksLeft = snap.clicksLeft;
+            scoreBase = snap.scoreBase;
+            gameActive = snap.gameActive;
+            debugMovesArray = [...snap.debugMovesArray];
+            debugMoveCount = snap.debugMoveCount;
+            
+            document.getElementById('gameMessage').style.display = 'none';
+
+            render();
+            updateHistoryUI();
+            updateDebugStrings();
+        }
+
+        function updateHistoryUI() {
+            const hl = document.getElementById('historyList');
+            hl.innerHTML = '';
+            moveHistoryStack.forEach((snap) => {
+                let li = document.createElement('li');
+                li.textContent = snap.action;
+                hl.appendChild(li);
+            });
+            hl.scrollTop = hl.scrollHeight;
+        }
 
         function initGame() {
             board.fill('B');
@@ -201,6 +263,10 @@
             clicksLeft = 4;
             scoreBase = 0;
             gameActive = true;
+            moveHistoryStack = [];
+            debugMovesArray.fill(0);
+            debugMoveCount = 0;
+            updateHistoryUI();
             document.getElementById('gameMessage').style.display = 'none';
 
             // 1. Place Teal (4), Green (3), Yellow (3) in rows/cols
@@ -225,6 +291,7 @@
             document.getElementById('colorCount').textContent = totalColors;
 
             render();
+            updateDebugStrings();
         }
 
         function placeGroup(id, count) {
@@ -260,6 +327,22 @@
 
         function clickTile(i) {
             if (!gameActive || revealed[i]) return;
+
+            // Take snapshot BEFORE altering any variables
+            moveHistoryStack.push({
+                revealed: [...revealed],
+                clicked: [...clicked],
+                clicksLeft,
+                scoreBase,
+                gameActive,
+                debugMovesArray: [...debugMovesArray],
+                debugMoveCount,
+                action: `Clicked [${Math.floor(i / 5) + 1}, ${(i % 5) + 1}]`
+            });
+            updateHistoryUI();
+
+            debugMoveCount++;
+            debugMovesArray[i] = debugMoveCount;
             revealed[i] = true;
             clicked[i] = true;
             const type = board[i];
@@ -300,6 +383,7 @@
                 revealed.fill(true);
             }
             render();
+            updateDebugStrings();
         }
 
         function render() {

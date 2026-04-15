@@ -121,6 +121,7 @@
         .grid {
             display: grid;
             grid-template-columns: repeat(5, 1fr);
+            grid-template-rows: repeat(5, 1fr);
             gap: 10px;
             aspect-ratio: 1;
         }
@@ -140,6 +141,13 @@
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
             height: 100%;
             aspect-ratio: 1;
+            box-sizing: border-box;
+            overflow: hidden;
+            min-height: 0;
+            width: 100%;
+            margin: 0;
+            padding: 0;
+            outline: none;
         }
 
         .tile:hover {
@@ -150,16 +158,19 @@
         }
 
         .tile.selected {
-            border-color: var(--accent-pink);
-            box-shadow: 0 0 15px rgba(255, 0, 106, 0.3);
-            background: rgba(255, 0, 106, 0.05);
+            border-color: var(--accent-pink) !important;
+            box-shadow: inset 0 0 0 1px var(--accent-pink), 0 0 15px rgba(255, 0, 106, 0.3) !important;
+            background: rgba(255, 0, 106, 0.05) !important;
             z-index: 2;
+            transform: scale(1) !important;
         }
 
         .prob-text {
             font-size: 0.75rem;
             opacity: 0.7;
             margin-top: 2px;
+            min-height: 14px;
+            line-height: 14px;
         }
 
         .keypad-wrapper {
@@ -310,6 +321,14 @@
     <div class="grid-container">
         <div class="grid" id="grid"></div>
     </div>
+    
+    <div style="background: rgba(0,0,0,0.2); border: 1px dashed var(--accent-pink); padding: 10px; border-radius: 8px; text-align: left; max-width: 400px; margin: 0 auto 30px auto;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 5px;">
+            <span style="color: var(--accent-pink); font-weight: bold; font-size: 0.85rem;">MOVE HISTORY LOG</span>
+        </div>
+        <ul id="solverHistoryList" style="list-style: decimal inside; padding: 0; margin: 0; font-size: 0.8rem; color: var(--text-muted); max-height: 120px; overflow-y: auto;">
+        </ul>
+    </div>
 
     <div class="keypad-wrapper" id="keypadWrapper">
         <div class="keypad">
@@ -436,6 +455,7 @@
 
         function resetBoard() {
             tileState.fill(null);
+            document.getElementById('solverHistoryList').innerHTML = '';
             closeKeypad();
             updateSolver();
         }
@@ -455,6 +475,25 @@
 
         function setTileState(state) {
             if (selectedIndex === null) return;
+            const r = Math.floor(selectedIndex / 5) + 1;
+            const c = (selectedIndex % 5) + 1;
+            
+            let logMsg = "";
+            let colorName = "Cleared";
+            if (state !== null) {
+                const names = {'T': 'Teal', 'G': 'Green', 'Y': 'Yellow', 'O': 'Orange', 'R': 'Red', 'V': 'Void', 'W': 'White', 'A': 'Rainbow', 'B': 'Blue'};
+                colorName = names[state] || state;
+                logMsg = `Set [${r}, ${c}] to ${colorName}`;
+            } else {
+                logMsg = `Cleared [${r}, ${c}]`;
+            }
+
+            const hl = document.getElementById('solverHistoryList');
+            let li = document.createElement('li');
+            li.textContent = logMsg;
+            hl.appendChild(li);
+            hl.scrollTop = hl.scrollHeight;
+
             tileState[selectedIndex] = state;
             updateSolver(); 
             closeKeypad();  
@@ -589,9 +628,10 @@
 
                 if (s !== null) {
                     vSpan.textContent = LABEL_MAP[s];
-                    pSpan.textContent = '';
+                    pSpan.style.display = 'none';
                     tile.className += ' ' + CLASS_MAP[s];
                 } else {
+                    pSpan.style.display = 'flex';
                     vSpan.textContent = '';
                     if (totalValidConcrete === 0) {
                         pSpan.textContent = '-'; tile.style.background = 'rgba(255,255,255,0.05)';

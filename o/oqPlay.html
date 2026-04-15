@@ -221,7 +221,10 @@
                 <label for="bonusValue" style="color: var(--text-muted); font-size: 0.8rem; text-transform: uppercase;">Bonus (B):</label>
                 <input type="number" id="bonusValue" value="16" style="width: 50px; background: transparent; border: none; color: white; text-align: center; font-weight: 800;" onchange="recalculatePoints()">
             </div>
-            <button class="reset-btn" style="margin-top: 0;" onclick="initGame()">Restart</button>
+            <div style="display: flex; gap: 5px;">
+                <button class="reset-btn" style="margin-top: 0; padding: 5px 10px; font-size: 0.8rem;" onclick="document.getElementById('bonusValue').value = 0; recalculatePoints()">Use Default B=0</button>
+                <button class="reset-btn" style="margin-top: 0;" onclick="initGame()">Restart</button>
+            </div>
         </div>
     </div>
 
@@ -235,6 +238,23 @@
         </div>
     </div>
 
+    <div style="margin-top: 10px; display: flex; justify-content: center;">
+        <label style="color: var(--text-muted); font-size: 0.8rem; cursor: pointer; display: flex; align-items: center; gap: 5px;">
+            <input type="checkbox" id="debugToggle" onchange="toggleDebugMode()">
+            Enable Debug Mode
+        </label>
+    </div>
+    <div id="debugPanel" style="display: none; margin-top: 15px; margin-bottom: 30px; background: rgba(0,0,0,0.2); border: 1px dashed var(--accent-pink); padding: 10px; border-radius: 8px; text-align: left; max-width: 400px; margin-left: auto; margin-right: auto;">
+        <div style="font-size: 0.85rem; color: var(--accent-pink); margin-bottom: 5px; font-family: monospace; word-wrap: break-word;">Sol: <span id="debugSolution" style="color: var(--text-main);"></span></div>
+        <div style="font-size: 0.85rem; color: var(--accent-cyan); margin-bottom: 12px; font-family: monospace; word-wrap: break-word;">Mov: <span id="debugMoves" style="color: var(--text-main);"></span></div>
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 10px;">
+            <span style="color: var(--accent-pink); font-weight: bold; font-size: 0.85rem;">MOVE HISTORY LOG</span>
+            <button class="reset-btn" style="padding: 4px 10px; font-size: 0.8rem; border-color: var(--accent-pink); color: var(--accent-pink); margin-top: 0;" onclick="undoMove()">Undo Last Move</button>
+        </div>
+        <ul id="historyList" style="list-style: decimal inside; padding: 0; margin: 0; font-size: 0.8rem; color: var(--text-muted); max-height: 120px; overflow-y: auto;">
+        </ul>
+    </div>
+
     <script>
         let boardState = Array(25).fill(0);    // The actual numerical values hidden behind the board
         let tileIdentities = Array(25).fill(''); // 'P' for Purple, 'R' for Red (upgraded from P)
@@ -245,6 +265,66 @@
         let purplesFound = 0;
         let totalScoreBase = 0; // Points without B factored in yet for easy recalculation
         let gameStatus = 'playing'; // 'playing', 'won', 'lost'
+        let moveHistoryStack = [];
+        let debugMovesArray = Array(25).fill(0);
+        let debugMoveCount = 0;
+
+        function updateDebugStrings() {
+            document.getElementById('debugSolution').textContent = boardState.join('');
+            document.getElementById('debugMoves').textContent = debugMovesArray.join('');
+        }
+
+        function toggleDebugMode() {
+            const isDebug = document.getElementById('debugToggle').checked;
+            document.getElementById('debugPanel').style.display = isDebug ? 'block' : 'none';
+        }
+
+        function undoMove() {
+            if (moveHistoryStack.length === 0) return;
+            const snap = moveHistoryStack.pop();
+            playerRevealed = snap.playerRevealed;
+            playerClicked = snap.playerClicked;
+            tileIdentities = snap.tileIdentities;
+            clicksLeft = snap.clicksLeft;
+            purplesFound = snap.purplesFound;
+            totalScoreBase = snap.totalScoreBase;
+            gameStatus = snap.gameStatus;
+            debugMovesArray = [...snap.debugMovesArray];
+            debugMoveCount = snap.debugMoveCount;
+            
+            if (gameStatus === 'playing') {
+                if (purplesFound === 3) {
+                    document.getElementById('gameMessage').style.display = 'block';
+                    document.getElementById('gameMessage').style.color = '#ff4444';
+                    document.getElementById('gameMessage').innerHTML = '🚨 3 Purples Found: The RED TILE is revealed! 🚨';
+                } else {
+                    document.getElementById('gameMessage').style.display = 'none';
+                }
+            } else if (gameStatus === 'won') {
+                document.getElementById('gameMessage').style.display = 'block';
+                document.getElementById('gameMessage').style.color = '#10b981';
+                document.getElementById('gameMessage').innerHTML = '🏆 RED TILE FOUND! Moves exhausted. 🏆';
+            } else {
+                document.getElementById('gameMessage').style.display = 'block';
+                document.getElementById('gameMessage').style.color = '#ff4444';
+                document.getElementById('gameMessage').innerHTML = '💥 Moves exhausted! The Red Tile was missed. 💥';
+            }
+
+            renderBoard();
+            updateHistoryUI();
+            updateDebugStrings();
+        }
+
+        function updateHistoryUI() {
+            const hl = document.getElementById('historyList');
+            hl.innerHTML = '';
+            moveHistoryStack.forEach((snap) => {
+                let li = document.createElement('li');
+                li.textContent = snap.action;
+                hl.appendChild(li);
+            });
+            hl.scrollTop = hl.scrollHeight;
+        }
 
         function getAdjCount(boardIndices, r, c) {
             let count = 0;
@@ -259,6 +339,10 @@
         }
 
         function initGame() {
+            moveHistoryStack = [];
+            debugMovesArray.fill(0);
+            debugMoveCount = 0;
+            updateHistoryUI();
             clicksLeft = 7;
             purplesFound = 0;
             gameStatus = 'playing';
@@ -291,17 +375,40 @@
             }
 
             renderBoard();
+            updateDebugStrings();
         }
 
         function clickTile(index) {
             if (gameStatus !== 'playing') return;
             // Only allow click if not revealed OR if it's the specific Red tile awaiting his win click
             if (playerRevealed[index] && tileIdentities[index] !== 'R') return;
+            // Prevent pushing history if clicking already clicked red tile
+            if (playerRevealed[index] && playerClicked[index]) return;
+
+            // Take snapshot BEFORE altering any variables
+            moveHistoryStack.push({
+                playerRevealed: [...playerRevealed],
+                playerClicked: [...playerClicked],
+                tileIdentities: [...tileIdentities],
+                boardState: [...boardState],
+                clicksLeft,
+                purplesFound,
+                totalScoreBase,
+                gameStatus,
+                debugMovesArray: [...debugMovesArray],
+                debugMoveCount,
+                action: `Clicked [${Math.floor(index / 5) + 1}, ${(index % 5) + 1}]`
+            });
+            updateHistoryUI();
 
             if (!playerRevealed[index]) {
+                debugMoveCount++;
+                debugMovesArray[index] = debugMoveCount;
                 playerRevealed[index] = true;
                 playerClicked[index] = true;
             } else if (tileIdentities[index] === 'R' && !playerClicked[index]) {
+                debugMoveCount++;
+                debugMovesArray[index] = debugMoveCount;
                 playerClicked[index] = true; // Award points now that it's clicked
             }
             const val = boardState[index];
@@ -354,6 +461,7 @@
             }
 
             renderBoard();
+            updateDebugStrings();
         }
 
         function revealAll() {
