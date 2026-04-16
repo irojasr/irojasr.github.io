@@ -250,9 +250,9 @@
             Enable Debug Mode
         </label>
     </div>
-    <div id="debugPanel" style="display: none; margin-top: 15px; margin-bottom: 30px; background: rgba(0,0,0,0.2); border: 1px dashed var(--accent-pink); padding: 10px; border-radius: 8px; text-align: left; max-width: 400px; margin-left: auto; margin-right: auto;">
-        <div style="font-size: 0.85rem; color: var(--accent-pink); margin-bottom: 5px; font-family: monospace; word-wrap: break-word;">Sol: <span id="debugSolution" style="color: var(--text-main);"></span></div>
-        <div style="font-size: 0.85rem; color: var(--accent-cyan); margin-bottom: 12px; font-family: monospace; word-wrap: break-word;">Mov: <span id="debugMoves" style="color: var(--text-main);"></span></div>
+    <div id="debugPanel" style="display: none; margin-top: 15px; margin-bottom: 30px; background: rgba(0,0,0,0.2); border: 1px dashed var(--accent-pink); padding: 10px; border-radius: 8px; text-align: left; max-width: 400px; margin-left: auto; margin-right: auto; user-select: text; -webkit-user-select: text;">
+        <div style="font-size: 0.85rem; color: var(--accent-pink); margin-bottom: 5px; font-family: monospace; word-wrap: break-word; cursor: pointer;" onclick="copyDebug('sol')" title="Click to copy">Sol: <span id="debugSolution" style="color: var(--text-main);"></span></div>
+        <div style="font-size: 0.85rem; color: var(--accent-cyan); margin-bottom: 12px; font-family: monospace; word-wrap: break-word; cursor: pointer;" onclick="copyDebug('mov')" title="Click to copy">Mov: <span id="debugMoves" style="color: var(--text-main);"></span></div>
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 10px;">
             <span style="color: var(--accent-pink); font-weight: bold; font-size: 0.85rem;">MOVE HISTORY LOG</span>
             <button class="reset-btn" style="padding: 4px 10px; font-size: 0.8rem; border-color: var(--accent-pink); color: var(--accent-pink); margin-top: 0;" onclick="undoMove()">Undo Last Move</button>
@@ -277,6 +277,17 @@
         function updateDebugStrings() {
             document.getElementById('debugSolution').textContent = boardState.join('');
             document.getElementById('debugMoves').textContent = debugMovesArray.join('');
+        }
+
+        function copyDebug(type) {
+            const el = document.getElementById(type === 'sol' ? 'debugSolution' : 'debugMoves');
+            if (el && el.textContent) {
+                navigator.clipboard.writeText(el.textContent).then(() => {
+                    const originalColor = el.style.color;
+                    el.style.color = '#10b981';
+                    setTimeout(() => { el.style.color = originalColor; }, 300);
+                }).catch(err => console.error('Failed to copy', err));
+            }
         }
 
         function toggleDebugMode() {

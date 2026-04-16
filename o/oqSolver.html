@@ -363,8 +363,9 @@
         </div>
     </div>
     
-    <div style="background: rgba(0,0,0,0.2); border: 1px dashed var(--accent-pink); padding: 10px; border-radius: 8px; text-align: left; max-width: 400px; margin: 0 auto 30px auto;">
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 5px;">
+    <div style="background: rgba(0,0,0,0.2); border: 1px dashed var(--accent-pink); padding: 10px; border-radius: 8px; text-align: left; max-width: 400px; margin: 0 auto 30px auto; user-select: text; -webkit-user-select: text;">
+        <div style="font-size: 0.85rem; color: var(--accent-cyan); margin-bottom: 12px; font-family: monospace; word-wrap: break-word; cursor: pointer;" onclick="copyDebug('mov')" title="Click to copy">Mov: <span id="debugMoves" style="color: var(--text-main);">0000000000000000000000000</span></div>
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 5px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 10px;">
             <span style="color: var(--accent-pink); font-weight: bold; font-size: 0.85rem;">MOVE HISTORY LOG</span>
         </div>
         <ul id="solverHistoryList" style="list-style: decimal inside; padding: 0; margin: 0; font-size: 0.8rem; color: var(--text-muted); max-height: 120px; overflow-y: auto;">
@@ -458,9 +459,29 @@
         }
 
         probabilities = Array(25).fill(0);
+        let debugMovesArray = Array(25).fill(0);
+        let debugMoveCount = 0;
+
+        function updateDebugStrings() {
+            document.getElementById('debugMoves').textContent = debugMovesArray.join('');
+        }
+
+        function copyDebug(type) {
+            const el = document.getElementById(type === 'sol' ? 'debugSolution' : 'debugMoves');
+            if (el && el.textContent) {
+                navigator.clipboard.writeText(el.textContent).then(() => {
+                    const originalColor = el.style.color;
+                    el.style.color = '#10b981';
+                    setTimeout(() => { el.style.color = originalColor; }, 300);
+                }).catch(err => console.error('Failed to copy', err));
+            }
+        }
 
         function resetBoard() {
             tileState.fill(null);
+            debugMovesArray.fill(0);
+            debugMoveCount = 0;
+            updateDebugStrings();
             document.getElementById('solverHistoryList').innerHTML = '';
             closeKeypad();
             updateSolver();
@@ -502,6 +523,18 @@
             } else {
                 logMsg = `Set [${r}, ${c}] to ${state}`;
             }
+
+            if (state === null) {
+                if (debugMovesArray[selectedIndex] > 0) {
+                    debugMovesArray[selectedIndex] = 0;
+                }
+            } else {
+                if (debugMovesArray[selectedIndex] === 0) {
+                    debugMoveCount++;
+                    debugMovesArray[selectedIndex] = debugMoveCount;
+                }
+            }
+            updateDebugStrings();
 
             const hl = document.getElementById('solverHistoryList');
             let li = document.createElement('li');
@@ -564,6 +597,24 @@
             renderUI();
         }
 
+        function getAmbigNeighbors(i) {
+            let count = 0;
+            const r = Math.floor(i / 5), c = i % 5;
+            for (let dr = -1; dr <= 1; dr++) {
+                for (let dc = -1; dc <= 1; dc++) {
+                    if (dr === 0 && dc === 0) continue;
+                    const nr = r + dr, nc = c + dc;
+                    if (nr >= 0 && nr < 5 && nc >= 0 && nc < 5) {
+                        const nIdx = nr * 5 + nc;
+                        if (tileState[nIdx] === null && probabilities[nIdx] > 0.0001 && probabilities[nIdx] < 0.9999) {
+                            count++;
+                        }
+                    }
+                }
+            }
+            return count;
+        }
+
         function renderUI() {
             let htmlPrefix = (tsFound === 3) ? `<div style="color:#ff4444; font-weight: bold; margin-bottom: 10px;">🚨 3 Purples Found: The RED TILE is revealed!</div>` : '';
             if (validBoards.length === 1) htmlPrefix += `<div style="color: var(--safe-green); font-weight: bold; margin-bottom: 5px;">BOARD COMPLETELY SOLVED!</div>`;
@@ -572,82 +623,143 @@
             if (validBoards.length === 0) {
                 bestMoveText.innerHTML = `<span style="color: #ff4444;">Error: No valid boards left. Check for contradiction!</span>`;
             } else {
-                let guaranteedTargets = [];
-                let bestGuess = { index: -1, prob: -1, tieBreaker: -1 };
+                const targetsRemaining = 4 - tsFound;
+                const revealedCount = tileState.filter(s => s !== null).length;
+                const PIVOTS = [6, 8, 16, 18];
 
-                for (let i = 0; i < 25; i++) {
-                    if (tileState[i] !== null) continue;
-                    const p = probabilities[i];
+                if (revealedCount === 0) {
+                    bestMoveText.innerHTML = `BEST MOVE: Open at one of the four symmetric pivots: <b>[2,2]</b>, <b>[2,4]</b>, <b>[4,2]</b>, or <b>[4,4]</b>. Each reveals information about 8 neighbours.`;
+                } else {
+                    // ── Survival margin ───────────────────────────────────────────
+                    // margin = how many "wasted" (non-target) clicks we can still afford
+                    // margin ≤ 0 → crisis: every click MUST hit a target to have any chance
+                    const margin = clicksLeft - targetsRemaining;
 
-                    let unkNeighbors = 0;
-                    let r = Math.floor(i / 5);
-                    let c = i % 5;
-                    for (let dr = -1; dr <= 1; dr++) {
-                        for (let dc = -1; dc <= 1; dc++) {
-                            if (dr === 0 && dc === 0) continue;
-                            let nr = r + dr, nc = c + dc;
-                            if (nr >= 0 && nr < 5 && nc >= 0 && nc < 5) {
-                                let nIdx = nr * 5 + nc;
-                                if (tileState[nIdx] === null) {
-                                    // Only consider it an informational frontier if the tile is still ambiguous!
-                                    if (probabilities[nIdx] > 0.0001 && probabilities[nIdx] < 0.9999) {
-                                        unkNeighbors++;
-                                    }
-                                }
+                    // urgency: 0 = relaxed, 1 = crisis
+                    const urgency = margin <= 0 ? 1.0 : Math.max(0, 1.0 - margin / 5.0);
+
+                    // INFO_WEIGHT: fades to 0 as urgency rises
+                    const INFO_WEIGHT = (1.0 - urgency) * 0.8;
+                    const MAX_AMBIG = 8;
+                    const POINT_MAP = [10, 20, 35, 55, 90];
+                    let B = parseInt(document.getElementById('bonusValue').value) || 0;
+
+                    // ── Expected safe-tile value per position ─────────────────────
+                    // For each unknown tile compute: mean adjacency count across all boards
+                    // where that tile is NOT a target (weighted by board count).
+                    // This tells us the expected tile score if we click it and it's safe.
+                    const adjSums   = Array(25).fill(0);
+                    const safeCounts = Array(25).fill(0);
+                    for (const board of validBoards) {
+                        for (let i = 0; i < 25; i++) {
+                            if (tileState[i] !== null) continue;
+                            if (!board.includes(i)) {
+                                safeCounts[i]++;
+                                adjSums[i] += getAdjCount(board, Math.floor(i / 5), i % 5);
                             }
                         }
                     }
-
-                    if (p === 1.0) guaranteedTargets.push(i);
-
-                    let isBetter = false;
-                    if (p > bestGuess.prob + 0.0001) {
-                        isBetter = true;
-                    } else if (Math.abs(p - bestGuess.prob) <= 0.0001) {
-                        if (unkNeighbors > bestGuess.tieBreaker) {
-                            isBetter = true;
-                        }
+                    // Expected points (base + B) if clicking tile i and it turns out safe
+                    function expectedSafePoints(i) {
+                        if (safeCounts[i] === 0) return 0;
+                        const ev = adjSums[i] / safeCounts[i]; // expected adjacency 0-4
+                        const lo = Math.floor(ev), hi = Math.min(4, Math.ceil(ev));
+                        const frac = ev - lo;
+                        return POINT_MAP[lo] * (1 - frac) + POINT_MAP[hi] * frac + B;
                     }
 
-                    if (isBetter) {
-                        bestGuess = { index: i, prob: p, tieBreaker: unkNeighbors };
-                    }
-                }
+                    // Bonus threshold insight: if B is large enough that a free target
+                    // "click" is worth more than the expected safe tile value, we should
+                    // be even more aggressive about finding targets.
+                    // We proxy this by checking B against average expected safe tile pts.
+                    const AVG_SAFE_PTS = 35 + B; // rough average
+                    // When B is high, each non-target click is still worth a lot, so
+                    // the penalty for "wasting" a click isn't as steep from a points
+                    // standpoint. But from a WINNING standpoint, the penalty is the same.
+                    // We prioritise winning over point maximization always.
 
-                if (clicksLeft <= 0 && bestGuess.prob < 1.0) {
-                    bestMoveText.innerHTML = `<span style="color: #ff4444;">Out of clicks! Game Over.</span>`;
-                } else if (guaranteedTargets.length > 0 && tsFound < 3) {
-                    const i = guaranteedTargets[0];
-                    bestMoveText.innerHTML = `BEST MOVE: Click <b>[${Math.floor(i / 5) + 1}, ${(i % 5) + 1}]</b>! FREE Guaranteed Target.`;
-                } else if (bestGuess.prob === 1.0 && tsFound === 3) {
-                    const i = bestGuess.index;
-                    bestMoveText.innerHTML = `BEST MOVE: Click <b>[${Math.floor(i / 5) + 1}, ${(i % 5) + 1}]</b>! RED TILE (150+B pts).`;
-                } else {
-                    const i = bestGuess.index;
-                    bestMoveText.innerHTML = `BEST MOVE: Click <b>[${Math.floor(i / 5) + 1}, ${(i % 5) + 1}]</b> (Target Chance: ${(bestGuess.prob * 100).toFixed(1)}%)`;
-                }
+                    // ── Score each candidate tile ─────────────────────────────────
+                    let guaranteedTargets = [];
+                    let candidates = [];
 
-                // If solved and 4 targets found, show farmable
-                if (validBoards.length === 1 && tsFound === 4 && clicksLeft > 0) {
-                    const b = validBoards[0];
-                    let farmable = [];
                     for (let i = 0; i < 25; i++) {
-                        if (tileState[i] === null && !b.includes(i)) {
-                            let val = getAdjCount(b, Math.floor(i / 5), i % 5);
-                            if (val > 0) farmable.push({ loc: `[${Math.floor(i / 5) + 1}, ${(i % 5) + 1}]`, val: val });
+                        if (tileState[i] !== null) continue;
+                        const p = probabilities[i];
+                        if (p === 1.0) { guaranteedTargets.push(i); continue; }
+
+                        const info  = getAmbigNeighbors(i) / MAX_AMBIG; // [0,1]
+                        const pb    = PIVOTS.includes(i) ? 0.5 : 0;
+                        const epts  = expectedSafePoints(i);
+
+                        // Primary: winning probability (always), scaled by urgency
+                        // Secondary: information gain, pivot bonus (when relaxed)
+                        // Tertiary: expected point value (only when winning seems assured)
+                        const winScore   = p * (1 + urgency);    // boost target-hunting when urgent
+                        const infoScore  = INFO_WEIGHT * (info * 0.4 + pb * 0.3);
+                        const ptScore    = urgency < 0.3 ? (epts / AVG_SAFE_PTS - 1) * 0.05 : 0;
+                        const score      = winScore + infoScore + ptScore;
+
+                        candidates.push({ index: i, score, prob: p, info, epts });
+                    }
+                    candidates.sort((a, b) => b.score - a.score);
+                    const bestGuess = candidates[0] || { index: -1, score: -1, prob: 0, info: 0 };
+
+                    // ── Emit recommendation ───────────────────────────────────────
+                    // Show game-state warning
+                    let stateTag = '';
+                    if (margin <= 0) {
+                        stateTag = `<div style="color:#ff4444; font-size:0.8rem; margin-bottom:4px;">⚠️ CRISIS — margin: ${margin}. Must hit a target to survive!</div>`;
+                    } else if (margin <= 2) {
+                        stateTag = `<div style="color:#fbbf24; font-size:0.8rem; margin-bottom:4px;">⚡ Tight — ${margin} wasted click${margin===1?'':'s'} left before loss.</div>`;
+                    }
+
+                    if (clicksLeft <= 0 && bestGuess.prob < 1.0) {
+                        bestMoveText.innerHTML = stateTag + `<span style="color: #ff4444;">Out of clicks! Game Over.</span>`;
+                    } else if (guaranteedTargets.length > 0 && tsFound < 3) {
+                        const i = guaranteedTargets[0];
+                        bestMoveText.innerHTML = stateTag + `BEST MOVE: Click <b>[${Math.floor(i / 5) + 1}, ${(i % 5) + 1}]</b>! FREE Guaranteed Target.`;
+                    } else if (bestGuess.prob === 1.0 && tsFound === 3) {
+                        const i = bestGuess.index;
+                        bestMoveText.innerHTML = stateTag + `BEST MOVE: Click <b>[${Math.floor(i / 5) + 1}, ${(i % 5) + 1}]</b>! RED TILE (150+B pts).`;
+                    } else if (bestGuess.index !== -1) {
+                        const i = bestGuess.index;
+                        const infoNote = INFO_WEIGHT > 0.1 ? ` · ${(bestGuess.info * 8).toFixed(0)} ambig nbrs` : '';
+                        const urgNote  = urgency > 0.7 ? ` <span style="color:#ff4444">[PRIORITY: find targets!]</span>` : '';
+                        bestMoveText.innerHTML = stateTag + `BEST MOVE: Click <b>[${Math.floor(i / 5) + 1}, ${(i % 5) + 1}]</b> (Target: ${(bestGuess.prob * 100).toFixed(1)}%${infoNote})${urgNote}`;
+
+                        // Show top alternatives (2nd and 3rd)
+                        if (candidates.length >= 2) {
+                            let altText = `<div style="font-size:0.78rem; color:var(--text-muted); margin-top:6px;">Alternatives: `;
+                            const alts = candidates.slice(1, 3).map(c => {
+                                const row = Math.floor(c.index / 5) + 1, col = (c.index % 5) + 1;
+                                return `[${row},${col}] ${(c.prob * 100).toFixed(1)}%`;
+                            });
+                            altText += alts.join(' &nbsp;·&nbsp; ') + '</div>';
+                            bestMoveText.innerHTML += altText;
                         }
                     }
-                    farmable.sort((x, y) => y.val - x.val);
-                    if (farmable.length > 0) {
-                        let B = parseInt(document.getElementById('bonusValue').value) || 0;
-                        let pointsMapping = [10 + B, 20 + B, 35 + B, 55 + B, 90 + B];
-                        let text = `<div style="font-size: 0.8rem; color: var(--text-muted); text-align: left; background: rgba(0,0,0,0.2); padding: 8px; border-radius: 6px; margin-top: 10px;">`;
-                        text += `<b style="color: var(--accent-cyan)">FARMING TIME:</b> Use remaining clicks here:<br>`;
-                        text += farmable.map(f => `• Click <b>${f.loc}</b> (+${pointsMapping[f.val]} pts)`).join('<br>');
-                        text += `</div>`;
-                        bestMoveText.innerHTML += text;
+
+                    // ── Farming (board solved, targets all found) ─────────────────
+                    if (validBoards.length === 1 && tsFound === 4 && clicksLeft > 0) {
+                        const b = validBoards[0];
+                        let farmable = [];
+                        for (let i = 0; i < 25; i++) {
+                            if (tileState[i] === null && !b.includes(i)) {
+                                let val = getAdjCount(b, Math.floor(i / 5), i % 5);
+                                farmable.push({ loc: `[${Math.floor(i / 5) + 1}, ${(i % 5) + 1}]`, val, pts: POINT_MAP[val] + B });
+                            }
+                        }
+                        farmable.sort((x, y) => y.pts - x.pts);
+                        if (farmable.length > 0) {
+                            let text = `<div style="font-size: 0.8rem; color: var(--text-muted); text-align: left; background: rgba(0,0,0,0.2); padding: 8px; border-radius: 6px; margin-top: 10px;">`;
+                            text += `<b style="color: var(--accent-cyan)">FARMING TIME:</b> Click in this order for max points:<br>`;
+                            text += farmable.slice(0, clicksLeft).map(f => `• <b>${f.loc}</b> →${f.pts} pts`).join('<br>');
+                            text += `</div>`;
+                            bestMoveText.innerHTML += text;
+                        }
                     }
                 }
+
             }
 
             // Update tiles
@@ -664,7 +776,6 @@
                 tile.style.color = '';
 
                 if (state !== null) {
-                    // Revealed state
                     probSpan.style.display = 'none';
                     if (state === 'T') {
                         valueSpan.textContent = '🎯';
@@ -681,7 +792,6 @@
                         if (state === 4) tile.classList.add('bg-orange');
                     }
                 } else {
-                    // Unknown state
                     probSpan.style.display = 'flex';
                     valueSpan.textContent = '';
                     if (validBoards.length === 0) {
@@ -690,7 +800,6 @@
                         tile.style.borderColor = 'rgba(255,255,255,0.1)';
                     } else {
                         let pctString = (prob * 100).toFixed(1).replace('.0', '') + '%';
-
                         if (prob === 1.0) {
                             valueSpan.textContent = '🎯';
                             probSpan.textContent = '100%';
@@ -705,7 +814,6 @@
                             probSpan.style.color = 'var(--safe-green)';
                         } else {
                             probSpan.textContent = pctString;
-                            // Interpolate color based on probability
                             let r = 255, g = 255, b = 255, opacity = 0.5;
                             if (prob > 0.5) {
                                 g = Math.floor(255 - (prob - 0.5) * 510);
