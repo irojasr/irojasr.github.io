@@ -640,43 +640,53 @@
 
                     // INFO_WEIGHT: fades to 0 as urgency rises
                     const INFO_WEIGHT = (1.0 - urgency) * 0.8;
-                    const MAX_AMBIG = 8;
                     const POINT_MAP = [10, 20, 35, 55, 90];
                     let B = parseInt(document.getElementById('bonusValue').value) || 0;
+                    const AVG_SAFE_PTS = 35 + B;
+                    const MAX_ENTROPY = Math.log2(6); // max Shannon entropy over 6 outcomes ≈ 2.58
 
-                    // ── Expected safe-tile value per position ─────────────────────
-                    // For each unknown tile compute: mean adjacency count across all boards
-                    // where that tile is NOT a target (weighted by board count).
-                    // This tells us the expected tile score if we click it and it's safe.
-                    const adjSums   = Array(25).fill(0);
-                    const safeCounts = Array(25).fill(0);
+                    // ── Outcome entropy (single pass over valid boards) ────────────
+                    // outcomeCounts[i][0-4] = boards where clicking tile i reveals that number
+                    // outcomeCounts[i][5]   = boards where clicking tile i hits a target (free)
+                    // This is the theoretically correct "expected information gain" metric,
+                    // replacing the heuristic ambiguous-neighbour count used previously.
+                    const N = validBoards.length;
+                    const outcomeCounts = Array.from({length: 25}, () => new Array(6).fill(0));
                     for (const board of validBoards) {
                         for (let i = 0; i < 25; i++) {
                             if (tileState[i] !== null) continue;
-                            if (!board.includes(i)) {
-                                safeCounts[i]++;
-                                adjSums[i] += getAdjCount(board, Math.floor(i / 5), i % 5);
+                            if (board.includes(i)) {
+                                outcomeCounts[i][5]++;               // target outcome
+                            } else {
+                                const val = getAdjCount(board, Math.floor(i / 5), i % 5);
+                                outcomeCounts[i][val]++;             // numbered outcome
                             }
                         }
                     }
-                    // Expected points (base + B) if clicking tile i and it turns out safe
-                    function expectedSafePoints(i) {
-                        if (safeCounts[i] === 0) return 0;
-                        const ev = adjSums[i] / safeCounts[i]; // expected adjacency 0-4
-                        const lo = Math.floor(ev), hi = Math.min(4, Math.ceil(ev));
-                        const frac = ev - lo;
-                        return POINT_MAP[lo] * (1 - frac) + POINT_MAP[hi] * frac + B;
+
+                    // Shannon entropy of tile i's outcome distribution, normalised to [0,1].
+                    // High entropy = clicking here splits remaining configurations most evenly
+                    // (maximum discriminating power per click).
+                    function tileEntropy(i) {
+                        let h = 0;
+                        for (const count of outcomeCounts[i]) {
+                            if (count > 0) {
+                                const p = count / N;
+                                h -= p * Math.log2(p);
+                            }
+                        }
+                        return h / MAX_ENTROPY;
                     }
 
-                    // Bonus threshold insight: if B is large enough that a free target
-                    // "click" is worth more than the expected safe tile value, we should
-                    // be even more aggressive about finding targets.
-                    // We proxy this by checking B against average expected safe tile pts.
-                    const AVG_SAFE_PTS = 35 + B; // rough average
-                    // When B is high, each non-target click is still worth a lot, so
-                    // the penalty for "wasting" a click isn't as steep from a points
-                    // standpoint. But from a WINNING standpoint, the penalty is the same.
-                    // We prioritise winning over point maximization always.
+                    // Expected safe-tile points (for point optimisation when budget is comfortable).
+                    function expectedSafePoints(i) {
+                        let safeCount = 0, sum = 0;
+                        for (let k = 0; k <= 4; k++) {
+                            safeCount += outcomeCounts[i][k];
+                            sum       += outcomeCounts[i][k] * POINT_MAP[k];
+                        }
+                        return safeCount > 0 ? (sum / safeCount + B) : 0;
+                    }
 
                     // ── Score each candidate tile ─────────────────────────────────
                     let guaranteedTargets = [];
@@ -687,22 +697,23 @@
                         const p = probabilities[i];
                         if (p === 1.0) { guaranteedTargets.push(i); continue; }
 
-                        const info  = getAmbigNeighbors(i) / MAX_AMBIG; // [0,1]
-                        const pb    = PIVOTS.includes(i) ? 0.5 : 0;
-                        const epts  = expectedSafePoints(i);
+                        const entropy = tileEntropy(i);          // [0,1] proper info gain
+                        const pb      = PIVOTS.includes(i) ? 0.08 : 0;  // small structural nudge
+                        const epts    = expectedSafePoints(i);
 
-                        // Primary: winning probability (always), scaled by urgency
-                        // Secondary: information gain, pivot bonus (when relaxed)
-                        // Tertiary: expected point value (only when winning seems assured)
-                        const winScore   = p * (1 + urgency);    // boost target-hunting when urgent
-                        const infoScore  = INFO_WEIGHT * (info * 0.4 + pb * 0.3);
-                        const ptScore    = urgency < 0.3 ? (epts / AVG_SAFE_PTS - 1) * 0.05 : 0;
-                        const score      = winScore + infoScore + ptScore;
+                        // Composite score:
+                        //  winScore  – probability weight (doubled under crisis urgency)
+                        //  infoScore – Shannon entropy (fades to 0 in crisis mode)
+                        //  ptScore   – expected tile value bias (only when budget is comfortable)
+                        const winScore  = p * (1 + urgency);
+                        const infoScore = INFO_WEIGHT * (entropy + pb);
+                        const ptScore   = urgency < 0.3 ? (epts / AVG_SAFE_PTS - 1) * 0.05 : 0;
+                        const score     = winScore + infoScore + ptScore;
 
-                        candidates.push({ index: i, score, prob: p, info, epts });
+                        candidates.push({ index: i, score, prob: p, entropy, epts });
                     }
                     candidates.sort((a, b) => b.score - a.score);
-                    const bestGuess = candidates[0] || { index: -1, score: -1, prob: 0, info: 0 };
+                    const bestGuess = candidates[0] || { index: -1, score: -1, prob: 0, entropy: 0 };
 
                     // ── Emit recommendation ───────────────────────────────────────
                     // Show game-state warning
@@ -723,7 +734,7 @@
                         bestMoveText.innerHTML = stateTag + `BEST MOVE: Click <b>[${Math.floor(i / 5) + 1}, ${(i % 5) + 1}]</b>! RED TILE (150+B pts).`;
                     } else if (bestGuess.index !== -1) {
                         const i = bestGuess.index;
-                        const infoNote = INFO_WEIGHT > 0.1 ? ` · ${(bestGuess.info * 8).toFixed(0)} ambig nbrs` : '';
+                        const infoNote = INFO_WEIGHT > 0.1 ? ` · entropy: ${(bestGuess.entropy * 100).toFixed(0)}%` : '';
                         const urgNote  = urgency > 0.7 ? ` <span style="color:#ff4444">[PRIORITY: find targets!]</span>` : '';
                         bestMoveText.innerHTML = stateTag + `BEST MOVE: Click <b>[${Math.floor(i / 5) + 1}, ${(i % 5) + 1}]</b> (Target: ${(bestGuess.prob * 100).toFixed(1)}%${infoNote})${urgNote}`;
 
