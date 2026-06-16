@@ -15,3 +15,8 @@ Please look in my math github repository for most of the material I've produced 
 
 <h3>TO DO</h3>
 <p>Add cool links to pdfs with answers to my old homeworks and class notes. Also add info on differential equations perhaps.</p>
+
+<hr />
+<div style="text-align: center; font-size: 0.75em; color: gray; margin-top: 2em;">
+  AI tool use disclosed per the <a href="Leiden_Declaration_on_Artificial_Intelligence_and_Mathematics.pdf">Leiden Declaration on AI and Mathematics</a>.
+</div>

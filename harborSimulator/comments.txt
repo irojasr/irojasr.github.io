@@ -16,3 +16,4 @@ Comments on V2.0
 8. I restarted the game and realized that if one initially only negotiates with the free boats one can start building the business and then start reaping from contracts. 
 9. I think that not all contracts should be available at the beginning, right? Instead a company has a chance to reappear in the contract section if they have high satisfaction with the player. 
 10. We should add a debug mode where everything is unlocked, one can modify the money/reputation/workers/worker infrastucture a player has and other stuffs which I may be forgetting.
+11. We should also add a chicken/meat company.

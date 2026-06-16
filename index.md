@@ -52,6 +52,7 @@ layout: page
         • <a href="o/ocPlay.html">Play oc</a><br />
         • <a href="o/oqPlay.html">Play oq</a><br />
         • <a href="o/otPlay.html">Play ot</a><br />
+        • <a href="harborSimulator/indexHarborSimulator.html">Play harborSimulator</a><br />
         • <a href="o/oqSolver.html">oqSolver</a><br />
         • <a href="o/otSolver.html">otSolver</a>
       </div>
@@ -63,3 +64,8 @@ layout: page
 
 <h3>TO DO</h3>
 <p>Actually put the cool links to my notes and past hws in the teaching link. Fix the important pictures.</p>
+
+<hr />
+<div style="text-align: center; font-size: 0.75em; color: gray; margin-top: 2em;">
+  AI tool use disclosed per the <a href="Leiden_Declaration_on_Artificial_Intelligence_and_Mathematics.pdf">Leiden Declaration on AI and Mathematics</a>.
+</div>

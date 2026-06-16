@@ -89,3 +89,8 @@ Coming soon!
 <div style="text-align: center; padding-top: 2em; padding-bottom: 2em;">
 <a href="../index">← Back to main site</a>
 </div>
+
+<hr />
+<div style="text-align: center; font-size: 0.75em; color: gray; margin-top: 2em;">
+  AI tool use disclosed per the <a href="../Leiden_Declaration_on_Artificial_Intelligence_and_Mathematics.pdf">Leiden Declaration on AI and Mathematics</a>.
+</div>
