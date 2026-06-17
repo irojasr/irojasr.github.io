@@ -1,19 +1,20 @@
 <!--
-  Harbor Tycoon — A Harbor Management Simulator
+  Harbor Simulator — A Harbor Management Simulator
 
   Original idea and design: irojasr
   Created with the assistance of Claude (Anthropic, Claude Opus 4 model) and
   Gemini (Google, Gemini 3.1 Pro model), used as coding tools under human direction.
 
   In the spirit of the Leiden Declaration on Artificial Intelligence
-  and Mathematics (2 June 2026, https://leidendeclaration.ai/ and ../Leiden_Declaration_on_Artificial_Intelligence_and_Mathematics.pdf):
+  and Mathematics (2 June 2026, https://leidendeclaration.ai/ and
+  ../Leiden_Declaration_on_Artificial_Intelligence_and_Mathematics.pdf):
   - The human author retains full creative ownership and responsibility
     for this work.
   - AI was used as a development tool, not as an author or co-creator.
   - This disclosure is made in accordance with the Declaration's
     recommendations on transparent tool use and proper attribution.
-  
-  Last modified on: 2026-06-16
+
+  Last modified on: 2026-06-17
 -->
 <!DOCTYPE html>
 <html lang="en" data-theme="dark">
@@ -41,6 +42,7 @@
             --accent-yellow: #fbbf24;
             --accent-orange: #f97316;
             --accent-red: #ef4444;
+            --accent-purple: #a855f7;
             --tbl-header: rgba(255, 255, 255, 0.06);
             --tbl-hover: rgba(255, 255, 255, 0.04);
             --btn-bg: rgba(255, 255, 255, 0.06);
@@ -80,15 +82,15 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            padding: 20px;
-            transition: background-color .3s, color .3s
+            padding: 20px 20px 80px;
+            transition: background-color .3s, color .3s;
         }
 
         .header {
             text-align: center;
             margin-bottom: 20px;
             width: 100%;
-            max-width: 900px
+            max-width: 960px
         }
 
         .header a {
@@ -125,7 +127,7 @@
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
-            margin: 8px 0
+            margin: 8px 0;
         }
 
         .subtitle {
@@ -134,7 +136,7 @@
         }
 
         details.how-to-play {
-            max-width: 900px;
+            max-width: 960px;
             width: 100%;
             margin: 0 auto 16px;
             background: var(--panel-bg);
@@ -169,45 +171,45 @@
         .hud {
             display: flex;
             flex-wrap: wrap;
-            gap: 10px;
+            gap: 8px;
             justify-content: center;
             align-items: center;
             width: 100%;
-            max-width: 900px;
-            margin-bottom: 20px
+            max-width: 960px;
+            margin-bottom: 16px
         }
 
         .hud-item {
             background: var(--panel-bg);
             border: 1px solid var(--border-color);
             border-radius: 10px;
-            padding: 8px 16px;
+            padding: 6px 14px;
             text-align: center;
             backdrop-filter: blur(10px);
-            min-width: 120px
+            min-width: 100px
         }
 
         .hud-label {
             display: block;
-            font-size: .65rem;
+            font-size: .6rem;
             text-transform: uppercase;
             letter-spacing: 1px;
             color: var(--text-muted);
-            margin-bottom: 2px
+            margin-bottom: 1px
         }
 
         .hud-value {
             font-weight: 800;
-            font-size: 1.1rem
+            font-size: 1rem
         }
 
         .theme-toggle {
             background: var(--btn-bg);
             border: 1px solid var(--border-color);
             border-radius: 50%;
-            width: 40px;
-            height: 40px;
-            font-size: 1.2rem;
+            width: 36px;
+            height: 36px;
+            font-size: 1.1rem;
             cursor: pointer;
             display: flex;
             align-items: center;
@@ -222,47 +224,47 @@
 
         .game-container {
             width: 100%;
-            max-width: 900px;
+            max-width: 960px;
             display: flex;
             flex-direction: column;
-            gap: 16px
+            gap: 14px
         }
 
         .panel {
             background: var(--panel-bg);
             border: 1px solid var(--border-color);
             border-radius: 12px;
-            padding: 16px;
+            padding: 14px;
             backdrop-filter: blur(10px);
             box-shadow: 0 2px 8px var(--shadow)
         }
 
         .panel h2 {
-            font-size: 1rem;
+            font-size: .95rem;
             font-weight: 800;
-            margin-bottom: 12px;
+            margin-bottom: 10px;
             color: var(--text-main);
             text-transform: uppercase;
             letter-spacing: .5px
         }
 
         .panel h3 {
-            font-size: .85rem;
+            font-size: .82rem;
             font-weight: 700;
-            margin: 12px 0 8px;
+            margin: 10px 0 6px;
             color: var(--text-muted);
             text-transform: uppercase
         }
 
         .alert-banner {
-            padding: 12px 16px;
+            padding: 10px 14px;
             border-radius: 10px;
-            font-size: .9rem;
+            font-size: .88rem;
             font-weight: 600;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            gap: 12px;
+            gap: 10px;
             flex-wrap: wrap
         }
 
@@ -272,6 +274,18 @@
             color: var(--accent-orange)
         }
 
+        .alert-raid {
+            background: rgba(59, 130, 246, 0.15);
+            border: 1px solid var(--accent-blue);
+            color: var(--accent-blue)
+        }
+
+        .alert-mafia-offer {
+            background: rgba(168, 85, 247, 0.15);
+            border: 1px solid var(--accent-purple);
+            color: var(--accent-purple)
+        }
+
         .table-wrap {
             overflow-x: auto
         }
@@ -279,15 +293,15 @@
         table {
             width: 100%;
             border-collapse: collapse;
-            font-size: .83rem
+            font-size: .82rem
         }
 
         th {
             text-align: left;
-            padding: 8px 8px;
+            padding: 6px 7px;
             background: var(--tbl-header);
             color: var(--text-muted);
-            font-size: .7rem;
+            font-size: .68rem;
             text-transform: uppercase;
             letter-spacing: .5px;
             font-weight: 600;
@@ -295,7 +309,7 @@
         }
 
         td {
-            padding: 8px;
+            padding: 7px;
             border-top: 1px solid var(--border-color);
             vertical-align: middle
         }
@@ -308,17 +322,17 @@
             text-align: center;
             color: var(--text-muted);
             font-style: italic;
-            padding: 16px 8px !important
+            padding: 14px 8px !important
         }
 
         .btn {
-            padding: 5px 12px;
+            padding: 5px 11px;
             border-radius: 6px;
             border: 1px solid var(--border-color);
             background: var(--btn-bg);
             color: var(--text-main);
             cursor: pointer;
-            font-size: .76rem;
+            font-size: .74rem;
             font-weight: 600;
             font-family: 'Inter', sans-serif;
             transition: all .2s;
@@ -345,7 +359,6 @@
         }
 
         .btn-success:hover:not(:disabled) {
-            border-color: var(--accent-green);
             background: rgba(16, 185, 129, 0.15)
         }
 
@@ -355,7 +368,6 @@
         }
 
         .btn-danger:hover:not(:disabled) {
-            border-color: var(--accent-red);
             background: rgba(239, 68, 68, 0.15)
         }
 
@@ -365,8 +377,16 @@
         }
 
         .btn-warning:hover:not(:disabled) {
-            border-color: var(--accent-orange);
             background: rgba(249, 115, 22, 0.15)
+        }
+
+        .btn-purple {
+            border-color: var(--accent-purple);
+            color: var(--accent-purple)
+        }
+
+        .btn-purple:hover:not(:disabled) {
+            background: rgba(168, 85, 247, 0.15)
         }
 
         .btn-primary {
@@ -388,17 +408,17 @@
         }
 
         .btn-sm {
-            padding: 4px 8px;
-            font-size: .72rem
+            padding: 3px 7px;
+            font-size: .7rem
         }
 
         .progress-bar {
             background: var(--progress-bg);
             border-radius: 6px;
-            height: 22px;
+            height: 20px;
             position: relative;
             overflow: hidden;
-            min-width: 80px
+            min-width: 70px
         }
 
         .progress-fill {
@@ -417,7 +437,7 @@
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            font-size: .7rem;
+            font-size: .68rem;
             font-weight: 700;
             color: #fff;
             text-shadow: 0 1px 2px rgba(0, 0, 0, .5)
@@ -426,39 +446,50 @@
         .worker-ctrl {
             display: inline-flex;
             align-items: center;
-            gap: 6px
+            gap: 4px
         }
 
         .worker-ctrl .count {
             font-weight: 800;
-            min-width: 20px;
+            min-width: 18px;
             text-align: center;
-            font-size: 1rem
+            font-size: .95rem
         }
 
-        .actions-panel {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-            align-items: center;
-            justify-content: center;
+        .sticky-actions {
             position: sticky;
             bottom: 0;
             z-index: 100;
+            background: var(--bg-color);
+            border-top: 1px solid var(--border-color);
+            padding: 10px 0;
+            margin: 0 -20px;
+            width: calc(100% + 40px)
         }
 
-        .actions-panel .spacer {
+        .sticky-actions-inner {
+            max-width: 960px;
+            margin: 0 auto;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            align-items: center;
+            justify-content: center;
+            padding: 0 20px
+        }
+
+        .sticky-actions .spacer {
             flex-grow: 1
         }
 
         .log-container {
-            max-height: 200px;
+            max-height: 180px;
             overflow-y: auto;
-            font-size: .82rem
+            font-size: .8rem
         }
 
         .log-entry {
-            padding: 5px 0;
+            padding: 4px 0;
             border-bottom: 1px solid var(--border-color);
             line-height: 1.4
         }
@@ -466,17 +497,8 @@
         .log-month {
             font-weight: 700;
             color: var(--accent-cyan);
-            margin-right: 6px;
-            font-size: .75rem
-        }
-
-        .ship-name {
-            font-weight: 600
-        }
-
-        .ship-cargo {
-            color: var(--text-muted);
-            font-size: .76rem
+            margin-right: 5px;
+            font-size: .72rem
         }
 
         .money {
@@ -494,34 +516,49 @@
             font-weight: 600
         }
 
+        .ship-name {
+            font-weight: 600
+        }
+
+        .ship-cargo {
+            color: var(--text-muted);
+            font-size: .74rem
+        }
+
         .mafia-cell {
             color: var(--accent-red);
             font-weight: 700;
-            font-size: .9rem
+            font-size: .88rem
         }
 
         .trust-stars {
             color: var(--accent-yellow);
             letter-spacing: 1px;
-            font-size: .8rem
+            font-size: .78rem
         }
 
         .flavor {
             color: var(--text-muted);
             font-style: italic;
-            font-size: .75rem
+            font-size: .72rem
         }
 
         .badge-good {
             color: var(--accent-green);
             font-weight: 700;
-            font-size: .72rem
+            font-size: .7rem
         }
 
         .badge-bad {
             color: var(--accent-red);
             font-weight: 700;
-            font-size: .72rem
+            font-size: .7rem
+        }
+
+        .badge-info {
+            color: var(--accent-cyan);
+            font-weight: 700;
+            font-size: .7rem
         }
 
         .sat-good {
@@ -540,9 +577,9 @@
             background: var(--btn-bg);
             border: 1px solid var(--border-color);
             color: var(--text-main);
-            padding: 4px 6px;
+            padding: 3px 5px;
             border-radius: 4px;
-            font-size: .76rem;
+            font-size: .74rem;
             font-family: 'Inter', sans-serif
         }
 
@@ -550,13 +587,13 @@
             cursor: pointer;
             display: flex;
             align-items: center;
-            gap: 6px
+            gap: 5px
         }
 
         .preview-toggle input {
             cursor: pointer;
-            width: 16px;
-            height: 16px
+            width: 15px;
+            height: 15px
         }
 
         .collapsible summary {
@@ -577,8 +614,44 @@
             content: '▾ '
         }
 
+        .contract-expiring {
+            background: rgba(251, 191, 36, 0.08) !important
+        }
+
+        .contract-critical {
+            background: rgba(239, 68, 68, 0.10) !important
+        }
+
+        .forecast-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 3px 0;
+            font-size: .82rem
+        }
+
+        .forecast-row.total {
+            border-top: 1px solid var(--border-color);
+            font-weight: 800;
+            padding-top: 6px;
+            margin-top: 4px
+        }
+
+        .forecast-label {
+            color: var(--text-muted)
+        }
+
+        .forecast-positive {
+            color: var(--accent-green);
+            font-weight: 700
+        }
+
+        .forecast-negative {
+            color: var(--accent-red);
+            font-weight: 700
+        }
+
         .footer-attr {
-            max-width: 900px;
+            max-width: 960px;
             width: 100%;
             text-align: center;
             margin-top: 30px;
@@ -599,27 +672,27 @@
             }
 
             .hud-item {
-                min-width: 90px;
-                padding: 6px 10px
+                min-width: 80px;
+                padding: 5px 8px
             }
 
             .hud-value {
-                font-size: .9rem
+                font-size: .85rem
             }
 
             td,
             th {
-                padding: 5px 4px;
-                font-size: .74rem
+                padding: 4px 3px;
+                font-size: .72rem
             }
 
             .btn {
-                padding: 4px 8px;
-                font-size: .7rem
+                padding: 3px 7px;
+                font-size: .68rem
             }
 
             .btn-primary {
-                padding: 8px 20px;
+                padding: 8px 18px;
                 font-size: .85rem
             }
         }
@@ -641,62 +714,119 @@
     <details class="how-to-play">
         <summary>📖 How to Play</summary>
         <ul>
-            <li><strong>Sign contracts</strong> with cargo companies to attract ships. No contracts = only fishing
+            <li><strong>Sign contracts</strong> with cargo companies to attract ships. No contracts = only small fishing
                 vessels!</li>
-            <li>Each company has a <strong>trust level</strong> (★). Low trust = cheaper but risky. High trust =
-                reliable but pricier.</li>
-            <li>When ships approach, <strong>accept or decline</strong> them. Declining costs little rep, but accepting
-                and failing to dock is harsh.</li>
-            <li><strong>Dock</strong> accepted ships and assign <strong>workers</strong> with +/−. More workers = faster
-                unloading.</li>
-            <li>Press <strong>"Next Month ⏭"</strong> to advance. Workers unload, fees are collected, wages and contract
-                fees are paid.</li>
-            <li>Build <strong>worker infrastructure</strong> (housing, markets) — you can't scale workers without it!
-            </li>
+            <li>Each company has a <strong>trust level</strong> (★). Low trust = cheaper but risky (cargo may arrive
+                spoiled). High trust = reliable but pricier.</li>
+            <li>When ships approach, <strong>accept or decline</strong> them. Declining costs rep; accepting and failing
+                to dock is much worse.</li>
+            <li><strong>Dock</strong> accepted ships and assign <strong>workers</strong>. Each ship type has a max
+                effective crew — extra workers beyond that won't help.</li>
+            <li>Press <strong>"Next Month ⏭"</strong> to advance. Workers unload, revenue is collected, wages and fees
+                are paid.</li>
+            <li>Build <strong>worker infrastructure</strong> (housing, markets, benefits) to improve efficiency and
+                morale.</li>
             <li>Watch your contracts' <strong>satisfaction</strong>: turn away too many ships and companies will
                 terminate!</li>
             <li>Beware of random events — storms, pirates, dock strikes, and the <strong>mafia</strong>!</li>
+            <li>The <strong>government</strong> changes every 4 years. Lawful governments crack down on crime; corrupt
+                ones enable it.</li>
         </ul>
     </details>
 
     <div class="hud">
-        <div class="hud-item" onclick="handleDebugClick()" style="cursor:pointer;" title="Click 5 times for Debug Mode">
-            <span class="hud-label">Month</span><span class="hud-value" id="hudMonth">1</span></div>
+        <div class="hud-item" id="hudMonthBox" title="Click 5 times for Debug Mode" style="cursor:pointer">
+            <span class="hud-label">Month</span><span class="hud-value" id="hudMonth">1</span>
+        </div>
         <div class="hud-item"><span class="hud-label">Treasury</span><span class="hud-value money"
-                id="hudTreasury">$1,000</span></div>
+                id="hudTreasury">$1,500</span></div>
         <div class="hud-item"><span class="hud-label">Reputation</span><span class="hud-value" id="hudRep"
                 style="color:var(--accent-cyan)">★★☆☆☆ (50)</span></div>
         <div class="hud-item"><span class="hud-label">Workers</span><span class="hud-value" id="hudWorkers">5 idle /
                 5</span></div>
+        <div class="hud-item"><span class="hud-label">Morale</span><span class="hud-value" id="hudMorale"
+                style="color:var(--accent-green)">70</span></div>
+        <div class="hud-item"><span class="hud-label">Government</span><span class="hud-value" id="hudGov">🏛
+                Lawful</span></div>
+        <div class="hud-item" id="hudSmugglerBox" style="display:none"><span class="hud-label">Status</span><span
+                class="hud-value" style="color:var(--accent-purple)">🤵 Smuggler</span></div>
         <button class="theme-toggle" onclick="toggleTheme()" title="Toggle theme"><span
                 id="themeIcon">🌙</span></button>
     </div>
 
     <div class="game-container">
+        <!-- ALERTS -->
         <div id="strikePanel" class="alert-banner alert-strike" style="display:none">
             <span>🔧 <strong>DOCK STRIKE!</strong> Workers demand a bonus or no unloading this month.</span>
-            <div style="display:flex;gap:8px"><button class="btn btn-warning" onclick="payStrike()">Pay
+            <div style="display:flex;gap:6px"><button class="btn btn-warning" onclick="payStrike()">Pay
                     $100</button><button class="btn" onclick="refuseStrike()">Refuse</button></div>
+        </div>
+        <div id="mafiaOfferPanel" class="alert-banner alert-mafia-offer" style="display:none">
+            <span id="mafiaOfferText"></span>
+            <div style="display:flex;gap:6px">
+                <button class="btn btn-purple" onclick="acceptMafiaPartnership()">Accept Partnership</button>
+                <button class="btn" onclick="declineMafiaPartnership()">Refuse</button>
+            </div>
+        </div>
+        <div id="raidPanel" class="alert-banner alert-raid" style="display:none">
+            <span id="raidText"></span>
+            <div style="display:flex;gap:6px">
+                <button class="btn btn-warning" id="btnBribe" onclick="bribeRaid()" style="display:none">Bribe ($800)</button>
+                <button class="btn btn-danger" onclick="refuseRaid()">Let it happen</button>
+            </div>
         </div>
 
         <!-- DEBUG PANEL -->
         <div class="panel" id="debugPanel" style="display:none; border-color: var(--accent-pink);">
             <h2>🛠️ Debug Mode</h2>
-            <div style="display:flex; gap:10px; flex-wrap:wrap;">
-                <button class="btn btn-warning" onclick="G.treasury+=10000;render();">+$10,000</button>
-                <button class="btn btn-warning" onclick="G.reputation=Math.min(100, G.reputation+10);render();">+10
+            <div style="display:flex; gap:8px; flex-wrap:wrap; margin-bottom:8px;">
+                <button class="btn btn-warning" onclick="G.treasury+=10000;render()">+$10k</button>
+                <button class="btn btn-danger" onclick="G.treasury-=10000;render()">−$10k</button>
+                <button class="btn btn-warning" onclick="G.treasury=1000000;render()">Set $1M</button>
+                <button class="btn btn-warning" onclick="G.reputation=Math.min(100,G.reputation+10);render()">+10
                     Rep</button>
-                <button class="btn btn-warning" onclick="G.totalWorkers+=10;render();">+10 Workers</button>
-                <button class="btn btn-danger" onclick="eventMafia();render();">Force Mafia Event</button>
-                <button class="btn btn-danger" onclick="G.treasury-=10000;render();">-$10,000</button>
+                <button class="btn btn-danger" onclick="G.reputation=Math.max(0,G.reputation-10);render()">−10
+                    Rep</button>
+                <button class="btn btn-warning" onclick="G.totalWorkers+=10;render()">+10 Workers</button>
+                <button class="btn btn-danger" onclick="G.totalWorkers=Math.max(1,G.totalWorkers-10);render()">−10
+                    Workers</button>
             </div>
+            <div style="display:flex; gap:8px; flex-wrap:wrap; margin-bottom:8px;">
+                <button class="btn btn-purple" onclick="eventMafia();render()">Force Mafia</button>
+                <button class="btn btn-purple" onclick="eventStorm();render()">Force Storm</button>
+                <button class="btn btn-purple" onclick="eventPoliceRaid();render()">Force Raid</button>
+                <button class="btn btn-purple" onclick="eventCelebrity();render()">Force Celebrity</button>
+                <button class="btn btn-purple" onclick="eventMothership();render()">Force Mothership</button>
+                <button class="btn btn-purple" onclick="forceElection()">Force Election</button>
+            </div>
+            <div style="display:flex; gap:8px; flex-wrap:wrap; margin-bottom:8px;">
+                <button class="btn" onclick="G.isSmuggler=!G.isSmuggler;render()">Toggle Smuggler</button>
+                <button class="btn" onclick="G.government=G.government==='Lawful'?'Corrupt':'Lawful';render()">Toggle
+                    Gov</button>
+                <button class="btn" onclick="G.mafiaInfluence=Math.min(100,G.mafiaInfluence+20);render()">+20 Mafia
+                    Inf.</button>
+                <button class="btn" onclick="G.workerMorale=Math.min(100,G.workerMorale+20);render()">+20
+                    Morale</button>
+                <button class="btn btn-danger" onclick="G.workerMorale=Math.max(0,G.workerMorale-20);render()">−20
+                    Morale</button>
+            </div>
+            <div id="debugState"
+                style="font-size:.72rem; color:var(--text-muted); margin-top:6px; white-space:pre-wrap;"></div>
         </div>
+
+        <!-- FORECAST -->
+        <details class="panel collapsible" id="forecastPanel">
+            <summary>
+                <h2>📊 Monthly Forecast</h2>
+            </summary>
+            <div id="forecastBody"></div>
+        </details>
 
         <!-- SHIP PREVIEW (shown during preview phase) -->
         <div class="panel" id="previewPanel" style="display:none">
             <h2>🔭 Ships Approaching</h2>
-            <p style="color:var(--text-muted);font-size:.82rem;margin-bottom:10px">Toggle which ships to accept.
-                Declining a contracted ship: −1★ & hurts company satisfaction.</p>
+            <p style="color:var(--text-muted);font-size:.8rem;margin-bottom:8px">Toggle which ships to accept. Declining
+                a contracted ship: −1★ & hurts company satisfaction.</p>
             <div class="table-wrap">
                 <table>
                     <thead>
@@ -706,6 +836,7 @@
                             <th>Cargo</th>
                             <th>Revenue</th>
                             <th>Work</th>
+                            <th>Max Crew</th>
                             <th>Company</th>
                             <th>Notes</th>
                         </tr>
@@ -713,13 +844,17 @@
                     <tbody id="previewBody"></tbody>
                 </table>
             </div>
-            <div style="text-align:center;margin-top:12px"><button class="btn btn-primary"
+            <div style="text-align:center;margin-top:10px"><button class="btn btn-primary"
                     onclick="confirmArrivals()">Confirm Arrivals ✔</button></div>
         </div>
 
         <!-- INCOMING SHIPS (shown during docking phase) -->
         <div class="panel" id="incomingPanel">
-            <h2>🚢 Incoming Ships</h2>
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
+                <h2 style="margin-bottom:0">🚢 Incoming Ships</h2>
+                <button class="btn btn-success btn-sm" id="btnDockAll" onclick="dockAllShips()"
+                    style="display:none">Dock All ⚓</button>
+            </div>
             <div class="table-wrap">
                 <table>
                     <thead>
@@ -728,12 +863,13 @@
                             <th>Cargo</th>
                             <th>Revenue</th>
                             <th>Work</th>
+                            <th>Max Crew</th>
                             <th>Action</th>
                         </tr>
                     </thead>
                     <tbody id="incomingBody">
                         <tr>
-                            <td colspan="5" class="empty-msg">No ships waiting. Sign contracts to attract cargo!</td>
+                            <td colspan="6" class="empty-msg">No ships waiting. Sign contracts to attract cargo!</td>
                         </tr>
                     </tbody>
                 </table>
@@ -742,7 +878,10 @@
 
         <!-- DOCKS -->
         <div class="panel">
-            <h2>🏗️ Your Docks</h2>
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
+                <h2 style="margin-bottom:0">🏗️ Your Docks</h2>
+                <button class="btn btn-sm" id="btnMaxWorkers" onclick="maxAllWorkers()">Max Workers 👷</button>
+            </div>
             <div class="table-wrap">
                 <table>
                     <thead>
@@ -784,11 +923,11 @@
                     </tbody>
                 </table>
             </div>
-            <details class="collapsible" style="margin-top:12px">
+            <details class="collapsible" style="margin-top:10px">
                 <summary>
                     <h3 style="display:inline;margin:0">📝 Sign New Contract</h3>
                 </summary>
-                <div class="table-wrap" style="margin-top:8px">
+                <div class="table-wrap" style="margin-top:6px">
                     <table>
                         <thead>
                             <tr>
@@ -810,15 +949,15 @@
         <!-- INFRASTRUCTURE -->
         <details class="panel collapsible">
             <summary>
-                <h2>🏗 Worker Infrastructure</h2>
+                <h2>🏗 Worker Infrastructure & Policies</h2>
             </summary>
             <div class="table-wrap">
                 <table>
                     <thead>
                         <tr>
                             <th>Facility</th>
-                            <th>Owned</th>
-                            <th>Capacity</th>
+                            <th>Level</th>
+                            <th>Effect</th>
                             <th>Status</th>
                             <th>Cost</th>
                             <th>Upkeep</th>
@@ -830,15 +969,6 @@
             </div>
         </details>
 
-        <!-- ACTIONS -->
-        <div class="panel actions-panel">
-            <button class="btn btn-success" id="btnHire" onclick="hireWorker()">Hire Worker ($100)</button>
-            <button class="btn btn-danger" id="btnFire" onclick="fireWorker()">Fire Worker</button>
-            <button class="btn" id="btnDock" onclick="buyDock()">Buy Dock ($500)</button>
-            <div class="spacer"></div>
-            <button class="btn btn-primary" id="btnNextMonth" onclick="nextMonth()">Next Month ⏭</button>
-        </div>
-
         <!-- LOG -->
         <div class="panel">
             <h2>📜 Harbor Log</h2>
@@ -846,29 +976,40 @@
         </div>
     </div>
 
+    <!-- STICKY ACTIONS BAR -->
+    <div class="sticky-actions">
+        <div class="sticky-actions-inner">
+            <button class="btn btn-success" id="btnHire" onclick="hireWorker()">Hire Worker ($100)</button>
+            <button class="btn btn-danger" id="btnFire" onclick="fireWorker()">Fire Worker</button>
+            <button class="btn" id="btnDock" onclick="buyDock()">Buy Dock ($500)</button>
+            <div class="spacer"></div>
+            <button class="btn btn-primary" id="btnNextMonth" onclick="nextMonth()">Next Month ⏭</button>
+        </div>
+    </div>
+
     <div class="footer-attr">
         Original idea and design: <strong>irojasr</strong> · Created with the assistance of Claude (Anthropic, Claude
         Opus 4) and Gemini (Google, Gemini 3.1 Pro) as development tools.<br>
-        AI tool use disclosed per the <a href="https://leidendeclaration.ai/" target="_blank" rel="noopener"
-            style="color: var(--accent-cyan); text-decoration: none;">Leiden Declaration on AI and Mathematics</a> (<a
+        AI tool use disclosed per the <a href="https://leidendeclaration.ai/" target="_blank" rel="noopener">Leiden
+            Declaration on AI and Mathematics</a> (<a
             href="../Leiden_Declaration_on_Artificial_Intelligence_and_Mathematics.pdf" target="_blank" rel="noopener"
-            style="color: var(--text-muted); text-decoration: underline;">Local PDF</a>).
+            style="color:var(--text-muted);text-decoration:underline">Local PDF</a>).
     </div>
 
     <script>
         /* ================================================================
-           CONSTANTS
+           CONSTANTS — Ship types rebalanced with maxWorkers cap
         ================================================================ */
         const SHIP_TYPES = {
-            fish: { emoji: '🐟', cargo: 'Fish', fMin: 50, fMax: 100, wMin: 2, wMax: 3, rep: 1 },
-            banana: { emoji: '🍌', cargo: 'Bananas', fMin: 100, fMax: 180, wMin: 3, wMax: 4, rep: 1 },
-            meat: { emoji: '🥩', cargo: 'Meat', fMin: 120, fMax: 220, wMin: 4, wMax: 5, rep: 1 },
-            coffee: { emoji: '☕', cargo: 'Coffee', fMin: 150, fMax: 280, wMin: 5, wMax: 6, rep: 1 },
-            lumber: { emoji: '🪵', cargo: 'Lumber', fMin: 200, fMax: 350, wMin: 6, wMax: 8, rep: 2 },
-            oil: { emoji: '🛢️', cargo: 'Oil', fMin: 350, fMax: 550, wMin: 9, wMax: 12, rep: 2 },
-            tourist: { emoji: '🚢', cargo: 'Tourists', fMin: 500, fMax: 800, wMin: 3, wMax: 4, rep: 5 },
-            weed: { emoji: '🌿', cargo: 'Herbs', fMin: 800, fMax: 1200, wMin: 3, wMax: 5, rep: -2 },
-            coke: { emoji: '❄️', cargo: 'Snow', fMin: 1500, fMax: 2500, wMin: 4, wMax: 6, rep: -5 },
+            fish: { emoji: '🐟', cargo: 'Fish', fMin: 75, fMax: 130, wMin: 2, wMax: 3, maxCrew: 2, rep: 1 },
+            banana: { emoji: '🍌', cargo: 'Bananas', fMin: 100, fMax: 180, wMin: 3, wMax: 5, maxCrew: 3, rep: 1 },
+            meat: { emoji: '🥩', cargo: 'Meat', fMin: 120, fMax: 220, wMin: 3, wMax: 5, maxCrew: 3, rep: 1 },
+            coffee: { emoji: '☕', cargo: 'Coffee', fMin: 150, fMax: 280, wMin: 5, wMax: 7, maxCrew: 4, rep: 1 },
+            lumber: { emoji: '🪵', cargo: 'Lumber', fMin: 200, fMax: 350, wMin: 7, wMax: 10, maxCrew: 5, rep: 2 },
+            oil: { emoji: '🛢️', cargo: 'Oil', fMin: 350, fMax: 550, wMin: 10, wMax: 14, maxCrew: 6, rep: 2 },
+            tourist: { emoji: '🚢', cargo: 'Tourists', fMin: 400, fMax: 700, wMin: 10, wMax: 16, maxCrew: 4, rep: 3 },
+            weed: { emoji: '🌿', cargo: 'Weed', fMin: 800, fMax: 1200, wMin: 5, wMax: 7, maxCrew: 4, rep: -2 },
+            coke: { emoji: '❄️', cargo: 'Coke', fMin: 1500, fMax: 2500, wMin: 6, wMax: 9, maxCrew: 5, rep: -5 },
         };
 
         const SHIP_NAMES = {
@@ -885,65 +1026,92 @@
         const PREFIXES = ['SS', 'MV', 'HMS', 'The'];
 
         const COMPANIES = [
-            { id: 'local_fish', name: "Local Fishermen", emoji: '🐟', ct: 'fish', trust: 1, base: 10, minDur: 3, flav: "Just some guys with a net." },
-            { id: 'ocean_bounty', name: "Ocean Bounty Fish Co.", emoji: '🐟', ct: 'fish', trust: 3, base: 25, minDur: 3, flav: "Commercial fishing fleet." },
-            { id: 'cousin_banana', name: "Cousin's Banana Co.", emoji: '🍌', ct: 'banana', trust: 1, base: 15, minDur: 3, flav: "Your cousin swears this is totally legit..." },
-            { id: 'tropical_traders', name: "Tropical Traders", emoji: '🍌', ct: 'banana', trust: 3, base: 30, minDur: 3, flav: "Reliable banana importers since 1987." },
-            { id: 'big_bling_banana', name: "Big Bling Banana Corp.", emoji: '🍌', ct: 'banana', trust: 5, base: 50, minDur: 12, flav: "Premium quality. Premium contracts only." },
-            { id: 'cheap_chops', name: "Cheap Chops LLC", emoji: '🥩', ct: 'meat', trust: 1, base: 20, minDur: 3, flav: "Don't look too closely at the expiration dates." },
-            { id: 'prime_packers', name: "Prime Packers Inc.", emoji: '🥩', ct: 'meat', trust: 4, base: 45, minDur: 6, flav: "Grade A prime cuts shipped frozen." },
-            { id: 'back_alley_beans', name: "Back Alley Beans", emoji: '☕', ct: 'coffee', trust: 1, base: 25, minDur: 3, flav: "Don't ask where the beans come from." },
-            { id: 'java_junction', name: "Java Junction", emoji: '☕', ct: 'coffee', trust: 3, base: 50, minDur: 3, flav: "Fair trade, fairly priced." },
-            { id: 'premium_roasters', name: "Premium Roasters Inc.", emoji: '☕', ct: 'coffee', trust: 5, base: 80, minDur: 12, flav: "Award-winning blends, award-winning service." },
-            { id: 'shady_lumber', name: "Shady Lumber LLC", emoji: '🪵', ct: 'lumber', trust: 1, base: 30, minDur: 3, flav: "The wood is... probably legal." },
-            { id: 'forest_friends', name: "Forest Friends Co.", emoji: '🪵', ct: 'lumber', trust: 3, base: 60, minDur: 3, flav: "Sustainably sourced timber." },
-            { id: 'oakwood_ind', name: "Oakwood Industries", emoji: '🪵', ct: 'lumber', trust: 5, base: 90, minDur: 12, flav: "Building empires since 1952." },
-            { id: 'midnight_oil', name: "Midnight Oil Co.", emoji: '🛢️', ct: 'oil', trust: 2, base: 50, minDur: 3, flav: "Cheap oil. No questions asked." },
-            { id: 'coastal_petro', name: "Coastal Petroleum", emoji: '🛢️', ct: 'oil', trust: 3, base: 100, minDur: 6, flav: "Standard industry rates." },
-            { id: 'deep_sea_energy', name: "Deep Sea Energy Corp.", emoji: '🛢️', ct: 'oil', trust: 5, base: 150, minDur: 12, flav: "Fortune 500. Top-tier contracts only." },
-            { id: 'budget_cruises', name: "Budget Cruises Ltd.", emoji: '🚢', ct: 'tourist', trust: 2, base: 40, minDur: 3, flav: "Questionable safety record." },
-            { id: 'island_voyages', name: "Island Voyages", emoji: '🚢', ct: 'tourist', trust: 3, base: 80, minDur: 6, flav: "Popular with families and retirees." },
-            { id: 'royal_seas', name: "Royal Seas Line", emoji: '🚢', ct: 'tourist', trust: 5, base: 120, minDur: 12, flav: "Luxury cruises for distinguished guests." },
-            { id: 'cartel_green', name: "Green Cartel", emoji: '🌿', ct: 'weed', trust: 1, base: 200, minDur: 6, flav: "Keep your mouth shut and the money flows.", reqSmuggler: true },
-            { id: 'cartel_white', name: "Blizzard Syndicate", emoji: '❄️', ct: 'coke', trust: 1, base: 500, minDur: 6, flav: "High risk, astronomical reward.", reqSmuggler: true },
+            { id: 'local_fish', name: "Local Fishermen", emoji: '🐟', ct: 'fish', trust: 1, base: 8, minDur: 3, flav: "Just some guys with a net." },
+            { id: 'ocean_bounty', name: "Ocean Bounty Fish Co.", emoji: '🐟', ct: 'fish', trust: 3, base: 20, minDur: 3, flav: "Commercial fishing fleet." },
+            { id: 'cousin_banana', name: "Cousin's Banana Co.", emoji: '🍌', ct: 'banana', trust: 1, base: 12, minDur: 3, flav: "Your cousin swears this is totally legit..." },
+            { id: 'tropical_traders', name: "Tropical Traders", emoji: '🍌', ct: 'banana', trust: 3, base: 28, minDur: 3, flav: "Reliable banana importers since 1987." },
+            { id: 'big_bling_banana', name: "Big Bling Banana Corp.", emoji: '🍌', ct: 'banana', trust: 5, base: 45, minDur: 12, flav: "Premium quality. Premium contracts only." },
+            { id: 'cheap_chops', name: "Cheap Chops LLC", emoji: '🥩', ct: 'meat', trust: 1, base: 15, minDur: 3, flav: "Don't look too closely at the expiration dates." },
+            { id: 'prime_packers', name: "Prime Packers Inc.", emoji: '🥩', ct: 'meat', trust: 4, base: 40, minDur: 6, flav: "Grade A prime cuts shipped frozen." },
+            { id: 'back_alley_beans', name: "Back Alley Beans", emoji: '☕', ct: 'coffee', trust: 1, base: 20, minDur: 3, flav: "Don't ask where the beans come from." },
+            { id: 'java_junction', name: "Java Junction", emoji: '☕', ct: 'coffee', trust: 3, base: 45, minDur: 3, flav: "Fair trade, fairly priced." },
+            { id: 'premium_roasters', name: "Premium Roasters Inc.", emoji: '☕', ct: 'coffee', trust: 5, base: 70, minDur: 12, flav: "Award-winning blends, award-winning service." },
+            { id: 'shady_lumber', name: "Shady Lumber LLC", emoji: '🪵', ct: 'lumber', trust: 1, base: 25, minDur: 3, flav: "The wood is... probably legal." },
+            { id: 'forest_friends', name: "Forest Friends Co.", emoji: '🪵', ct: 'lumber', trust: 3, base: 55, minDur: 3, flav: "Sustainably sourced timber." },
+            { id: 'oakwood_ind', name: "Oakwood Industries", emoji: '🪵', ct: 'lumber', trust: 5, base: 85, minDur: 12, flav: "Building empires since 1952." },
+            { id: 'midnight_oil', name: "Midnight Oil Co.", emoji: '🛢️', ct: 'oil', trust: 2, base: 45, minDur: 3, flav: "Cheap oil. No questions asked." },
+            { id: 'coastal_petro', name: "Coastal Petroleum", emoji: '🛢️', ct: 'oil', trust: 3, base: 90, minDur: 6, flav: "Standard industry rates." },
+            { id: 'deep_sea_energy', name: "Deep Sea Energy Corp.", emoji: '🛢️', ct: 'oil', trust: 5, base: 140, minDur: 12, flav: "Fortune 500. Top-tier contracts only." },
+            { id: 'budget_cruises', name: "Budget Cruises Ltd.", emoji: '🚢', ct: 'tourist', trust: 2, base: 35, minDur: 3, flav: "Questionable safety record." },
+            { id: 'island_voyages', name: "Island Voyages", emoji: '🚢', ct: 'tourist', trust: 3, base: 70, minDur: 6, flav: "Popular with families and retirees." },
+            { id: 'royal_seas', name: "Royal Seas Line", emoji: '🚢', ct: 'tourist', trust: 5, base: 110, minDur: 12, flav: "Luxury cruises for distinguished guests." },
+            { id: 'cartel_green', name: "Green Cartel", emoji: '🌿', ct: 'weed', trust: 1, base: 180, minDur: 6, flav: "Keep your mouth shut and the money flows.", reqSmuggler: true },
+            { id: 'cartel_white', name: "Blizzard Syndicate", emoji: '❄️', ct: 'coke', trust: 1, base: 450, minDur: 6, flav: "High risk, astronomical reward.", reqSmuggler: true },
         ];
 
         const DUR_MULT = { 3: 1.5, 6: 1.0, 12: 0.8, 24: 0.6 };
+        const REP_REQUIRED = { 1: 0, 2: 20, 3: 40, 4: 60, 5: 80 };
 
         /* ================================================================
            STATE
         ================================================================ */
         let G = {};
-        let nextShipId;
+        let nextShipId = 1;
 
         function freshState() {
             nextShipId = 1;
             return {
-                month: 1, treasury: 1000, reputation: 50,
-                totalWorkers: 5, workerWage: 10,
+                month: 1,
+                treasury: 1500,
+                reputation: 50,
+                totalWorkers: 5,
+                workerWage: 10,
+                workerMorale: 70,       // 0-100
+                mafiaInfluence: 0,      // 0-100, gradual corruption tracker
+
                 docks: [
                     { id: 1, ship: null, workers: 0, blocked: false },
                     { id: 2, ship: null, workers: 0, blocked: false },
                     { id: 3, ship: null, workers: 0, blocked: false },
                 ],
-                nextDockId: 4, maxDocks: 8,
-                contracts: [], // {companyId, duration, remaining, monthlyCost, satisfaction}
-                infra: { housing: 1, markets: 1, tokens: false, living: false },
-                incoming: [], // accepted ships ready to dock
-                previewShips: [], // ships approaching (accept/decline)
+                nextDockId: 4,
+                maxDocks: 10,
+
+                contracts: [],
+                firstContractSigned: false,
+
+                // Infrastructure levels (0 = not built)
+                infra: { housing: 0, markets: 0, tokens: false, living: false, gatesClosed: false },
+
+                incoming: [],
+                previewShips: [],
                 log: [],
-                phase: 'docking', // 'docking' | 'preview'
-                strikeActive: false, strikeResolved: false, strikePaid: false,
-                blacklist: {}, // {companyId: monthsLeft}
-                _stormNext: false,
+                phase: 'docking',
+
+                strikeActive: false,
+                strikeResolved: false,
+                strikePaid: false,
+
+                blacklist: {},
+
                 isSmuggler: false,
-                government: 'Lawful', // 'Lawful' or 'Corrupt'
+                government: 'Lawful',
                 monthsSinceElection: 0,
+                governmentTerm: 1,
+
                 consecutiveDebt: 0,
                 gameEnded: false,
-                gatesClosed: false,
+                _winLogged: false,
+                _stormNext: false,
+
+                raidPending: false,
+                raidFine: 0,
+                raidTargets: [],
+                raidContrabandFound: false,
+                policeBlocks: {},       // { dockId: monthsRemaining } for auto-clear
+
                 debugMode: false,
-                debugClicks: 0,
+                _debugClicks: 0,
             };
         }
 
@@ -953,25 +1121,37 @@
         const R = (a, b) => a + Math.floor(Math.random() * (b - a + 1));
         const pick = a => a[Math.floor(Math.random() * a.length)];
         const clamp = (v, lo, hi) => Math.max(lo, Math.min(hi, v));
+        const fmt$ = n => (n < 0 ? '−$' + Math.abs(n).toLocaleString() : '$' + n.toLocaleString());
 
         function idleWorkers() { return G.totalWorkers - G.docks.reduce((s, d) => s + d.workers, 0) }
         function trustStars(n) { return '★'.repeat(n) + '☆'.repeat(5 - n) }
         function repStars(r) { const f = Math.floor(r / 20); return '★'.repeat(clamp(f, 0, 5)) + '☆'.repeat(clamp(5 - f, 0, 5)) }
         function satClass(s) { return s >= 5 ? 'sat-good' : s >= 2 ? 'sat-warn' : 'sat-bad' }
 
-        function housingCap() { return G.infra.housing * 5 }
+        function housingCap() { return G.infra.housing * 6 }
         function marketCap() { return G.infra.markets * 8 }
-        function workerEff() { return G.totalWorkers <= housingCap() ? 1.2 : 1.0 }
+
+        function workerEff() {
+            let eff = 1.0;
+            if (G.infra.housing >= 1 && G.totalWorkers <= housingCap()) eff += 0.1 * G.infra.housing;
+            if (G.workerMorale >= 80) eff += 0.05;
+            if (G.workerMorale < 30) eff -= 0.15;
+            return Math.max(0.5, eff);
+        }
+
         function effectiveWage() {
             let w = G.workerWage;
-            if (G.totalWorkers > marketCap()) w += 5;
+            if (G.totalWorkers > marketCap() && G.infra.markets > 0) w += 5;
+            if (G.infra.markets === 0 && G.totalWorkers > 5) w += 3;
             if (G.infra.tokens) w = Math.floor(w * 0.7);
-            if (G.gatesClosed) w = Math.floor(w * 0.5);
-            return w;
+            if (G.infra.gatesClosed) w = Math.floor(w * 0.6);
+            return Math.max(1, w);
         }
+
         function infraUpkeep() {
             return G.infra.housing * 20 + G.infra.markets * 15 + (G.infra.living ? 25 : 0);
         }
+
         function contractUpkeep() {
             return G.contracts.reduce((s, c) => s + c.monthlyCost, 0);
         }
@@ -979,15 +1159,46 @@
         function getCompany(id) { return COMPANIES.find(c => c.id === id) }
         function log(text) { G.log.push({ month: G.month, text }) }
 
+        // Forecast calculation
+        function calcForecast() {
+            const wage = effectiveWage();
+            const wages = G.totalWorkers * wage;
+            const cFees = contractUpkeep();
+            const iUp = infraUpkeep();
+            let expectedRevenue = 0;
+            for (const d of G.docks) {
+                if (d.ship && !d.blocked && d.workers > 0) {
+                    const eff = workerEff();
+                    const effective = Math.min(d.workers, d.ship.maxCrew || 99);
+                    const progress = Math.max(1, Math.floor(effective * eff));
+                    if (d.ship.workDone + progress >= d.ship.workNeeded) {
+                        expectedRevenue += d.ship.fee;
+                    }
+                }
+            }
+            return { expectedRevenue, wages, cFees, iUp, net: expectedRevenue - wages - cFees - iUp };
+        }
+
+        /* ================================================================
+           DEBUG
+        ================================================================ */
         function handleDebugClick() {
-            G.debugClicks++;
-            if (G.debugClicks >= 5) {
+            G._debugClicks = (G._debugClicks || 0) + 1;
+            if (G._debugClicks >= 5) {
                 G.debugMode = !G.debugMode;
-                G.debugClicks = 0;
+                G._debugClicks = 0;
                 document.getElementById('debugPanel').style.display = G.debugMode ? 'block' : 'none';
-                log(`🛠️ Debug Mode ${G.debugMode ? 'Enabled' : 'Disabled'}`);
+                log(`🛠️ Debug Mode ${G.debugMode ? 'ENABLED' : 'DISABLED'}`);
                 render();
             }
+        }
+
+        function forceElection() {
+            G.monthsSinceElection = 0;
+            G.governmentTerm++;
+            G.government = Math.random() < 0.5 ? 'Corrupt' : 'Lawful';
+            log(`🏛️ <strong>FORCED ELECTION!</strong> Government is now <strong>${G.government}</strong>.`);
+            render();
         }
 
         /* ================================================================
@@ -1000,18 +1211,17 @@
             let workNeeded = R(t.wMin, t.wMax);
             let notes = '';
 
-            // Trust-based modifiers
             if (companyId) {
                 const co = getCompany(companyId);
                 if (co && co.trust <= 2) {
-                    if (Math.random() < (3 - co.trust) * 0.10) {
+                    if (Math.random() < (3 - co.trust) * 0.12) {
                         fee = Math.floor(fee * 0.5);
-                        notes = '⚠️ Cargo issues!';
+                        notes = '⚠️ Spoiled cargo (low trust) — revenue halved';
                     }
                 } else if (co && co.trust >= 4) {
-                    if (Math.random() < (co.trust - 3) * 0.05) {
-                        fee = Math.floor(fee * 1.5);
-                        notes = '✨ Premium cargo!';
+                    if (Math.random() < (co.trust - 3) * 0.08) {
+                        fee = Math.floor(fee * 1.4);
+                        notes = '✨ Premium cargo — bonus revenue!';
                     }
                 }
             }
@@ -1021,6 +1231,7 @@
                 name: pick(PREFIXES) + ' ' + pick(names),
                 type: cargoType, emoji: t.emoji, cargo: t.cargo,
                 fee, workNeeded, workDone: 0, repBonus: t.rep,
+                maxCrew: t.maxCrew,
                 companyId: companyId || null,
                 notes, accepted: true,
                 ...(mods || {}),
@@ -1029,24 +1240,21 @@
 
         function generatePreviewShips() {
             const ships = [];
-            // Fish: always 1-2, no contract needed
-            const fishCount = G._stormNext ? 0 : R(1, 2);
+            if (G._stormNext) { G._stormNext = false; return ships; }
+
+            // Free fish: always 1-2
+            const fishCount = R(1, 2);
             for (let i = 0; i < fishCount; i++) ships.push(makeShip('fish', null));
 
-            if (!G._stormNext) {
-                // For each active contract, generate ships
-                for (const c of G.contracts) {
-                    if (c.terminated) continue;
-                    const co = getCompany(c.companyId);
-                    let count = R(1, 2);
-                    // Low trust: chance of 0 ships
-                    if (co.trust <= 2 && Math.random() < 0.25) count = 0;
-                    // High trust: chance of extra ship
-                    if (co.trust >= 4 && Math.random() < 0.15) count++;
-                    for (let i = 0; i < count; i++) ships.push(makeShip(co.ct, co.id));
-                }
+            // Contract ships
+            for (const c of G.contracts) {
+                if (c.terminated) continue;
+                const co = getCompany(c.companyId);
+                let count = R(1, 2);
+                if (co.trust <= 2 && Math.random() < 0.20) count = 0;
+                if (co.trust >= 4 && Math.random() < 0.15) count++;
+                for (let i = 0; i < count; i++) ships.push(makeShip(co.ct, co.id));
             }
-            G._stormNext = false;
             return ships;
         }
 
@@ -1056,20 +1264,24 @@
         function signContract(companyId, duration) {
             const co = getCompany(companyId);
             if (!co) return;
-            // Check not already active
             if (G.contracts.find(c => c.companyId === companyId && !c.terminated)) return;
-            // Check not blacklisted
             if (G.blacklist[companyId]) return;
-            // Check min duration
             if (duration < co.minDur) return;
             const mult = DUR_MULT[duration] || 1;
             const monthlyCost = Math.round(co.base * mult);
-            // Check can afford first month
             if (G.treasury < monthlyCost) return;
 
             G.contracts.push({ companyId, duration, remaining: duration, monthlyCost, satisfaction: 5, terminated: false });
-            G.treasury -= monthlyCost; // pay first month immediately
-            log(`📋 Signed contract with <strong>${co.name}</strong> (${co.emoji}) for ${duration} months at <span class="money">$${monthlyCost}/mo</span>.`);
+            G.treasury -= monthlyCost;
+
+            // First contract signing bonus
+            if (!G.firstContractSigned) {
+                G.firstContractSigned = true;
+                G.treasury += 100;
+                log(`🎉 First contract bonus! <span class="money">+$100</span>`);
+            }
+
+            log(`📋 Signed contract with <strong>${co.name}</strong> (${co.emoji}) for ${duration} months at <span class="money">${fmt$(monthlyCost)}/mo</span>.`);
             render();
         }
 
@@ -1094,6 +1306,37 @@
             dock.ship = ship;
             G.incoming.splice(idx, 1);
             log(`${ship.emoji} <strong>${ship.name}</strong> docked at Dock #${dock.id}.`);
+            render();
+        }
+
+        function dockAllShips() {
+            let docked = 0;
+            while (G.incoming.length > 0) {
+                const dock = G.docks.find(d => !d.ship && !d.blocked);
+                if (!dock) break;
+                dock.ship = G.incoming.shift();
+                docked++;
+            }
+            if (docked > 0) {
+                log(`⚓ Auto-docked <strong>${docked}</strong> ship(s).`);
+                render();
+            }
+        }
+
+        function maxAllWorkers() {
+            const docksWithShips = G.docks.filter(d => d.ship && !d.blocked);
+            // Reset all first
+            for (const d of G.docks) d.workers = 0;
+            // Assign up to maxCrew per dock, distributing available workers
+            let remaining = G.totalWorkers;
+            for (const d of docksWithShips) {
+                const maxForShip = d.ship.maxCrew || 99;
+                const assign = Math.min(maxForShip, remaining);
+                d.workers = assign;
+                remaining -= assign;
+                if (remaining <= 0) break;
+            }
+            log(`👷 Auto-assigned workers to all docked ships.`);
             render();
         }
 
@@ -1126,7 +1369,8 @@
         function fireWorker() {
             if (G.totalWorkers <= 0 || idleWorkers() <= 0) return;
             G.totalWorkers--;
-            log(`👷 Fired worker. Total: ${G.totalWorkers}.`);
+            G.workerMorale = clamp(G.workerMorale - 3, 0, 100);
+            log(`👷 Fired worker. Total: ${G.totalWorkers}. Morale dips.`);
             render();
         }
 
@@ -1139,54 +1383,110 @@
         }
 
         function callPolice(dockId) {
-            if (G.treasury < 200) return;
+            const cost = G.government === 'Lawful' ? 150 : 300;
+            if (G.treasury < cost) return;
             const dock = G.docks.find(d => d.id === dockId); if (!dock || !dock.blocked) return;
-            G.treasury -= 200; dock.blocked = false;
-            log(`🚔 Police cleared mafia from Dock #${dock.id}! Cost: <span class="money">$200</span>.`);
+            G.treasury -= cost; dock.blocked = false;
+            G.mafiaInfluence = clamp(G.mafiaInfluence - 10, 0, 100);
+            log(`🚔 Police cleared Dock #${dock.id}! Cost: <span class="money">${fmt$(cost)}</span>. Mafia influence −10.`);
             render();
         }
 
         function submitToMafia(dockId) {
             const dock = G.docks.find(d => d.id === dockId); if (!dock || !dock.blocked) return;
             dock.blocked = false;
+            G.mafiaInfluence = clamp(G.mafiaInfluence + 30, 0, 100);
+            G.workerMorale = clamp(G.workerMorale - 15, 0, 100);
+            G.reputation = clamp(G.reputation - 10, 0, 100);
+
+            if (G.mafiaInfluence >= 75 && !G.isSmuggler) {
+                // High enough influence — forced transition
+                G.isSmuggler = true;
+                log(`🤵 <strong>You've joined the underworld.</strong> Dock #${dock.id} freed. You are now a <strong>Smuggler</strong>. <span class="rep-down">−10★</span>`);
+            } else {
+                log(`🤵 Submitted to mafia at Dock #${dock.id}. Influence +30. <span class="rep-down">−10★</span>`);
+            }
+            render();
+        }
+
+        function acceptMafiaPartnership() {
             G.isSmuggler = true;
-            G.reputation = clamp(G.reputation - 20, 0, 100);
-            log(`🤵 Submitted to the Mafia. Dock #${dock.id} is free, but you are now a <strong>Smuggler</strong>. <span class="rep-down">−20★</span>`);
+            G.reputation = clamp(G.reputation - 15, 0, 100);
+            G.workerMorale = clamp(G.workerMorale - 10, 0, 100);
+            // Free all blocked docks as sign of partnership
+            for (const d of G.docks) { if (d.blocked) d.blocked = false; }
+            log(`🤵 <strong>You accepted the Mafia's partnership.</strong> All docks freed. You are now a <strong>Smuggler</strong>. <span class="rep-down">−15★</span>`);
+            document.getElementById('mafiaOfferPanel').style.display = 'none';
+            render();
+        }
+
+        function declineMafiaPartnership() {
+            G.workerMorale = clamp(G.workerMorale - 5, 0, 100);
+            log(`🤵 You declined the Mafia's offer. They won't forget this.`);
+            document.getElementById('mafiaOfferPanel').style.display = 'none';
             render();
         }
 
         function payStrike() {
             if (G.treasury < 100) return;
             G.treasury -= 100; G.strikeActive = false; G.strikeResolved = true; G.strikePaid = true;
+            G.workerMorale = clamp(G.workerMorale + 5, 0, 100);
             log(`💰 Paid <span class="money">$100</span> strike bonus. Workers return to work!`);
             render();
         }
 
         function refuseStrike() {
             G.strikeActive = false; G.strikeResolved = true; G.strikePaid = false;
-            log(`❌ Refused workers' demands. <strong>No unloading this month!</strong>`);
+            G.workerMorale = clamp(G.workerMorale - 10, 0, 100);
+            log(`❌ Refused workers' demands. <strong>No unloading this month!</strong> Morale drops.`);
             render();
         }
 
         function buyInfra(type) {
             if (type === 'housing') {
-                if (G.treasury < 300) return; G.treasury -= 300; G.infra.housing++;
-                log(`🏠 Built worker housing for <span class="money">$300</span>. Capacity: ${housingCap()} workers.`);
+                const cost = 300 * (G.infra.housing + 1);
+                if (G.treasury < cost || G.infra.housing >= 3) return;
+                G.treasury -= cost; G.infra.housing++;
+                G.workerMorale = clamp(G.workerMorale + 5, 0, 100);
+                const bonus = G.infra.housing * 10;
+                log(`🏠 Built worker housing Lv${G.infra.housing} for <span class="money">${fmt$(cost)}</span>. +${bonus}% efficiency when staffed. Morale +5.`);
             } else if (type === 'market') {
-                if (G.treasury < 200) return; G.treasury -= 200; G.infra.markets++;
-                log(`🏪 Built worker market for <span class="money">$200</span>. Capacity: ${marketCap()} workers.`);
+                const cost = 200 * (G.infra.markets + 1);
+                if (G.treasury < cost || G.infra.markets >= 3) return;
+                G.treasury -= cost; G.infra.markets++;
+                log(`🏪 Built worker market Lv${G.infra.markets} for <span class="money">${fmt$(cost)}</span>. Wage cap: ${marketCap()} workers.`);
             } else if (type === 'tokens') {
-                if (G.treasury < 400 || G.infra.tokens) return; G.treasury -= 400; G.infra.tokens = true;
-                G.reputation = clamp(G.reputation - 3, 0, 100);
-                log(`🪙 Implemented company token system for <span class="money">$400</span>. Wages −30%. <span class="rep-down">−3★</span> Workers are unhappy.`);
+                if (G.infra.tokens) {
+                    // Toggle off
+                    G.infra.tokens = false;
+                    G.workerMorale = clamp(G.workerMorale + 5, 0, 100);
+                    log(`🪙 Disabled company token system. Workers paid in real currency again. Morale +5.`);
+                } else {
+                    if (G.treasury < 400) return;
+                    G.treasury -= 400; G.infra.tokens = true;
+                    G.workerMorale = clamp(G.workerMorale - 10, 0, 100);
+                    G.reputation = clamp(G.reputation - 3, 0, 100);
+                    log(`🪙 Implemented company tokens for <span class="money">$400</span>. Wages −30%. <span class="rep-down">−3★</span> Morale −10.`);
+                }
             } else if (type === 'living') {
-                if (G.treasury < 500 || G.infra.living) return; G.treasury -= 500; G.infra.living = true;
+                if (G.treasury < 500 || G.infra.living) return;
+                G.treasury -= 500; G.infra.living = true;
+                G.workerMorale = clamp(G.workerMorale + 10, 0, 100);
                 G.reputation = clamp(G.reputation + 5, 0, 100);
-                log(`🏥 Improved living conditions for <span class="money">$500</span>. Strikes less likely. <span class="rep-up">+5★</span>`);
+                log(`🏥 Improved living conditions for <span class="money">$500</span>. Strikes halved. <span class="rep-up">+5★</span> Morale +10.`);
             } else if (type === 'gates') {
-                if (G.treasury < 100 || G.gatesClosed) return; G.treasury -= 100; G.gatesClosed = true;
-                G.reputation = clamp(G.reputation - 5, 0, 100);
-                log(`🔒 Closed the gates! Workers cannot leave. Wage cost reduced, but riots are likely. <span class="rep-down">−5★</span>`);
+                if (G.infra.gatesClosed) {
+                    // Toggle off
+                    G.infra.gatesClosed = false;
+                    G.workerMorale = clamp(G.workerMorale + 8, 0, 100);
+                    log(`🔓 Opened the gates. Workers may leave freely. Morale +8.`);
+                } else {
+                    if (G.treasury < 100) return;
+                    G.treasury -= 100; G.infra.gatesClosed = true;
+                    G.workerMorale = clamp(G.workerMorale - 15, 0, 100);
+                    G.reputation = clamp(G.reputation - 5, 0, 100);
+                    log(`🔒 Closed the gates. Workers trapped. Wages −40%. <span class="rep-down">−5★</span> Morale −15.`);
+                }
             }
             render();
         }
@@ -1224,21 +1524,22 @@
             // Resolve unresolved strike
             if (G.strikeActive && !G.strikeResolved) {
                 G.strikeActive = false; G.strikeResolved = true; G.strikePaid = false;
+                G.workerMorale = clamp(G.workerMorale - 5, 0, 100);
                 log(`❌ Strike ignored. Workers stood idle.`);
             }
 
             const skipUnload = (G.strikeResolved && !G.strikePaid);
             const eff = workerEff();
 
-            // 1. Unload
+            // 1. Unload — respecting maxCrew
             if (!skipUnload) {
                 for (const d of G.docks) {
                     if (d.ship && d.workers > 0 && !d.blocked) {
-                        d.ship.workDone += Math.max(1, Math.floor(d.workers * eff));
+                        const effectiveWorkers = Math.min(d.workers, d.ship.maxCrew || 99);
+                        d.ship.workDone += Math.max(1, Math.floor(effectiveWorkers * eff));
                     }
                 }
             }
-            if (eff > 1.0) log(`🏠 Workers receive a <strong>20% housing bonus</strong>!`);
 
             // 2. Completed ships
             for (const d of G.docks) {
@@ -1247,7 +1548,8 @@
                     G.treasury += s.fee;
                     G.reputation = clamp(G.reputation + s.repBonus, 0, 100);
                     if (s.companyId) updateSatisfaction(s.companyId, 1);
-                    log(`${s.emoji} <strong>${s.name}</strong> unloaded! Earned <span class="money">$${s.fee}</span>. <span class="rep-up">+${s.repBonus}★</span>`);
+                    const repText = s.repBonus >= 0 ? `<span class="rep-up">+${s.repBonus}★</span>` : `<span class="rep-down">${s.repBonus}★</span>`;
+                    log(`${s.emoji} <strong>${s.name}</strong> unloaded! Earned <span class="money">${fmt$(s.fee)}</span>. ${repText}`);
                     d.ship = null; d.workers = 0;
                 }
             }
@@ -1256,15 +1558,15 @@
             const wage = effectiveWage();
             const wages = G.totalWorkers * wage;
             G.treasury -= wages;
-            log(`💵 Wages: <span class="money">$${wages}</span> (${G.totalWorkers}×$${wage}).`);
+            log(`💵 Wages: <span class="money">${fmt$(wages)}</span> (${G.totalWorkers}×$${wage}).`);
 
             // 4. Contract fees
             const cFees = contractUpkeep();
-            if (cFees > 0) { G.treasury -= cFees; log(`📋 Contract fees: <span class="money">$${cFees}</span>.`); }
+            if (cFees > 0) { G.treasury -= cFees; log(`📋 Contract fees: <span class="money">${fmt$(cFees)}</span>.`); }
 
             // 5. Infrastructure upkeep
             const iUp = infraUpkeep();
-            if (iUp > 0) { G.treasury -= iUp; log(`🏗 Infrastructure upkeep: <span class="money">$${iUp}</span>.`); }
+            if (iUp > 0) { G.treasury -= iUp; log(`🏗 Infrastructure upkeep: <span class="money">${fmt$(iUp)}</span>.`); }
 
             // 6. Turn away un-docked accepted ships (harsh penalties)
             if (G.incoming.length > 0) {
@@ -1276,7 +1578,7 @@
                 for (const s of G.incoming) {
                     if (s.companyId) updateSatisfaction(s.companyId, -2);
                 }
-                log(`🚫 ${ct} accepted ship(s) couldn't dock! <span class="rep-down">−${repLoss}★</span>, fined <span class="money">$${fine}</span>.`);
+                log(`🚫 ${ct} accepted ship(s) couldn't dock! <span class="rep-down">−${repLoss}★</span>, fined <span class="money">${fmt$(fine)}</span>.`);
                 G.incoming = [];
             }
 
@@ -1289,13 +1591,12 @@
                     const co = getCompany(c.companyId);
                     if (c.satisfaction < 3) {
                         G.blacklist[c.companyId] = 3;
-                        log(`📋 Contract with <strong>${co.name}</strong> expired. They <span class="rep-down">won't renew</span> (low satisfaction). Blacklisted 3 months.`);
+                        log(`📋 Contract with <strong>${co.name}</strong> expired. They <span class="rep-down">won't renew</span> (low satisfaction).`);
                     } else {
                         log(`📋 Contract with <strong>${co.name}</strong> expired. You can renew anytime!`);
                     }
                 }
             }
-            // Clean terminated contracts
             G.contracts = G.contracts.filter(c => !c.terminated);
 
             // 8. Blacklist decrement
@@ -1304,47 +1605,85 @@
                 if (G.blacklist[id] <= 0) delete G.blacklist[id];
             }
 
-            // 9. Reset strike
+            // 9. Auto-clear police-blocked docks
+            for (const dockId in G.policeBlocks) {
+                G.policeBlocks[dockId]--;
+                if (G.policeBlocks[dockId] <= 0) {
+                    const dock = G.docks.find(d => d.id === parseInt(dockId));
+                    if (dock && dock.blocked) {
+                        dock.blocked = false;
+                        log(`🚔 Police investigation at Dock #${dock.id} concluded. Dock reopened.`);
+                    }
+                    delete G.policeBlocks[dockId];
+                }
+            }
+
+            // 10. Worker morale drift
+            let moraleDelta = 0;
+            if (G.infra.living) moraleDelta += 2;
+            if (G.infra.tokens) moraleDelta -= 2;
+            if (G.infra.gatesClosed) moraleDelta -= 4;
+            if (G.infra.housing >= 2) moraleDelta += 1;
+            G.workerMorale = clamp(G.workerMorale + moraleDelta, 0, 100);
+
+            // 10. Mafia influence drift
+            if (G.government === 'Corrupt') G.mafiaInfluence = clamp(G.mafiaInfluence + 3, 0, 100);
+            if (G.government === 'Lawful' && !G.isSmuggler) G.mafiaInfluence = clamp(G.mafiaInfluence - 2, 0, 100);
+
+            // Mafia partnership offer at influence >= 50
+            if (G.mafiaInfluence >= 50 && !G.isSmuggler) {
+                const blockedCount = G.docks.filter(d => d.blocked).length;
+                if (blockedCount >= Math.ceil(G.docks.length / 2)) {
+                    // More than half docks blocked — show forced choice
+                    document.getElementById('mafiaOfferText').innerHTML =
+                        `🤵 <strong>THE MAFIA DEMANDS AN ANSWER.</strong> ${blockedCount}/${G.docks.length} of your docks are under their control. Join them or fight.`;
+                    document.getElementById('mafiaOfferPanel').style.display = 'flex';
+                } else if (G.mafiaInfluence >= 60 && Math.random() < 0.3) {
+                    // Occasional offer at high influence
+                    document.getElementById('mafiaOfferText').innerHTML =
+                        `🤵 The Mafia proposes a <strong>partnership</strong>. Your influence with them is high (${G.mafiaInfluence}). Accept to become a Smuggler and unlock lucrative contraband contracts.`;
+                    document.getElementById('mafiaOfferPanel').style.display = 'flex';
+                }
+            }
+
+            // 11. Reset strike
             G.strikeActive = false; G.strikeResolved = false; G.strikePaid = false;
 
-            // 10. Events
+            // 12. Events
             rollEvent();
 
-            // 11. Government Elections
+            // 13. Government Elections
             G.monthsSinceElection++;
             if (G.monthsSinceElection >= 48) {
                 G.monthsSinceElection = 0;
-                G.government = Math.random() < 0.5 ? 'Corrupt' : 'Lawful';
-                log(`🏛️ <strong>ELECTION YEAR!</strong> The newly elected government is <strong>${G.government}</strong>.`);
+                G.governmentTerm++;
+                const prev = G.government;
+                G.government = Math.random() < 0.45 ? 'Corrupt' : 'Lawful';
+                log(`🏛️ <strong>ELECTION YEAR!</strong> Government changes from ${prev} to <strong>${G.government}</strong>.`);
             }
 
-            // 12. End Game Checks
+            // 14. End Game Checks
             if (G.treasury < -5000) {
                 G.consecutiveDebt++;
                 if (G.consecutiveDebt >= 3 && !G.gameEnded) {
                     G.gameEnded = true;
-                    log(`💀 <strong>BANKRUPTCY!</strong> You were in massive debt for 3 months. <strong>Game Over.</strong> Refresh to restart.`);
-                    alert("BANKRUPTCY! You were in massive debt for 3 months. Game Over. You can refresh to restart, or use Debug Mode to cheat.");
+                    log(`💀 <strong>BANKRUPTCY!</strong> 3 consecutive months of massive debt. Your empire is in ruins — but you may continue playing if you dare.`);
                 }
             } else {
                 G.consecutiveDebt = 0;
             }
 
             if (!G.gameEnded && G.treasury >= 1000000 && (G.reputation >= 100 || G.isSmuggler)) {
-                // One time win message
                 if (!G._winLogged) {
                     G._winLogged = true;
-                    log(`🏆 <strong>YOU WIN!</strong> You've built a millionaire empire! You may continue playing.`);
-                    alert("YOU WIN! You've reached $1,000,000 and maximum reputation (or Smuggler status). You can keep playing as long as you want!");
+                    log(`🏆 <strong>YOU WIN!</strong> You've built a $1M empire! You may continue playing.`);
                 }
             }
 
-            // 13. Generate preview
-            if (!G.gameEnded || G.gameEnded) { // We let them keep clicking Next Month if they want
-                G.previewShips = generatePreviewShips();
-                G.phase = 'preview';
-                G.month++;
-            }
+            // 15. Generate preview for next month
+            G.previewShips = generatePreviewShips();
+            G.phase = 'preview';
+            G.month++;
 
             render();
         }
@@ -1355,43 +1694,49 @@
         function rollEvent() {
             const r = Math.random(); let c = 0;
 
-            // Storm 10%
-            c += 0.10; if (r < c) return eventStorm();
+            // Storm 8%
+            c += 0.08; if (r < c) return eventStorm();
 
-            // Dock Strike 8% (halved by living conditions, doubled by tokens without living)
-            let strikeChance = 0.08;
+            // Dock Strike — base 6%, modified by policies
+            let strikeChance = 0.06;
             if (G.infra.living) strikeChance *= 0.5;
-            else if (G.infra.tokens) strikeChance *= 2;
-            if (G.gatesClosed) strikeChance *= 3; // huge penalty for trapping workers
+            else if (G.infra.tokens && !G.infra.living) strikeChance *= 1.5;
+            if (G.infra.gatesClosed) strikeChance *= 3;
+            if (G.workerMorale < 30) strikeChance *= 2;
             c += strikeChance; if (r < c) return eventStrike();
 
-            // Banana Glut 8%
-            c += 0.08; if (r < c) return eventBananaGlut();
+            // Market crash (banana glut) 6%
+            c += 0.06; if (r < c) return eventBananaGlut();
 
-            // Pirates 6%
-            c += 0.06; if (r < c) return eventPirates();
+            // Pirates 5%
+            c += 0.05; if (r < c) return eventPirates();
 
-            // Celebrity 5%
-            c += 0.05; if (r < c) return eventCelebrity();
+            // Celebrity 4%
+            c += 0.04; if (r < c) return eventCelebrity();
 
-            // Inspection 5%
-            c += 0.05; if (r < c) return eventInspection();
+            // Mothership 2%
+            c += 0.02; if (r < c) return eventMothership();
 
-            // Mafia — scales with reputation
-            let mafiaChance = 0.08;
-            if (G.reputation >= 60) mafiaChance = 0.12;
-            if (G.reputation >= 80) mafiaChance = 0.15;
-            if (G.government === 'Corrupt') mafiaChance += 0.10;
-            c += mafiaChance; if (r < c) return eventMafia();
+            // Inspection 5% (more likely under lawful gov)
+            let inspChance = G.government === 'Lawful' ? 0.08 : 0.03;
+            c += inspChance; if (r < c) return eventInspection();
 
-            // Police Raid (Smugglers only, Lawful gov)
+            // Mafia — scales with reputation and government
+            let mafiaChance = 0.06;
+            if (G.reputation >= 60) mafiaChance = 0.10;
+            if (G.reputation >= 80) mafiaChance = 0.13;
+            if (G.government === 'Corrupt') mafiaChance += 0.08;
+            if (G.government === 'Lawful') mafiaChance -= 0.03;
+            c += Math.max(0, mafiaChance); if (r < c) return eventMafia();
+
+            // Police Raid (Smugglers, Lawful gov)
             if (G.isSmuggler && G.government === 'Lawful') {
-                c += 0.10; if (r < c) return eventPoliceRaid();
+                c += 0.12; if (r < c) return eventPoliceRaid();
             }
 
-            // Worker Unrest (tokens + low rep)
-            if (G.infra.tokens && G.reputation < 40) {
-                c += 0.05; if (r < c) return eventWorkerUnrest();
+            // Worker Riot (gates closed OR very low morale)
+            if ((G.infra.gatesClosed || G.workerMorale < 20) && G.totalWorkers > 3) {
+                c += 0.06; if (r < c) return eventWorkerRiot();
             }
         }
 
@@ -1407,66 +1752,210 @@
 
         function eventBananaGlut() {
             let n = 0;
-            for (const d of G.docks) { if (d.ship && d.ship.type === 'banana') { d.ship.fee = Math.floor(d.ship.fee * 0.5); n++; } }
+            for (const d of G.docks) {
+                if (d.ship && d.ship.type === 'banana') { d.ship.fee = Math.floor(d.ship.fee * 0.5); n++; }
+            }
             log(`🍌 <strong>BANANA GLUT!</strong> Market crashed!${n > 0 ? ` ${n} docked banana boat(s) now pay 50% less.` : ' Luckily no banana boats docked.'}`);
         }
 
         function eventPirates() {
             const occ = G.docks.filter(d => d.ship && !d.blocked);
             if (!occ.length) { log(`🏴‍☠️ Pirates spotted but found nothing to raid.`); return; }
-            const d = pick(occ); const stolen = Math.floor(d.ship.fee * 0.5);
+            const d = pick(occ); const stolen = Math.floor(d.ship.fee * 0.4);
             d.ship.fee -= stolen; G.reputation = clamp(G.reputation - 2, 0, 100);
-            log(`🏴‍☠️ <strong>PIRATES!</strong> Stole cargo from <strong>${d.ship.name}</strong>. Lost <span class="money">$${stolen}</span>. <span class="rep-down">−2★</span>`);
+            log(`🏴‍☠️ <strong>PIRATES!</strong> Stole cargo from <strong>${d.ship.name}</strong>. Lost <span class="money">${fmt$(stolen)}</span>. <span class="rep-down">−2★</span>`);
         }
 
         function eventCelebrity() {
-            const s = makeShip('tourist', null, { name: 'SS Starlight Celebrity', emoji: '⭐', fee: R(1200, 2000), workNeeded: 2, repBonus: 10, notes: '⭐ VIP!' });
-            G.previewShips.push(s);
-            log(`⭐ <strong>CELEBRITY CRUISE!</strong> ${s.name} approaches! Fee: <span class="money">$${s.fee}</span>, <span class="rep-up">+10★</span>!`);
+            const s = makeShip('tourist', null, {
+                name: 'SS Starlight Celebrity', emoji: '⭐',
+                fee: R(1200, 2000), workNeeded: 4, maxCrew: 4,
+                repBonus: 10, notes: '⭐ VIP cruise — huge reputation!'
+            });
+            G.incoming.push(s);
+            log(`⭐ <strong>CELEBRITY CRUISE!</strong> ${s.name} arrives! Revenue: <span class="money">${fmt$(s.fee)}</span>, <span class="rep-up">+10★</span>!`);
+        }
+
+        function eventMothership() {
+            const emptyDocks = G.docks.filter(d => !d.ship && !d.blocked);
+            if (emptyDocks.length < 1) {
+                log(`🚀 A <strong>MOTHERSHIP</strong> was spotted on the horizon, but you have no empty docks!`);
+                return;
+            }
+            const s = makeShip('oil', null, {
+                name: '🚀 The Mothership', emoji: '🚀',
+                fee: R(3000, 5000), workNeeded: R(20, 30), maxCrew: 8,
+                repBonus: 15, notes: '🚀 RARE — Enormous cargo!'
+            });
+            G.incoming.push(s);
+            log(`🚀 <strong>THE MOTHERSHIP!</strong> An enormous vessel arrives! Revenue: <span class="money">${fmt$(s.fee)}</span>, Work: ${s.workNeeded}. <span class="rep-up">+15★</span>!`);
         }
 
         function eventInspection() {
             const under = G.docks.filter(d => d.ship && d.workers === 0 && !d.blocked);
-            if (!under.length) { log(`🔍 <strong>INSPECTION!</strong> Everything in order. Well done!`); return; }
-            const fine = under.length * 50; G.treasury -= fine;
-            log(`🔍 <strong>INSPECTION!</strong> ${under.length} understaffed dock(s). Fined <span class="money">$${fine}</span>!`);
+            // Also check for contraband
+            const contraband = G.docks.filter(d => d.ship && (d.ship.type === 'weed' || d.ship.type === 'coke') && !d.blocked);
+
+            if (!under.length && !contraband.length) {
+                log(`🔍 <strong>INSPECTION!</strong> Everything in order. Well done!`);
+                G.reputation = clamp(G.reputation + 1, 0, 100);
+                return;
+            }
+
+            let totalFine = 0;
+            if (under.length) {
+                totalFine += under.length * 50;
+                log(`🔍 <strong>INSPECTION!</strong> ${under.length} understaffed dock(s). Fined <span class="money">${fmt$(under.length * 50)}</span>!`);
+            }
+            if (contraband.length && G.government === 'Lawful') {
+                const contFine = contraband.length * 500;
+                totalFine += contFine;
+                G.reputation = clamp(G.reputation - 10, 0, 100);
+                log(`🔍 <strong>CONTRABAND FOUND!</strong> ${contraband.length} illegal shipment(s). Fined <span class="money">${fmt$(contFine)}</span>! <span class="rep-down">−10★</span>`);
+            }
+            G.treasury -= totalFine;
         }
 
         function eventMafia() {
             const avail = G.docks.filter(d => !d.blocked);
             if (!avail.length) { log(`🤵 Mafia tried to move in but all docks are already blocked.`); return; }
-            const d = pick(avail); d.blocked = true; G.reputation = clamp(G.reputation - 5, 0, 100);
+            const d = pick(avail); d.blocked = true;
+            G.reputation = clamp(G.reputation - 5, 0, 100);
+            G.mafiaInfluence = clamp(G.mafiaInfluence + 15, 0, 100);
             const shipInfo = d.ship ? ` Ship <strong>${d.ship.name}</strong> is trapped!` : '';
-            log(`🤵 <strong>MAFIA TAKEOVER!</strong> Dock #${d.id} seized!${shipInfo} Call police ($200)! <span class="rep-down">−5★</span>`);
+            log(`🤵 <strong>MAFIA TAKEOVER!</strong> Dock #${d.id} seized!${shipInfo} Mafia influence +15. <span class="rep-down">−5★</span>`);
         }
 
-        function eventWorkerUnrest() {
+        function eventPoliceRaid() {
+            const targets = G.docks.filter(d => !d.blocked && d.ship);
+            if (!targets.length) { log(`🚔 Police raid, but found nothing suspicious.`); return; }
+            const count = Math.min(targets.length, R(1, 2));
+            const targetIds = targets.slice(0, count).map(d => d.id);
+            let fine = R(500, 1000);
+            let contrabandFound = false;
+
+            for (const id of targetIds) {
+                const d = G.docks.find(x => x.id === id);
+                if (d.ship && (d.ship.type === 'weed' || d.ship.type === 'coke')) {
+                    contrabandFound = true;
+                    fine += 2000;
+                }
+            }
+
+            if (G.government === 'Corrupt') {
+                G.raidPending = true;
+                G.raidFine = fine;
+                G.raidTargets = targetIds;
+                G.raidContrabandFound = contrabandFound;
+                log(`🚔 <strong>POLICE INCOMING!</strong> Officers approach ${count} dock(s). Corrupt officials hint they could be... persuaded.`);
+            } else {
+                executeRaid(targetIds, fine, contrabandFound);
+            }
+        }
+
+        function executeRaid(targetIds, fine, contrabandFound) {
+            for (const id of targetIds) {
+                const d = G.docks.find(x => x.id === id);
+                d.blocked = true;
+                G.policeBlocks[id] = 2;
+                if (contrabandFound && d.ship && (d.ship.type === 'weed' || d.ship.type === 'coke')) {
+                    G.reputation = clamp(G.reputation - 15, 0, 100);
+                }
+            }
+            G.treasury -= fine;
+            if (contrabandFound) {
+                log(`🚔 <strong>POLICE RAID!</strong> ${targetIds.length} dock(s) seized. Contraband discovered! Fined <span class="money">${fmt$(fine)}</span>. <span class="rep-down">−15★</span>. Docks auto-clear in 2 months.`);
+            } else {
+                log(`🚔 <strong>POLICE RAID!</strong> ${targetIds.length} dock(s) seized for investigation. Fined <span class="money">${fmt$(fine)}</span>. Docks auto-clear in 2 months.`);
+            }
+        }
+
+        function bribeRaid() {
+            if (G.treasury < 800) return;
+            G.treasury -= 800;
+            G.raidPending = false;
+            G.raidTargets = [];
+            log(`💰 Bribed officials for <span class="money">$800</span>. Police raid averted... this time.`);
+            document.getElementById('raidPanel').style.display = 'none';
+            render();
+        }
+
+        function refuseRaid() {
+            G.raidPending = false;
+            executeRaid(G.raidTargets, G.raidFine, G.raidContrabandFound);
+            G.raidTargets = [];
+            document.getElementById('raidPanel').style.display = 'none';
+            render();
+        }
+
+        function eventWorkerRiot() {
             const avail = G.docks.filter(d => d.ship && !d.blocked);
-            if (!avail.length) { log(`🪙 Workers grumble about the token system but nothing happens.`); return; }
-            const d = pick(avail); d.blocked = true;
-            log(`🪙 <strong>WORKER SABOTAGE!</strong> Angry workers blocked Dock #${d.id}! They hate the company tokens. Call police ($200) to restore order.`);
+            if (!avail.length) { log(`😤 Workers are furious but have nothing to sabotage.`); return; }
+            const d = pick(avail);
+            d.blocked = true;
+            G.workerMorale = clamp(G.workerMorale - 10, 0, 100);
+            const reason = G.infra.gatesClosed ? 'They demand the gates be opened!' : 'Morale is critically low!';
+            log(`😤 <strong>WORKER RIOT!</strong> Dock #${d.id} blocked! ${reason} Call police ($${G.government === 'Lawful' ? 150 : 300}) to restore order.`);
         }
 
         /* ================================================================
            RENDERING
         ================================================================ */
         function render() {
-            renderHUD(); renderStrike(); renderPreview(); renderIncoming();
+            renderHUD(); renderStrike(); renderRaid(); renderForecast(); renderPreview(); renderIncoming();
             renderDocks(); renderContracts(); renderInfra(); renderActions(); renderLog();
+            if (G.debugMode) renderDebugState();
         }
 
         function renderHUD() {
             document.getElementById('hudMonth').textContent = G.month;
             const tEl = document.getElementById('hudTreasury');
-            tEl.textContent = '$' + G.treasury.toLocaleString();
+            tEl.textContent = fmt$(G.treasury);
             tEl.style.color = G.treasury < 0 ? 'var(--accent-red)' : '';
             if (G.treasury >= 0) tEl.classList.add('money'); else tEl.classList.remove('money');
             document.getElementById('hudRep').textContent = repStars(G.reputation) + ' (' + G.reputation + ')';
             document.getElementById('hudWorkers').textContent = idleWorkers() + ' idle / ' + G.totalWorkers;
+
+            // Morale
+            const mEl = document.getElementById('hudMorale');
+            mEl.textContent = G.workerMorale;
+            mEl.style.color = G.workerMorale >= 60 ? 'var(--accent-green)' : G.workerMorale >= 30 ? 'var(--accent-orange)' : 'var(--accent-red)';
+
+            // Government
+            document.getElementById('hudGov').innerHTML = G.government === 'Lawful' ? '🏛 Lawful' : '🏴 Corrupt';
+
+            // Smuggler
+            document.getElementById('hudSmugglerBox').style.display = G.isSmuggler ? '' : 'none';
         }
 
         function renderStrike() {
             document.getElementById('strikePanel').style.display = (G.strikeActive && !G.strikeResolved) ? 'flex' : 'none';
+        }
+
+        function renderRaid() {
+            const panel = document.getElementById('raidPanel');
+            if (G.raidPending) {
+                panel.style.display = 'flex';
+                const bribeBtn = document.getElementById('btnBribe');
+                bribeBtn.style.display = G.government === 'Corrupt' ? '' : 'none';
+                bribeBtn.disabled = G.treasury < 800;
+                document.getElementById('raidText').innerHTML =
+                    `🚔 <strong>POLICE INCOMING!</strong> Officers targeting ${G.raidTargets.length} dock(s). Fine: <span class="money">${fmt$(G.raidFine)}</span>${G.raidContrabandFound ? ' + contraband penalties' : ''}.`;
+            } else {
+                panel.style.display = 'none';
+            }
+        }
+
+        function renderForecast() {
+            const fc = calcForecast();
+            const body = document.getElementById('forecastBody');
+            body.innerHTML = `
+        <div class="forecast-row"><span class="forecast-label">🚢 Expected ship revenue</span><span class="forecast-positive">+${fmt$(fc.expectedRevenue)}</span></div>
+        <div class="forecast-row"><span class="forecast-label">💵 Worker wages</span><span class="forecast-negative">−${fmt$(fc.wages)}</span></div>
+        <div class="forecast-row"><span class="forecast-label">📋 Contract fees</span><span class="forecast-negative">−${fmt$(fc.cFees)}</span></div>
+        <div class="forecast-row"><span class="forecast-label">🏗 Infrastructure upkeep</span><span class="forecast-negative">−${fmt$(fc.iUp)}</span></div>
+        <div class="forecast-row total"><span class="forecast-label">📊 Projected change</span><span class="${fc.net >= 0 ? 'forecast-positive' : 'forecast-negative'}">${fc.net >= 0 ? '+' : ''}${fmt$(fc.net)}</span></div>
+    `;
         }
 
         function renderPreview() {
@@ -1476,20 +1965,22 @@
                 panel.style.display = ''; incoming.style.display = 'none';
                 const tb = document.getElementById('previewBody');
                 if (!G.previewShips.length) {
-                    tb.innerHTML = '<tr><td colspan="7" class="empty-msg">No ships approaching (storm or no contracts).</td></tr>';
+                    tb.innerHTML = '<tr><td colspan="8" class="empty-msg">No ships approaching (storm or no contracts).</td></tr>';
                     return;
                 }
                 tb.innerHTML = G.previewShips.map((s, i) => {
                     const co = s.companyId ? getCompany(s.companyId) : null;
                     const coName = co ? `<span class="trust-stars">${trustStars(co.trust)}</span> ${co.name}` : '<span style="color:var(--text-muted)">Free traffic</span>';
+                    const noteClass = s.notes.includes('⚠') ? 'badge-bad' : s.notes.includes('✨') ? 'badge-good' : 'badge-info';
                     return `<tr>
                 <td><label class="preview-toggle"><input type="checkbox" ${s.accepted ? 'checked' : ''} onchange="togglePreviewShip(${i})"> ${s.accepted ? '✅' : '❌'}</label></td>
                 <td><span class="ship-name">${s.emoji} ${s.name}</span></td>
                 <td>${s.cargo}</td>
-                <td class="money">$${s.fee}</td>
+                <td class="money">${fmt$(s.fee)}</td>
                 <td>${s.workNeeded}</td>
+                <td>${s.maxCrew}</td>
                 <td>${coName}</td>
-                <td>${s.notes ? `<span class="${s.notes.includes('⚠') ? 'badge-bad' : 'badge-good'}">${s.notes}</span>` : ''}</td>
+                <td>${s.notes ? `<span class="${noteClass}">${s.notes}</span>` : ''}</td>
             </tr>`;
                 }).join('');
             } else {
@@ -1499,36 +1990,44 @@
 
         function renderIncoming() {
             const tb = document.getElementById('incomingBody');
+            const dockAllBtn = document.getElementById('btnDockAll');
             if (!G.incoming.length) {
-                tb.innerHTML = '<tr><td colspan="5" class="empty-msg">No ships waiting. Sign contracts to attract cargo!</td></tr>';
+                tb.innerHTML = '<tr><td colspan="6" class="empty-msg">No ships waiting. Sign contracts to attract cargo!</td></tr>';
+                dockAllBtn.style.display = 'none';
                 return;
             }
             const canDock = G.docks.some(d => !d.ship && !d.blocked);
+            dockAllBtn.style.display = canDock ? '' : 'none';
             tb.innerHTML = G.incoming.map((s, i) => `<tr>
         <td><span class="ship-name">${s.emoji} ${s.name}</span></td>
         <td>${s.cargo}</td>
-        <td class="money">$${s.fee}</td>
+        <td class="money">${fmt$(s.fee)}</td>
         <td>${s.workNeeded}</td>
+        <td>${s.maxCrew}</td>
         <td><button class="btn btn-success btn-sm" onclick="dockShip(${i})" ${canDock ? '' : 'disabled'}>Dock →</button></td>
     </tr>`).join('');
         }
 
         function renderDocks() {
             const tb = document.getElementById('docksBody');
+            const policeCost = G.government === 'Lawful' ? 150 : 300;
             tb.innerHTML = G.docks.map(d => {
                 if (d.blocked) {
                     const si = d.ship ? ` (${d.ship.emoji} ${d.ship.name} trapped!)` : '';
                     return `<tr><td><strong>#${d.id}</strong></td><td colspan="2" class="mafia-cell">🤵 BLOCKED${si}</td><td>—</td>
-                <td><button class="btn btn-danger btn-sm" onclick="callPolice(${d.id})" ${G.treasury >= 200 ? '' : 'disabled'}>Police ($200)</button>
+                <td><button class="btn btn-danger btn-sm" onclick="callPolice(${d.id})" ${G.treasury >= policeCost ? '' : 'disabled'}>Police ($${policeCost})</button>
                 <button class="btn btn-warning btn-sm" onclick="submitToMafia(${d.id})">Submit</button></td></tr>`;
                 }
                 if (!d.ship) return `<tr><td><strong>#${d.id}</strong></td><td style="color:var(--text-muted)">Empty</td><td>—</td><td>—</td><td>—</td></tr>`;
                 const s = d.ship;
                 const pct = Math.min(100, Math.round(s.workDone / s.workNeeded * 100));
+                const effWorkers = Math.min(d.workers, s.maxCrew || 99);
+                const overCrew = d.workers > (s.maxCrew || 99);
+                const crewNote = overCrew ? ` <span style="color:var(--accent-orange);font-size:.65rem">(max ${s.maxCrew})</span>` : '';
                 return `<tr><td><strong>#${d.id}</strong></td>
-            <td><span class="ship-name">${s.emoji} ${s.name}</span><br><span class="ship-cargo">${s.cargo} · <span class="money">$${s.fee}</span></span></td>
+            <td><span class="ship-name">${s.emoji} ${s.name}</span><br><span class="ship-cargo">${s.cargo} · <span class="money">${fmt$(s.fee)}</span></span></td>
             <td><div class="progress-bar"><div class="progress-fill${pct >= 100 ? ' complete' : ''}" style="width:${pct}%"></div><span class="progress-text">${s.workDone}/${s.workNeeded}</span></div></td>
-            <td><div class="worker-ctrl"><button class="btn btn-sm" onclick="adjustWorkers(${d.id},-1)" ${d.workers > 0 ? '' : 'disabled'}>−</button><span class="count">${d.workers}</span><button class="btn btn-sm" onclick="adjustWorkers(${d.id},1)" ${idleWorkers() > 0 ? '' : 'disabled'}>+</button></div></td>
+            <td><div class="worker-ctrl"><button class="btn btn-sm" onclick="adjustWorkers(${d.id},-1)" ${d.workers > 0 ? '' : 'disabled'}>−</button><span class="count">${d.workers}</span><button class="btn btn-sm" onclick="adjustWorkers(${d.id},1)" ${idleWorkers() > 0 ? '' : 'disabled'}>+</button></div>${crewNote}</td>
             <td><button class="btn btn-danger btn-sm" onclick="undockShip(${d.id})">Undock</button></td></tr>`;
             }).join('');
         }
@@ -1542,31 +2041,36 @@
             } else {
                 atb.innerHTML = active.map(c => {
                     const co = getCompany(c.companyId);
-                    return `<tr>
+                    const expClass = c.remaining <= 1 ? 'contract-critical' : c.remaining <= 2 ? 'contract-expiring' : '';
+                    const expIcon = c.remaining <= 1 ? ' ⚠️' : c.remaining <= 2 ? ' ⏳' : '';
+                    return `<tr class="${expClass}">
                 <td>${co.emoji} ${co.name}</td>
                 <td>${SHIP_TYPES[co.ct].cargo}</td>
                 <td class="trust-stars">${trustStars(co.trust)}</td>
-                <td class="money">$${c.monthlyCost}</td>
-                <td>${c.remaining} mo</td>
+                <td class="money">${fmt$(c.monthlyCost)}</td>
+                <td>${c.remaining} mo${expIcon}</td>
                 <td class="${satClass(c.satisfaction)}">${c.satisfaction >= 5 ? '😊' : ''}${c.satisfaction >= 2 && c.satisfaction < 5 ? '😐' : ''}${c.satisfaction < 2 ? '😠' : ''} ${c.satisfaction}</td>
             </tr>`;
                 }).join('');
             }
 
-            // Available
+            // Available — reputation-gated, smuggler-gated, with deterministic rotation
             const avb = document.getElementById('availableBody');
             const activeIds = new Set(G.contracts.filter(c => !c.terminated).map(c => c.companyId));
-            const repReq = { 1: 0, 2: 20, 3: 40, 4: 60, 5: 80 };
+
+            // Seed-based rotation: show ~60% of eligible companies each month
             const available = COMPANIES.filter(co => {
                 if (activeIds.has(co.id) || G.blacklist[co.id]) return false;
-                if (co.reqSmuggler && !G.isSmuggler) return false;
-                if (G.reputation < (repReq[co.trust] || 0) && !G.isSmuggler) return false; // Smugglers bypass rep reqs for their specific contracts
-                // Deterministic rotation based on month so the list isn't huge
-                if ((co.id.length + G.month) % 3 === 0 && co.trust < 5 && !co.reqSmuggler) return false;
-                return true;
+                if (co.reqSmuggler && !G.isSmuggler && G.government !== 'Corrupt') return false;
+                if (!co.reqSmuggler && G.reputation < (REP_REQUIRED[co.trust] || 0)) return false;
+                // Rotation: hash company id + month to get a stable pseudo-random bit
+                let hash = 0;
+                for (let i = 0; i < co.id.length; i++) hash = ((hash << 5) - hash + co.id.charCodeAt(i)) | 0;
+                return ((hash + G.month * 7) % 5) !== 0; // ~80% chance to appear each month
             });
+
             if (!available.length) {
-                avb.innerHTML = '<tr><td colspan="7" class="empty-msg">No companies available right now.</td></tr>';
+                avb.innerHTML = '<tr><td colspan="7" class="empty-msg">No companies available right now. Build reputation to unlock more!</td></tr>';
             } else {
                 avb.innerHTML = available.map(co => {
                     const durs = [3, 6, 12, 24].filter(d => d >= co.minDur);
@@ -1576,11 +2080,11 @@
                 <td>${co.emoji} <strong>${co.name}</strong><br><span class="flavor">${co.flav}</span></td>
                 <td>${SHIP_TYPES[co.ct].cargo}</td>
                 <td class="trust-stars">${trustStars(co.trust)}</td>
-                <td class="money">$${co.base}</td>
+                <td class="money">${fmt$(co.base)}</td>
                 <td><select class="dur-select" id="dur_${co.id}" onchange="updateCostDisplay('${co.id}')">
                     ${durs.map(d => `<option value="${d}">${d} mo</option>`).join('')}
                 </select></td>
-                <td class="money" id="cost_${co.id}">$${defaultCost}</td>
+                <td class="money" id="cost_${co.id}">${fmt$(defaultCost)}</td>
                 <td><button class="btn btn-success btn-sm" onclick="signSelectedContract('${co.id}')" ${G.treasury >= defaultCost ? '' : 'disabled'}>Sign</button></td>
             </tr>`;
                 }).join('');
@@ -1592,43 +2096,52 @@
             const sel = document.getElementById('dur_' + companyId);
             const dur = parseInt(sel.value);
             const cost = Math.round(co.base * (DUR_MULT[dur] || 1));
-            document.getElementById('cost_' + companyId).textContent = '$' + cost;
+            document.getElementById('cost_' + companyId).textContent = fmt$(cost);
         }
 
         function signSelectedContract(companyId) {
             const sel = document.getElementById('dur_' + companyId);
-            const dur = parseInt(sel.value);
-            signContract(companyId, dur);
+            signContract(companyId, parseInt(sel.value));
         }
 
         function renderInfra() {
             const tb = document.getElementById('infraBody');
-            const hCap = housingCap(), mCap = marketCap();
-            const hStatus = G.totalWorkers <= hCap ? `<span class="sat-good">✔ OK</span>` : `<span class="sat-bad">⚠ Need more! (${G.totalWorkers}/${hCap})</span>`;
-            const mStatus = G.totalWorkers <= mCap ? `<span class="sat-good">✔ OK</span>` : `<span class="sat-bad">⚠ +$5/wage (${G.totalWorkers}/${mCap})</span>`;
+            const hCap = housingCap();
+            const mCap = marketCap();
+            const hCost = 300 * (G.infra.housing + 1);
+            const mCost = 200 * (G.infra.markets + 1);
+            const hBonus = G.infra.housing > 0 ? `+${G.infra.housing * 10}% eff (≤${hCap} workers)` : 'No bonus';
+            const mDesc = G.infra.markets > 0 ? `No wage penalty ≤${mCap} workers` : 'Wage +$3 if >5 workers';
+
+            const hStatus = G.infra.housing === 0 ? '<span style="color:var(--text-muted)">Workers live offsite</span>' :
+                G.totalWorkers <= hCap ? `<span class="sat-good">✔ OK (${G.totalWorkers}/${hCap})</span>` :
+                    `<span class="sat-bad">⚠ Over capacity (${G.totalWorkers}/${hCap})</span>`;
+            const mStatus = G.infra.markets === 0 ? '<span style="color:var(--text-muted)">No market</span>' :
+                G.totalWorkers <= mCap ? `<span class="sat-good">✔ OK</span>` :
+                    `<span class="sat-bad">⚠ +$5/wage (${G.totalWorkers}/${mCap})</span>`;
 
             tb.innerHTML = `
-        <tr><td>🏠 Worker Housing</td><td>${G.infra.housing}</td><td>${hCap} workers</td><td>${hStatus}</td>
-            <td class="money">$300</td><td class="money">$20/mo</td>
-            <td><button class="btn btn-sm" onclick="buyInfra('housing')" ${G.treasury >= 300 ? '' : 'disabled'}>Build</button></td></tr>
-        <tr><td>🏪 Worker Market</td><td>${G.infra.markets}</td><td>${mCap} workers</td><td>${mStatus}</td>
-            <td class="money">$200</td><td class="money">$15/mo</td>
-            <td><button class="btn btn-sm" onclick="buyInfra('market')" ${G.treasury >= 200 ? '' : 'disabled'}>Build</button></td></tr>
-        <tr><td>🪙 Company Tokens</td><td>${G.infra.tokens ? '✔' : '—'}</td><td>—</td>
-            <td>${G.infra.tokens ? '<span class="sat-warn">Active (−30% wages, +strikes)</span>' : 'Not purchased'}</td>
-            <td class="money">$400</td><td>$0</td>
-            <td><button class="btn btn-sm${G.infra.tokens ? ' btn-danger' : ''}" onclick="buyInfra('tokens')" ${G.infra.tokens || G.treasury < 400 ? 'disabled' : ''}>
-                ${G.infra.tokens ? 'Active' : 'Buy'}</button></td></tr>
-        <tr><td>🏥 Living Conditions</td><td>${G.infra.living ? '✔' : '—'}</td><td>—</td>
-            <td>${G.infra.living ? '<span class="sat-good">Active (−50% strikes)</span>' : 'Not purchased'}</td>
-            <td class="money">$500</td><td class="money">$25/mo</td>
+        <tr><td>🏠 Worker Housing</td><td>Lv ${G.infra.housing}/3</td><td>${hBonus}</td><td>${hStatus}</td>
+            <td class="money">${G.infra.housing < 3 ? fmt$(hCost) : '—'}</td><td class="money">$${G.infra.housing * 20}/mo</td>
+            <td><button class="btn btn-sm" onclick="buyInfra('housing')" ${G.infra.housing >= 3 || G.treasury < hCost ? 'disabled' : ''}>${G.infra.housing >= 3 ? 'MAX' : 'Build'}</button></td></tr>
+        <tr><td>🏪 Worker Market</td><td>Lv ${G.infra.markets}/3</td><td>${mDesc}</td><td>${mStatus}</td>
+            <td class="money">${G.infra.markets < 3 ? fmt$(mCost) : '—'}</td><td class="money">$${G.infra.markets * 15}/mo</td>
+            <td><button class="btn btn-sm" onclick="buyInfra('market')" ${G.infra.markets >= 3 || G.treasury < mCost ? 'disabled' : ''}>${G.infra.markets >= 3 ? 'MAX' : 'Build'}</button></td></tr>
+        <tr><td>🪙 Company Tokens</td><td>${G.infra.tokens ? 'ON' : 'OFF'}</td><td>Wages −30%, morale −</td>
+            <td>${G.infra.tokens ? '<span class="sat-warn">Active</span>' : '<span style="color:var(--text-muted)">Inactive</span>'}</td>
+            <td class="money">${G.infra.tokens ? '—' : '$400'}</td><td>$0</td>
+            <td><button class="btn btn-sm ${G.infra.tokens ? 'btn-danger' : ''}" onclick="buyInfra('tokens')" ${!G.infra.tokens && G.treasury < 400 ? 'disabled' : ''}>
+                ${G.infra.tokens ? 'Disable' : 'Enable'}</button></td></tr>
+        <tr><td>🏥 Living Conditions</td><td>${G.infra.living ? '✔' : '—'}</td><td>Strikes −50%, morale +</td>
+            <td>${G.infra.living ? '<span class="sat-good">Active</span>' : '<span style="color:var(--text-muted)">Not purchased</span>'}</td>
+            <td class="money">${G.infra.living ? '—' : '$500'}</td><td class="money">${G.infra.living ? '$25/mo' : '—'}</td>
             <td><button class="btn btn-sm" onclick="buyInfra('living')" ${G.infra.living || G.treasury < 500 ? 'disabled' : ''}>
                 ${G.infra.living ? 'Active' : 'Buy'}</button></td></tr>
-        <tr><td>🔒 Close Gates</td><td>${G.gatesClosed ? '✔' : '—'}</td><td>—</td>
-            <td>${G.gatesClosed ? '<span class="sat-warn">Active (−50% wages, +riots)</span>' : 'Not active'}</td>
-            <td class="money">$100</td><td>$0</td>
-            <td><button class="btn btn-sm${G.gatesClosed ? ' btn-danger' : ''}" onclick="buyInfra('gates')" ${G.gatesClosed || G.treasury < 100 ? 'disabled' : ''}>
-                ${G.gatesClosed ? 'Active' : 'Buy'}</button></td></tr>
+        <tr><td>🔒 Close Gates</td><td>${G.infra.gatesClosed ? 'ON' : 'OFF'}</td><td>Wages −40%, riots ↑↑</td>
+            <td>${G.infra.gatesClosed ? '<span class="sat-bad">⚠ Active (DANGER)</span>' : '<span style="color:var(--text-muted)">Gates open</span>'}</td>
+            <td class="money">${G.infra.gatesClosed ? '—' : '$100'}</td><td>$0</td>
+            <td><button class="btn btn-sm ${G.infra.gatesClosed ? 'btn-danger' : ''}" onclick="buyInfra('gates')" ${!G.infra.gatesClosed && G.treasury < 100 ? 'disabled' : ''}>
+                ${G.infra.gatesClosed ? 'Open' : 'Close'}</button></td></tr>
     `;
         }
 
@@ -1637,13 +2150,26 @@
             document.getElementById('btnFire').disabled = G.totalWorkers <= 0 || idleWorkers() <= 0;
             document.getElementById('btnDock').disabled = G.treasury < 500 || G.docks.length >= G.maxDocks;
             const nm = document.getElementById('btnNextMonth');
-            nm.disabled = (G.strikeActive && !G.strikeResolved) || G.phase === 'preview';
+            nm.disabled = (G.strikeActive && !G.strikeResolved) || G.raidPending || G.phase === 'preview';
             nm.style.display = G.phase === 'preview' ? 'none' : '';
         }
 
         function renderLog() {
             const el = document.getElementById('logContainer');
-            el.innerHTML = G.log.slice(-40).reverse().map(e => `<div class="log-entry"><span class="log-month">Mo ${e.month}</span>${e.text}</div>`).join('');
+            el.innerHTML = G.log.slice(-50).reverse().map(e =>
+                `<div class="log-entry"><span class="log-month">Mo ${e.month}</span>${e.text}</div>`
+            ).join('');
+        }
+
+        function renderDebugState() {
+            const el = document.getElementById('debugState');
+            el.textContent = `Month: ${G.month} | Treasury: ${G.treasury} | Rep: ${G.reputation} | Workers: ${G.totalWorkers}
+Morale: ${G.workerMorale} | Mafia Inf: ${G.mafiaInfluence} | Smuggler: ${G.isSmuggler}
+Gov: ${G.government} (Term ${G.governmentTerm}, ${48 - G.monthsSinceElection}mo to election)
+Housing: Lv${G.infra.housing} | Market: Lv${G.infra.markets} | Tokens: ${G.infra.tokens} | Living: ${G.infra.living} | Gates: ${G.infra.gatesClosed}
+Contracts: ${G.contracts.length} | Docks: ${G.docks.length}/${G.maxDocks} | Phase: ${G.phase}
+Consecutive Debt: ${G.consecutiveDebt} | Game Ended: ${G.gameEnded}
+Blacklist: ${JSON.stringify(G.blacklist)}`;
         }
 
         /* ================================================================
@@ -1656,6 +2182,7 @@
             document.getElementById('themeIcon').textContent = next === 'dark' ? '🌙' : '☀️';
             try { localStorage.setItem('harbor-theme', next) } catch (e) { }
         }
+
         function loadTheme() {
             try {
                 const s = localStorage.getItem('harbor-theme');
@@ -1671,14 +2198,18 @@
         ================================================================ */
         function initGame() {
             G = freshState();
-            log(`⚓ Welcome, <strong>Harbormaster!</strong> Your port has 3 docks, 5 workers, and $1,000.`);
-            log(`📋 Sign your first <strong>contract</strong> to start attracting cargo ships!`);
+            log(`⚓ Welcome, <strong>Harbormaster!</strong> Your port has 3 docks, 5 workers, and $1,500.`);
+            log(`📋 Sign your first <strong>contract</strong> to start attracting cargo ships! (Bonus $100 for your first contract!)`);
             log(`🐟 Meanwhile, some fishing vessels will drift by each month.`);
+            log(`🏠 Workers currently live offsite. Build housing for an efficiency bonus.`);
             // Generate initial preview
             G.previewShips = generatePreviewShips();
             G.phase = 'preview';
             render();
         }
+
+        // Wire up debug click
+        document.getElementById('hudMonthBox').addEventListener('click', handleDebugClick);
 
         loadTheme();
         initGame();

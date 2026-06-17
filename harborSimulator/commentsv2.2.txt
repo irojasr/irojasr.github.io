@@ -1,0 +1,56 @@
+So chat, I need some help. Apparently we won't be able to finish this project until tomorrow.
+
+I got this error message: Your plan's baseline quota will refresh on 6/17/2026, 4:11:34 AM. You can upgrade to a Google AI Ultra plan to receive higher rate limits. See plans.
+
+Based on that, I'd like to create a prompt for Claude for the next time I'm able to talk to Claude. The file indexHarborSimulator.html was indeed modified. I don't know to which extent. So based on that, I'd like Claude to revise it, make sure that the things we just talked about are implemented and that everything is running smoothly. This is because I don't know how does the error work, does it stop work right in the process? does it finish a task? Does it leave it unfinished or something? So yeah, I want Claude to verify that.
+
+Besides that, I'd like to include the following comments about the actual current running version that I was left with and I got to test.
+
+1. The message for spoiled cargo for tourism ships can be like "disease outbreak" or something like that.
+2. In fact, let's add flavorful spoiled cargo messages for all ship types.
+3. Say, right now I have a ship which has 12/13 units of work into it. But I touch "max workers" and the ship has the capacity to be unloaded by 4 workers so, indeed, the button maxes out the amount of workers. Can we add another button which is like max workers GIVEN that jobs are about to finish? Say like, that button would add only 1 worker to that ship I was mentioning.
+4. In the ships approaching tab we should add a accept/decline all ships.
+5. Right now loving that the crude oil ships are big reward, two day basically, big work, big workers/ship.
+6. Love the way that row changes color and sandclock emoji appears when there's short time. 
+7. Don't like that I can't keep building houses. Perhaps we could expand on this mechanic. We can develop "worker town" once there's enough workers in the houses. This can be part of a type of "Mamita Yunai"-type expansion. I'd like to add worker context to the game. Perhaps for a version 3.0 we can add the "workers take over" type of event where instead of a government takeover or a mafia takeover, if the workers are unhappy they can cooperativize and demand the company for themselves. We can add unions and UNION BUSTING! Union busting is huge. This would be a lot of fun.
+8. The mothership appeared in an event. But it didn't appear in the incoming ships "ships approaching" tab, instead, it just appeared like nothing on the "incoming ships" tab. I don't mind this! I mean, that I was -forced- to accept it. But I'd like a bigger warning next time. I didn't know that the mothership was going to appear directly on my incoming ships tab.
+9. Right now I've got two motherships docked, I have 7 dock slots and technically 9 slots occupied. This makes no sense. Also, it cannot be the case that I have two motherships at the same time. If a mothership comes, there should be a cooldown.
+10. There's no indicator for the mafia influence. 
+11. Why does close gates when toggled trigger the message "Active (DANGER)"?
+12. Talking about the mothership real quick, I have a mothership docked that has a cost of 28, it's 18/28 right now so it's missing 10. Right now it has capacity for 8 workers and I have it capped. However, the forecast window is showing that next month it'll be done. However that cannot happen, I can't finish this job by tomorrow. (Ahh I think it was because of the +% worker efficiency from the worker infrastucture)
+12a. However it DID just happen, the work finished and I don't understand why. 
+13. Talking about the worker expansion. We can add a random chance event that sometimes when, say, a coffee company boat is docked but the contract expires, that boat can leave hurting reputation and making us lose revenue. Also it could be the case that workers on that boat are kidnapped, sold for their organs, or hired by that ship making me lose workers. 
+14. When mafia takes over a dock there should be a random chance that workers are caught in the crossfire and die.
+15. There should also be a random event where workers riot so hard that they burn down the whole worker housing and destroy icons of the company like the token system and everything.
+16. I think I realized that the cargo big unloading arms are not in yet and such. This could be added.
+17. For the workers update there should be pros-cons to unions. Say like, more frequent "workers demand more pay" but perhaps there's more efficiency or something. While on the other hand, if there's no union then there's morerevenue for me and more riot chance or something.
+18. Monthly forecast should always display: 📊 Projected change row but when I click the tab, it should slide down to show: 🚢 Expected ship revenue
++$442
+💵 Worker wages
+−$72
+📋 Contract fees
+−$51
+🏗 Infrastructure upkeep
+19. Loved that the mafia took a dock with a boat and workers on it, this event should be expanded. Like, the mafia holding the dock should be dynamic. If the boat is big, and there's a lot of people they should ask for a big ransom. 
+20. We should be able to hire private security for the harbor. This might be specially interesting when there's a corrupt government and then we'd like to stay clean.
+21. I'm still seeing a submit button when I get only one mafia.
+22. I was working with the mafia already as a smuggler and I just got a mafia takeover. It should be the other way around, police comes and I can bribe them to go away.
+23. We should also add a company of human trafficking and organ harvesting. 
+24. I'm currently seeing that there's ships chracterized with 4 types based on low/high of the characteristics: total work and total workers/month. Based on this the low total work/low workers per month can give low to average revenue. The "bunch of workers per month and low total work" category makes no sense. Those are like instants. The region that makes sense actually is the region x\leq y where x is amount of workers I can put into ship and y is amount of work needed. Companies should be placed along this region expecting those closer to the y=x line to have lower revenue, perhaps it increases as abs(x) increases and revenue increases in the direction of y=-x perhaps. Or maybe not, I can't quite place where the revenue should increase. In any case, different companies should be in different subregions of the region x\leq y.
+
+These are the comments for tonight. Let's hit it and see how it goes. Please help me with this prompt engineering exercise.
+
+Current version 2.2.2 (after Claude revision 0617)
+
+1. We should display the "there's a storm message" on the ships approaching tab when there's indeed a storm.
+2. Currently I have all the bonuses active: WORKER INFRASTRUCTURE & POLICIES
+FACILITY	LEVEL	EFFECT	STATUS	COST	UPKEEP	
+🏠 Worker Housing	Lv 3/3	+30% eff (≤18 workers)	✔ OK (16/18)	—	$60/mo	MAX
+🏪 Worker Market	Lv 3/3	No wage penalty ≤24 workers	✔ OK	—	$45/mo	MAX
+🪙 Company Tokens	ON	Wages −30%, morale −	Active	—	$0	Disable
+🏥 Living Conditions	✔	Strikes −50%, morale +	Active	—	$25/mo	Active
+🔒 Close Gates	ON	Wages −40%, riots ↑↑	⚠ Active (DANGER)	—
+but the worker morale is always decreasing. I feel that this calls for the update on workers, unions and other stuffs related to worker's rights or heavy exploitation of workers.
+3. Oooh talking about the diagram I was imagining yesterday about the plane (total work) vs (workers/month), we can also add -frequency- of boats arriving. Not everyday there should be a cruise for example. But perhaps meat is something that comes very often. We should add events which are like "oh there's an oil market crash" and even if we have the oil company contract, no oil ships are coming. Or perhaps like, there was a seriously bad plague and so the crops (bananas, coffee) are all spoiled for the next season (6 months). 
+3a. In particular the population of the country of which the harbor belongs to should also have a particular demand, like people are desiring more bananas or are very meat hungry. Or perhaps there was a veganism fad and so this year people didn't want to eat meat. We should include events like these to incentivize or modify how the player chooses contracts. But still add other external events that vary how the contracts work. 
+4. Worker strike bonus should scale in some fashion. Say number of workers and morale affect that.
