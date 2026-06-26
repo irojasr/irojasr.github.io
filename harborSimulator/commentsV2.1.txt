@@ -1,5 +1,0 @@
-Comments for version 2.1 done by Gemini.
-1. What does cargo issues mean?
-2. Change color or add in some way a way to see that a contract is about to expire next month. 
-3. Should add option to "max workers on the boat", "dock all ships".
-4. Definitely the contracts for cruise ships are the best. 5 star contracts for other companies don't appear to be as profitable. We should modify this to be like monthly fee vs revenue per ship. Perhaps some companies pay a bunch per month, but they have low reveneu per month. On the other hand, some companies may pay big for the per month fee of having the contract but particularly each ship has low revenue on its own. There should even be some companies which have high revenue per month just by signing the contract, but their ships DON'T generate revenue on their own. And perhaps some of the docks should be LOCKED to ONLY the ships of the company with the contract.

@@ -1,0 +1,29 @@
+For current version of the game 3.0
+
+1. Fishing company 3 stars boats are comparable to free market boats. Companies should be better than default boats.
+2. Still no big announcement about celebrity ship/mothership coming about. I was literally just surprised by one of them.
+3. Monthly forecast should show -without me needing to toggle it- the projected change in money. When clicking it and displaying the whole thing, it should show the breakdown. 
+4. We should add in the instructions something about the dimensionality of the companies. Say like a tableau which basically summarizes the companies according to 
+>frequency of boats (say like 1 every 4 months or like 2 per month).
+>average work required to unload boat.
+>average max amount of workers per boat.
+>average number of occupied slots per boat. (Regarding this, we should make oil tankers large in this sense, so that they occupy two dock slots).
+>Will ask for permanent dock slot? (Because some companies might do so, we haven't implemented this).
+>Contract duration, some companies only have quick 3 month contracts others a 2 year contract only.
+4a. Please include more dimensions which could influence decisions such as this one.
+5. When the storm event happens, the "confirm arrivals" toggle should auto toggle and then the option for "next month" should be readily available. Right now I have to click confirm arrivals and then next month.
+6. The smart assignment of workers is not working as intended: I had available workers, other ships with max amount of workers and one which had 2/3 and so smart should've filled up that ship.
+7. In the "incoming ships" tab, we should add a button which is "decline all free trade ships" or something like that.
+8. I just saw the announcement for the incoming celebrity ship. But it was in the harbor log at the bottom. I need it to be announced in the "incoming ships" tab. The harbor log should be used when I want to track something minusciously, but I need this notification to pop up upstairs where the action is happening.
+9. Currently after 72 months of gameplay, the workers tab stagnated. Already upgraded to the max everything. Then there's nothing else to do with the workers. Morale is at zero but nothing is happening. Things should happen: workers should revolt, detroy housing, detroy imagery of the tokens, takeover the company, more frequent strikes or things like that. Please imagine scenarios which could happen after the worker morale drops to zero. 
+9a. On the other hand with high morale, workers could even reproduce and then a kid is born into worker town and they eventually become workers themselves!
+10. I mentioned before that I'd like to implement cranes into the game. So that one creates an unloading crane in one of the docks for example. This hasn't been implemented yet.
+10a. With low morale, workers should destroy such cranes. And also they should take over the docks!
+11. In the "ships approaching" tab, touching a bar with the information of a particular ship, should toggle the accept/decline function. Right now I have to slide all the way to the left to touch the toggle. I'd like it to be a wider toggle.
+12. Next to "Your docks" text in the tab itself there should be a counter saying like 5/8 referring to 5 docks occupied out of 8 available.
+13. Just got this message: "Mo 87🤵 Mafia attempted Dock #7 — SECURITY BLOCKED IT!" The text is ill redacted. Should've been like, mafia attempted to take over...
+14. Just saw the mothership announcement, a similar pop-up should happen for celebrity cruises. The mothership event was handled perfectly. It should be like that for celebrity cruises.
+15. Right now became a smuggler, but there's no other criminal organization about human trafficking nor human parts trading ships.
+16. After 150ish months, got to around 50K in liquid cash, upgraded the whole community. Became a smuggler, got weed and then the game stagnated. Please, based on what we've talked about create more dynamics for that stage.
+17. Dock strike fee is still only 100$.
+18. As I've mentioned there should be more ways to exploit the workers. Right now, it's only like toggles. We should add more options, make them very realistic. Unions and union busting don't seem to have any consequences.
