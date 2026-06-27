@@ -280,8 +280,8 @@
     <div class="game-container">
         <!-- ALERTS -->
         <div id="strikePanel" class="alert-banner alert-strike" style="display:none">
-            <span>🔧 <strong>DOCK STRIKE!</strong> Workers demand a bonus or no unloading this month.</span>
-            <div style="display:flex;gap:6px"><button class="btn btn-warning" onclick="payStrike()">Pay $100</button><button class="btn" onclick="refuseStrike()">Refuse</button></div>
+            <span id="strikeText">🔧 <strong>DOCK STRIKE!</strong> Workers are demanding a bonus before they'll return to work.</span>
+            <div style="display:flex;gap:6px"><button class="btn btn-warning" id="btnPayStrike" onclick="payStrike()">Pay $100</button><button class="btn" onclick="refuseStrike()">Refuse</button></div>
         </div>
         <div id="mafiaOfferPanel" class="alert-banner alert-mafia-offer" style="display:none">
             <span id="mafiaOfferText"></span>
@@ -1080,11 +1080,23 @@
             render();
         }
 
+        function calcStrikeCost() {
+            let base = 50;
+            base += G.totalWorkers * 5;
+            base += infraUpkeep() * 0.5;
+            base += contractUpkeep() * 0.3;
+            if (G.unionActive) base *= 1.5;
+            if (G.workerMorale < 20) base *= 1.3;
+            base *= (1 + G.workerProgression * 0.2);
+            return Math.round(Math.max(100, base));
+        }
+
         function payStrike() {
-            if (G.treasury < 100) return;
-            G.treasury -= 100; G.strikeActive = false; G.strikeResolved = true; G.strikePaid = true;
+            const cost = calcStrikeCost();
+            if (G.treasury < cost) return;
+            G.treasury -= cost; G.strikeActive = false; G.strikeResolved = true; G.strikePaid = true;
             G.workerMorale = clamp(G.workerMorale + 5, 0, 100);
-            log(`💰 Paid the strike bonus of <span class="money">$100</span>. Workers have returned to their posts. Morale +5.`);
+            log(`💰 Paid the strike bonus of <span class="money">${fmt$(cost)}</span>. Workers have returned to their posts. Morale +5.`);
             render();
         }
 
@@ -1421,7 +1433,7 @@
                 G.isSmuggler = true;
                 G.mafiaInfluence = 100;
                 for (const d of G.docks) d.blocked = false;
-                log(`🤵 <strong>ALL DOCKS CAPTURED.</strong> The mafia has total control. You are now a <strong>Smuggler</strong>.`, 'critical');
+                log(`🤵 <strong>ALL DOCKS CAPTURED.</strong> Every dock has fallen under mafia control. You have no choice but to submit — the harbor now belongs to the underworld. You are now a <strong>Smuggler</strong>.`, 'critical');
             }
 
             // 12. Union strength
@@ -1434,14 +1446,14 @@
             if (G.security && G.securityDisabledFor <= 0 && G.government === 'Corrupt' && Math.random() < 0.05) {
                 G.securityDisabledFor = 3;
                 G.treasury -= 200;
-                log(`🛡️⚔️ <strong>Security vs Government!</strong> Corrupt officials shut down your security for 3 months. Cost: <span class="money">$200</span>.`, 'critical');
+                log(`🛡️⚔️ <strong>Security vs Government!</strong> Corrupt government officials have forced your private security to stand down for 3 months, citing "regulatory concerns." Cost: <span class="money">$200</span>.`, 'critical');
             }
 
             // Mafia retaliation against security
             if (G.security && G.securityDisabledFor <= 0 && G.isSmuggler && Math.random() < 0.08) {
                 G.securityDisabledFor = 3;
                 G.treasury -= 300;
-                log(`🤵🛡️ <strong>MAFIA RETALIATION!</strong> Security disabled for 3 months. Repair cost: <span class="money">$300</span>.`, 'critical');
+                log(`🤵🛡️ <strong>MAFIA RETALIATION!</strong> The mafia has retaliated against your security forces, leaving them unable to operate for 3 months. Repair cost: <span class="money">$300</span>.`, 'critical');
             }
 
             // 14. Mothership cooldown
@@ -1674,7 +1686,8 @@
 
         function eventStrike() {
             G.strikeActive = true; G.strikeResolved = false; G.strikePaid = false;
-            log(`🔧 <strong>DOCK STRIKE!</strong> Dock workers have declared a strike, demanding a bonus payment before they'll return to work.`, 'warning');
+            const strikeCost = calcStrikeCost();
+            log(`🔧 <strong>DOCK STRIKE!</strong> Dock workers have declared a strike, demanding <span class="money">${fmt$(strikeCost)}</span> before they'll return to work.`, 'warning');
         }
 
         function eventPirates() {
@@ -1751,7 +1764,7 @@
 
         function eventMafia() {
             const avail = G.docks.filter(d => !d.blocked);
-            if (!avail.length) { log(`🤵 Mafia tried to move in but all docks are blocked.`); return; }
+            if (!avail.length) { log(`🤵 The mafia attempted to expand their influence, but found every dock already under control.`); return; }
             const d = pick(avail); d.blocked = true;
             G.reputation = clamp(G.reputation - 5, 0, 100);
             G.mafiaInfluence = clamp(G.mafiaInfluence + 15, 0, 100);
@@ -1760,11 +1773,11 @@
                 d.blocked = false;
                 G.mafiaInfluence = clamp(G.mafiaInfluence - 5, 0, 100);
                 dmgReduction = ' 🛡️ <strong>Security repelled the takeover!</strong>';
-                log(`🤵 Mafia attempted Dock #${d.id} — <strong>SECURITY BLOCKED IT!</strong>`, 'positive');
+                log(`🤵 The mafia attempted to seize Dock #${d.id}, but private security successfully repelled the attack!`, 'positive');
                 return;
             }
             const shipInfo = d.ship ? ` Ship <strong>${d.ship.name}</strong> is trapped!` : '';
-            log(`🤵 <strong>MAFIA TAKEOVER!</strong> Dock #${d.id} seized!${shipInfo} Mafia influence +15. <span class="rep-down">−5★</span>`, 'critical');
+            log(`🤵 <strong>MAFIA TAKEOVER!</strong> The mafia has forcefully seized control of Dock #${d.id}.${shipInfo} Their influence over the harbor grows. <span class="rep-down">−5★</span>`, 'critical');
         }
 
         function eventPoliceRaid() {
@@ -1848,7 +1861,7 @@
             const avail = G.docks.filter(d => !d.blocked && d.ship);
             if (!avail.length) { log(`🤵⚔️ Rival mafia faction caused trouble, but no vulnerable docks.`); return; }
             const d = pick(avail); d.blocked = true;
-            log(`🤵⚔️ <strong>MAFIA POWER STRUGGLE!</strong> Rival faction seized Dock #${d.id}. Call police to clear.`, 'critical');
+            log(`🤵⚔️ <strong>MAFIA POWER STRUGGLE!</strong> A rival mafia faction has seized Dock #${d.id} in an internal power struggle. Call the police to intervene.`, 'critical');
         }
 
         // Worker events
@@ -1860,10 +1873,10 @@
             G.workerMorale = clamp(G.workerMorale - 10, 0, 100);
             if (G.unionBusted > 1 && d.ship) {
                 d.ship.fee = Math.floor(d.ship.fee * 0.5);
-                log(`😤 <strong>VIOLENT RIOT!</strong> Radicalized workers blocked Dock #${d.id} and damaged cargo! (Revenue halved)`, 'critical');
+                log(`😤 <strong>VIOLENT RIOT!</strong> Radicalized workers have staged a violent riot at Dock #${d.id}, destroying cargo in the process! Revenue halved.`, 'critical');
             } else {
                 const reason = G.gatesClosed ? 'They demand the gates be opened!' : 'Morale is critically low!';
-                log(`😤 <strong>WORKER RIOT!</strong> Dock #${d.id} blocked! ${reason}`, 'critical');
+                log(`😤 <strong>WORKER RIOT!</strong> Workers have erupted into open revolt, barricading Dock #${d.id}! ${reason}`, 'critical');
             }
         }
 
@@ -1872,7 +1885,7 @@
             G.workerDeaths++;
             G.workerMorale = clamp(G.workerMorale - 8, 0, 100);
             G.reputation = clamp(G.reputation - 2, 0, 100);
-            log(`⚠️ <strong>WORKPLACE ACCIDENT!</strong> A worker died on the job. Total deaths: ${G.workerDeaths}. Morale −8. <span class="rep-down">−2★</span>`, 'critical');
+            log(`⚠️ <strong>WORKPLACE ACCIDENT!</strong> A tragic workplace accident has claimed the life of a dock worker. Total deaths: ${G.workerDeaths}. Morale −8. <span class="rep-down">−2★</span>`, 'critical');
         }
 
         function eventIndustrialDisaster() {
@@ -1883,7 +1896,7 @@
             if (avail.length) { pick(avail).blocked = true; }
             G.workerMorale = clamp(G.workerMorale - 25, 0, 100);
             G.reputation = clamp(G.reputation - 15, 0, 100);
-            log(`💀 <strong>INDUSTRIAL DISASTER!</strong> ${deaths} workers killed. A dock is damaged. Morale −25. <span class="rep-down">−15★</span>`, 'critical');
+            log(`💀 <strong>INDUSTRIAL DISASTER!</strong> A catastrophic disaster has struck the harbor. ${deaths} workers lost their lives in the incident. A dock is damaged. Morale −25. <span class="rep-down">−15★</span>`, 'critical');
         }
 
         function eventWorkerCelebration() {
@@ -1983,7 +1996,14 @@
         }
 
         function renderStrike() {
-            document.getElementById('strikePanel').style.display = (G.strikeActive && !G.strikeResolved) ? 'flex' : 'none';
+            const show = G.strikeActive && !G.strikeResolved;
+            document.getElementById('strikePanel').style.display = show ? 'flex' : 'none';
+            if (show) {
+                const cost = calcStrikeCost();
+                document.getElementById('btnPayStrike').textContent = `Pay ${fmt$(cost)}`;
+                document.getElementById('btnPayStrike').disabled = G.treasury < cost;
+                document.getElementById('strikeText').innerHTML = `🔧 <strong>DOCK STRIKE!</strong> Workers are demanding <span class="money">${fmt$(cost)}</span> before they'll return to work.`;
+            }
         }
 
         function renderRaid() {
