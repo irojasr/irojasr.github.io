@@ -55,3 +55,6 @@ cvENG/*
 
 # Ignore everything in Oficios
 Oficios/*
+
+# Ignore everything in Magic
+Magic/*

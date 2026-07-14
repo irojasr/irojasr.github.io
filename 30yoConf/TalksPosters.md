@@ -36,6 +36,54 @@ In this study, we propose a novel explanation for these qualities, as well as su
 <strong>Conflict of Interest:</strong> Yes. I am friends with the organizer. Also, I am friends with my research subjects. Also, I am being funded by Big Conspiracy.
 </div>
 </div>
+
+<!-- Paka -->
+<div id="paka" style="background-color:#fff; border-radius:12px; padding: 25px; margin-top: 20px; border: 1px solid #000;">
+<h3 style="margin-top: 0; color: #334155;">Welcome to the 3rd floor</h3>
+<p style="font-size: 1.1rem; font-weight: 600; margin-bottom: 10px;">
+Paka
+</p>
+<div style="background: #f8fafc; padding: 15px; border-radius: 8px; border-left: 4px solid #000000; margin: 20px 0;">
+<div style="font-style: italic; color: #475569; line-height: 1.6;">
+TBD
+</div>
+</div>
+<div style="font-size: 0.85rem; color: #94a3b8; border-top: 1px solid #eee; padding-top: 10px; margin-top: 10px;">
+<strong>Type:</strong> TBD | <strong>Conflict of Interest:</strong> TBD
+</div>
+</div>
+
+<!-- Joel -->
+<div id="joel" style="background-color:#fff; border-radius:12px; padding: 25px; margin-top: 20px; border: 1px solid #000;">
+<h3 style="margin-top: 0; color: #334155;">No se</h3>
+<p style="font-size: 1.1rem; font-weight: 600; margin-bottom: 10px;">
+Joel
+</p>
+<div style="background: #f8fafc; padding: 15px; border-radius: 8px; border-left: 4px solid #000000; margin: 20px 0;">
+<div style="font-style: italic; color: #475569; line-height: 1.6;">
+No se
+</div>
+</div>
+<div style="font-size: 0.85rem; color: #94a3b8; border-top: 1px solid #eee; padding-top: 10px; margin-top: 10px;">
+<strong>Type:</strong> In-person | <strong>Conflict of Interest:</strong> No se
+</div>
+</div>
+
+<!-- Eamon -->
+<div id="eamon" style="background-color:#fff; border-radius:12px; padding: 25px; margin-top: 20px; border: 1px solid #000;">
+<h3 style="margin-top: 0; color: #334155;">Ahorita le aviso</h3>
+<p style="font-size: 1.1rem; font-weight: 600; margin-bottom: 10px;">
+Eamon
+</p>
+<div style="background: #f8fafc; padding: 15px; border-radius: 8px; border-left: 4px solid #000000; margin: 20px 0;">
+<div style="font-style: italic; color: #475569; line-height: 1.6;">
+Ve arriba
+</div>
+</div>
+<div style="font-size: 0.85rem; color: #94a3b8; border-top: 1px solid #eee; padding-top: 10px; margin-top: 10px;">
+<strong>Type:</strong> In-person | <strong>Conflict of Interest:</strong> Lo tengo, pero no lo quiero reportar
+</div>
+</div>
 </div>
 
 <!-- Regular Speakers Box -->
@@ -60,17 +108,129 @@ Sharing the dangers of working under YoonHyuk Kim.
 
 <!-- Jon Kim -->
 <div id="jonkim" style="background-color:#fff; border-radius:12px; padding: 25px; margin-top: 20px; border: 1px solid #000;">
-<h3 style="margin-top: 0; color: #334155;">🤷 yet</h3>
+<h3 style="margin-top: 0; color: #334155;">On the current state of the WWE Big Show</h3>
 <p style="font-size: 1.1rem; font-weight: 600; margin-bottom: 10px;">
 <a href="https://www.jon-kim.net" target="_blank">Jon Kim</a> 
 </p>
 <div style="background: #f8fafc; padding: 15px; border-radius: 8px; border-left: 4px solid #000000; margin: 20px 0;">
 <div style="font-style: italic; color: #475569; line-height: 1.6;">
-🤷 yet
+We will discuss how the Big Show became the WWE superstar he is today. Furthermore, we will discuss how his career has changed since going into acting with his Netflix show, "The Big Show Show".
 </div>
 </div>
 <div style="font-size: 0.85rem; color: #94a3b8; border-top: 1px solid #eee; padding-top: 10px; margin-top: 10px;">
 <strong>Type:</strong> In-person | <strong>Conflict of Interest:</strong> None reported
+</div>
+</div>
+
+<!-- Joe -->
+<div id="joe" style="background-color:#fff; border-radius:12px; padding: 25px; margin-top: 20px; border: 1px solid #000;">
+<h3 style="margin-top: 0; color: #334155;">uuuuuuuhhhhhhhhhhhh.........</h3>
+<p style="font-size: 1.1rem; font-weight: 600; margin-bottom: 10px;">
+<a href="https://joegeisz.github.io/" target="_blank">Joe</a>
+</p>
+<div style="background: #f8fafc; padding: 15px; border-radius: 8px; border-left: 4px solid #000000; margin: 20px 0;">
+<div style="font-style: italic; color: #475569; line-height: 1.6;">
+TBD
+</div>
+</div>
+<div style="font-size: 0.85rem; color: #94a3b8; border-top: 1px solid #eee; padding-top: 10px; margin-top: 10px;">
+<strong>Type:</strong> TBD | <strong>Conflict of Interest:</strong> TBD
+</div>
+</div>
+
+<!-- El Manimal -->
+<div id="elmanimal" style="background-color:#fff; border-radius:12px; padding: 25px; margin-top: 20px; border: 1px solid #000;">
+<h3 style="margin-top: 0; color: #334155;">Things Hidden Since the Foundation of the World</h3>
+<p style="font-size: 1.1rem; font-weight: 600; margin-bottom: 10px;">
+<a href="https://irojasr.github.io" target="_blank">El Manimal</a>
+</p>
+<div style="background: #f8fafc; padding: 15px; border-radius: 8px; border-left: 4px solid #000000; margin: 20px 0;">
+<div style="font-style: italic; color: #475569; line-height: 1.6;">
+TBD
+</div>
+</div>
+<div style="font-size: 0.85rem; color: #94a3b8; border-top: 1px solid #eee; padding-top: 10px; margin-top: 10px;">
+<strong>Type:</strong> In-person | <strong>Conflict of Interest:</strong> Current lawsuit against Ignacio
+</div>
+</div>
+
+<!-- Sean Bolon -->
+<div id="sean" style="background-color:#fff; border-radius:12px; padding: 25px; margin-top: 20px; border: 1px solid #000;">
+<h3 style="margin-top: 0; color: #334155;">The Life and Lies of Ignacio: A Neurological Menace</h3>
+<p style="font-size: 1.1rem; font-weight: 600; margin-bottom: 10px;">
+<a href="https://www.youtube.com/twigmittens" target="_blank">Sean "The Chameleon" Bolon</a>
+</p>
+<div style="background: #f8fafc; padding: 15px; border-radius: 8px; border-left: 4px solid #000000; margin: 20px 0;">
+<div style="font-style: italic; color: #475569; line-height: 1.6;">
+On today's episode of "A Scoundrel Among Us"...Ignacio
+</div>
+</div>
+<div style="font-size: 0.85rem; color: #94a3b8; border-top: 1px solid #eee; padding-top: 10px; margin-top: 10px;">
+<strong>Type:</strong> In-person | <strong>Conflict of Interest:</strong> I have so many, they can't all fit in this tiny box?
+</div>
+</div>
+
+<!-- Vivian -->
+<div id="vivian" style="background-color:#fff; border-radius:12px; padding: 25px; margin-top: 20px; border: 1px solid #000;">
+<h3 style="margin-top: 0; color: #334155;">tbd</h3>
+<p style="font-size: 1.1rem; font-weight: 600; margin-bottom: 10px;">
+<a href="https://sites.google.com/view/viviandeleon/home" target="_blank">Vivian</a>
+</p>
+<div style="background: #f8fafc; padding: 15px; border-radius: 8px; border-left: 4px solid #000000; margin: 20px 0;">
+<div style="font-style: italic; color: #475569; line-height: 1.6;">
+TBD
+</div>
+</div>
+<div style="font-size: 0.85rem; color: #94a3b8; border-top: 1px solid #eee; padding-top: 10px; margin-top: 10px;">
+<strong>Type:</strong> In-person | <strong>Conflict of Interest:</strong> no
+</div>
+</div>
+
+<!-- Amari -->
+<div id="amari" style="background-color:#fff; border-radius:12px; padding: 25px; margin-top: 20px; border: 1px solid #000;">
+<h3 style="margin-top: 0; color: #334155;">is this a conference or a birthday party I'm so confused</h3>
+<p style="font-size: 1.1rem; font-weight: 600; margin-bottom: 10px;">
+Amari
+</p>
+<div style="background: #f8fafc; padding: 15px; border-radius: 8px; border-left: 4px solid #000000; margin: 20px 0;">
+<div style="font-style: italic; color: #475569; line-height: 1.6;">
+TBD
+</div>
+</div>
+<div style="font-size: 0.85rem; color: #94a3b8; border-top: 1px solid #eee; padding-top: 10px; margin-top: 10px;">
+<strong>Type:</strong> TBD | <strong>Conflict of Interest:</strong> TBD
+</div>
+</div>
+
+<!-- Michael Moy -->
+<div id="michaelmoy" style="background-color:#fff; border-radius:12px; padding: 25px; margin-top: 20px; border: 1px solid #000;">
+<h3 style="margin-top: 0; color: #334155;">Not sure</h3>
+<p style="font-size: 1.1rem; font-weight: 600; margin-bottom: 10px;">
+Michael Moy
+</p>
+<div style="background: #f8fafc; padding: 15px; border-radius: 8px; border-left: 4px solid #000000; margin: 20px 0;">
+<div style="font-style: italic; color: #475569; line-height: 1.6;">
+TBD
+</div>
+</div>
+<div style="font-size: 0.85rem; color: #94a3b8; border-top: 1px solid #eee; padding-top: 10px; margin-top: 10px;">
+<strong>Type:</strong> In-person | <strong>Conflict of Interest:</strong> TBD
+</div>
+</div>
+
+<!-- Ian -->
+<div id="ian" style="background-color:#fff; border-radius:12px; padding: 25px; margin-top: 20px; border: 1px solid #000;">
+<h3 style="margin-top: 0; color: #334155;">I don't know</h3>
+<p style="font-size: 1.1rem; font-weight: 600; margin-bottom: 10px;">
+<a href="https://jorqueraian.github.io/" target="_blank">Ian</a>
+</p>
+<div style="background: #f8fafc; padding: 15px; border-radius: 8px; border-left: 4px solid #000000; margin: 20px 0;">
+<div style="font-style: italic; color: #475569; line-height: 1.6;">
+Idk
+</div>
+</div>
+<div style="font-size: 0.85rem; color: #94a3b8; border-top: 1px solid #eee; padding-top: 10px; margin-top: 10px;">
+<strong>Type:</strong> In-person | <strong>Conflict of Interest:</strong> id rather not
 </div>
 </div>
 

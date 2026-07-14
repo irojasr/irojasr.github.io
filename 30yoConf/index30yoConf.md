@@ -134,13 +134,23 @@ layout: page
 
 <h3>🌟 Plenary Speakers</h3>
 <div style="max-width: 800px; margin: 0 auto; background-color:#f9f9f9; border-radius:10px; padding: 20px; margin-bottom: 2em;">
-  • <strong><a href="https://sites.google.com/view/makennagreenwalt/home" target="_blank">Makenna Greenwalt</a></strong>: <a href="TalksPosters.html#makenna">Mathematicians or Moles? A First Study in the Mesmerizing Psychology of Derek Moran and Enrique Mercado</a>
+  • <strong><a href="https://sites.google.com/view/makennagreenwalt/home" target="_blank">Makenna Greenwalt</a></strong>: <a href="TalksPosters.html#makenna">Mathematicians or Moles? A First Study in the Mesmerizing Psychology of Derek Moran and Enrique Mercado</a><br>
+  • <strong>Paka</strong>: <a href="TalksPosters.html#paka">Welcome to the 3rd floor</a><br>
+  • <strong>Joel</strong>: <a href="TalksPosters.html#joel">No se</a><br>
+  • <strong>Eamon</strong>: <a href="TalksPosters.html#eamon">Ahorita le aviso</a>
 </div>
 
 <h3>📢 Speakers</h3>
 <div style="max-width: 800px; margin: 0 auto; background-color:#f9f9f9; border-radius:10px; padding: 20px; margin-bottom: 2em;">
-  • <strong>Marieca</strong>: <a href="TalksPosters.html#marieca">Why YoonHyuk Kim is literally the devil</a><br>
-  • <strong><a href="https://www.jon-kim.net" target="_blank">Jon Kim</a></strong>: <a href="TalksPosters.html#jonkim">🤷 yet</a>
+  • <strong>Marieca (Ma-ree-sa)</strong>: <a href="TalksPosters.html#marieca">Why YoonHyuk Kim is literally the devil</a><br>
+  • <strong><a href="https://www.jon-kim.net" target="_blank">Jon Kim</a></strong>: <a href="TalksPosters.html#jonkim">On the current state of the WWE Big Show</a><br>
+  • <strong><a href="https://joegeisz.github.io/" target="_blank">Joe</a></strong>: <a href="TalksPosters.html#joe">uuuuuuuhhhhhhhhhhhh.........</a><br>
+  • <strong><a href="https://irojasr.github.io" target="_blank">El Manimal</a></strong>: <a href="TalksPosters.html#elmanimal">Things Hidden Since the Foundation of the World</a><br>
+  • <strong><a href="https://www.youtube.com/twigmittens" target="_blank">Sean "The Chameleon" Bolon</a></strong>: <a href="TalksPosters.html#sean">The Life and Lies of Ignacio: A Neurological Menace</a><br>
+  • <strong><a href="https://sites.google.com/view/viviandeleon/home" target="_blank">Vivian</a></strong>: <a href="TalksPosters.html#vivian">tbd</a><br>
+  • <strong>Amari</strong>: <a href="TalksPosters.html#amari">is this a conference or a birthday party I'm so confused</a><br>
+  • <strong>Michael Moy</strong>: <a href="TalksPosters.html#michaelmoy">Not sure</a><br>
+  • <strong><a href="https://jorqueraian.github.io/" target="_blank">Ian</a></strong>: <a href="TalksPosters.html#ian">I don't know</a>
 </div>
 
 <h3>🖼️ Posters</h3>
