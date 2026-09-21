@@ -33,7 +33,7 @@ In this study, we propose a novel explanation for these qualities, as well as su
 </div>
 
 <div style="font-size: 0.85rem; color: #94a3b8; border-top: 1px solid #eee; padding-top: 10px; margin-top: 10px;">
-<strong>Conflict of Interest:</strong> Yes. I am friends with the organizer. Also, I am friends with my research subjects. Also, I am being funded by Big Conspiracy.
+<strong>Type:</strong> In-person | <strong>Duration:</strong> 35 minutes (30 min talk + 5 min Q&A) | <strong>Conflict of Interest:</strong> Yes. I am friends with the organizer. Also, I am friends with my research subjects. Also, I am being funded by Big Conspiracy.
 </div>
 </div>
 
@@ -58,7 +58,7 @@ The best apomorphs are the grow-ers, not the show-ers.
 </div>
 </div>
 <div style="font-size: 0.85rem; color: #94a3b8; border-top: 1px solid #eee; padding-top: 10px; margin-top: 10px;">
-<strong>Type:</strong> In-person | <strong>Duration:</strong> 4-5 minutes | <strong>Conflict of Interest:</strong> I have so many, they can't all fit in this tiny box?
+<strong>Type:</strong> In-person | <strong>Duration:</strong> 10 minutes (4-5 min talk + Q&A) | <strong>Conflict of Interest:</strong> I have so many, they can't all fit in this tiny box?
 </div>
 </div>
 
@@ -74,7 +74,7 @@ I‘ll talk through a puzzle about the ways a rubber band can wrap around a mug
 </div>
 </div>
 <div style="font-size: 0.85rem; color: #94a3b8; border-top: 1px solid #eee; padding-top: 10px; margin-top: 10px;">
-<strong>Type:</strong> In-person | <strong>Duration:</strong> 8 minutes | <strong>Conflict of Interest:</strong> TBD
+<strong>Type:</strong> In-person | <strong>Duration:</strong> 10 minutes (8 min talk + Q&A) | <strong>Conflict of Interest:</strong> TBD
 </div>
 </div>
 
