@@ -37,6 +37,69 @@ In this study, we propose a novel explanation for these qualities, as well as su
 </div>
 </div>
 
+</div>
+
+<!-- Regular Speakers Box -->
+<div style="background-color: #ffffff; border: 1px solid #000000; border-radius: 15px; padding: 30px; margin-bottom: 30px;">
+<h2 style="margin-top: 0; color: #000000; text-align: center; border-bottom: 1px solid #000000; padding-bottom: 10px;">📢 Speakers</h2>
+
+<!-- Sean Bolon -->
+<div id="sean" style="background-color:#fff; border-radius:12px; padding: 25px; margin-top: 20px; border: 1px solid #000;">
+<div style="display: inline-block; background: #dcfce7; color: #15803d; font-size: 0.8rem; font-weight: bold; padding: 3px 10px; border-radius: 20px; border: 1px solid #86efac; margin-bottom: 10px;">
+  🦎 Sponsor Talk &mdash; Bolon Foundation
+</div>
+<h3 style="margin-top: 0; color: #334155;">Millimeters Matter</h3>
+<p style="font-size: 1.1rem; font-weight: 600; margin-bottom: 10px;">
+<a href="https://www.youtube.com/twigmittens" target="_blank">Sean "The Chameleon" Bolon</a>
+</p>
+<div style="background: #f8fafc; padding: 15px; border-radius: 8px; border-left: 4px solid #000000; margin: 20px 0;">
+<div style="font-style: italic; color: #475569; line-height: 1.6;">
+The best apomorphs are the grow-ers, not the show-ers.
+</div>
+</div>
+<div style="font-size: 0.85rem; color: #94a3b8; border-top: 1px solid #eee; padding-top: 10px; margin-top: 10px;">
+<strong>Type:</strong> In-person | <strong>Duration:</strong> 4-5 minutes | <strong>Conflict of Interest:</strong> I have so many, they can't all fit in this tiny box?
+</div>
+</div>
+
+<!-- Michael Moy -->
+<div id="michaelmoy" style="background-color:#fff; border-radius:12px; padding: 25px; margin-top: 20px; border: 1px solid #000;">
+<h3 style="margin-top: 0; color: #334155;">A rubber band, a mug, and 3-sphere</h3>
+<p style="font-size: 1.1rem; font-weight: 600; margin-bottom: 10px;">
+Michael Moy
+</p>
+<div style="background: #f8fafc; padding: 15px; border-radius: 8px; border-left: 4px solid #000000; margin: 20px 0;">
+<div style="font-style: italic; color: #475569; line-height: 1.6;">
+I‘ll talk through a puzzle about the ways a rubber band can wrap around a mug
+</div>
+</div>
+<div style="font-size: 0.85rem; color: #94a3b8; border-top: 1px solid #eee; padding-top: 10px; margin-top: 10px;">
+<strong>Type:</strong> In-person | <strong>Duration:</strong> 8 minutes | <strong>Conflict of Interest:</strong> TBD
+</div>
+</div>
+
+<!-- Jon Kim -->
+<div id="jonkim" style="background-color:#fff; border-radius:12px; padding: 25px; margin-top: 20px; border: 1px solid #000; opacity: 0.75;">
+<h3 style="margin-top: 0; color: #334155;"><s>On the current state of the WWE Big Show</s> <span style="color: #e11d48; font-size: 0.85rem; font-weight: bold;">[CANCELLED]</span></h3>
+<p style="font-size: 1.1rem; font-weight: 600; margin-bottom: 10px;">
+<a href="https://www.jon-kim.net" target="_blank">Jon Kim</a> <em>(Couldn't make it)</em>
+</p>
+<div style="background: #f8fafc; padding: 15px; border-radius: 8px; border-left: 4px solid #94a3b8; margin: 20px 0;">
+<div style="font-style: italic; color: #475569; line-height: 1.6;">
+We will discuss how the Big Show became the WWE superstar he is today. Furthermore, we will discuss how his career has changed since going into acting with his Netflix show, "The Big Show Show".
+</div>
+</div>
+<div style="font-size: 0.85rem; color: #94a3b8; border-top: 1px solid #eee; padding-top: 10px; margin-top: 10px;">
+<strong>Type:</strong> In-person | <strong>Status:</strong> Cancelled (couldn't make it) | <strong>Conflict of Interest:</strong> None reported
+</div>
+</div>
+
+</div>
+
+<!-- Potential Speakers Box -->
+<div style="background-color: #ffffff; border: 1px solid #000000; border-radius: 15px; padding: 30px; margin-bottom: 30px;">
+<h2 style="margin-top: 0; color: #000000; text-align: center; border-bottom: 1px solid #000000; padding-bottom: 10px;">🤔 Potential Speakers</h2>
+
 <!-- Paka -->
 <div id="paka" style="background-color:#fff; border-radius:12px; padding: 25px; margin-top: 20px; border: 1px solid #000;">
 <h3 style="margin-top: 0; color: #334155;">Welcome to the 3rd floor</h3>
@@ -84,17 +147,12 @@ Ve arriba
 <strong>Type:</strong> In-person | <strong>Conflict of Interest:</strong> Lo tengo, pero no lo quiero reportar
 </div>
 </div>
-</div>
-
-<!-- Regular Speakers Box -->
-<div style="background-color: #ffffff; border: 1px solid #000000; border-radius: 15px; padding: 30px; margin-bottom: 30px;">
-<h2 style="margin-top: 0; color: #000000; text-align: center; border-bottom: 1px solid #000000; padding-bottom: 10px;">📢 Speakers</h2>
 
 <!-- Marieca -->
 <div id="marieca" style="background-color:#fff; border-radius:12px; padding: 25px; margin-top: 20px; border: 1px solid #000;">
 <h3 style="margin-top: 0; color: #334155;">Why YoonHyuk Kim is literally the devil</h3>
 <p style="font-size: 1.1rem; font-weight: 600; margin-bottom: 10px;">
-Marieca
+Marieca (Ma-ree-sa)
 </p>
 <div style="background: #f8fafc; padding: 15px; border-radius: 8px; border-left: 4px solid #000000; margin: 20px 0;">
 <div style="font-style: italic; color: #475569; line-height: 1.6;">
@@ -103,22 +161,6 @@ Sharing the dangers of working under YoonHyuk Kim.
 </div>
 <div style="font-size: 0.85rem; color: #94a3b8; border-top: 1px solid #eee; padding-top: 10px; margin-top: 10px;">
 <strong>Type:</strong> Virtual | <strong>Conflict of Interest:</strong> If Yoon is there thst eould be a conflict
-</div>
-</div>
-
-<!-- Jon Kim -->
-<div id="jonkim" style="background-color:#fff; border-radius:12px; padding: 25px; margin-top: 20px; border: 1px solid #000;">
-<h3 style="margin-top: 0; color: #334155;">On the current state of the WWE Big Show</h3>
-<p style="font-size: 1.1rem; font-weight: 600; margin-bottom: 10px;">
-<a href="https://www.jon-kim.net" target="_blank">Jon Kim</a> 
-</p>
-<div style="background: #f8fafc; padding: 15px; border-radius: 8px; border-left: 4px solid #000000; margin: 20px 0;">
-<div style="font-style: italic; color: #475569; line-height: 1.6;">
-We will discuss how the Big Show became the WWE superstar he is today. Furthermore, we will discuss how his career has changed since going into acting with his Netflix show, "The Big Show Show".
-</div>
-</div>
-<div style="font-size: 0.85rem; color: #94a3b8; border-top: 1px solid #eee; padding-top: 10px; margin-top: 10px;">
-<strong>Type:</strong> In-person | <strong>Conflict of Interest:</strong> None reported
 </div>
 </div>
 
@@ -154,22 +196,6 @@ TBD
 </div>
 </div>
 
-<!-- Sean Bolon -->
-<div id="sean" style="background-color:#fff; border-radius:12px; padding: 25px; margin-top: 20px; border: 1px solid #000;">
-<h3 style="margin-top: 0; color: #334155;">The Life and Lies of Ignacio: A Neurological Menace</h3>
-<p style="font-size: 1.1rem; font-weight: 600; margin-bottom: 10px;">
-<a href="https://www.youtube.com/twigmittens" target="_blank">Sean "The Chameleon" Bolon</a>
-</p>
-<div style="background: #f8fafc; padding: 15px; border-radius: 8px; border-left: 4px solid #000000; margin: 20px 0;">
-<div style="font-style: italic; color: #475569; line-height: 1.6;">
-On today's episode of "A Scoundrel Among Us"...Ignacio
-</div>
-</div>
-<div style="font-size: 0.85rem; color: #94a3b8; border-top: 1px solid #eee; padding-top: 10px; margin-top: 10px;">
-<strong>Type:</strong> In-person | <strong>Conflict of Interest:</strong> I have so many, they can't all fit in this tiny box?
-</div>
-</div>
-
 <!-- Vivian -->
 <div id="vivian" style="background-color:#fff; border-radius:12px; padding: 25px; margin-top: 20px; border: 1px solid #000;">
 <h3 style="margin-top: 0; color: #334155;">tbd</h3>
@@ -202,22 +228,6 @@ TBD
 </div>
 </div>
 
-<!-- Michael Moy -->
-<div id="michaelmoy" style="background-color:#fff; border-radius:12px; padding: 25px; margin-top: 20px; border: 1px solid #000;">
-<h3 style="margin-top: 0; color: #334155;">Not sure</h3>
-<p style="font-size: 1.1rem; font-weight: 600; margin-bottom: 10px;">
-Michael Moy
-</p>
-<div style="background: #f8fafc; padding: 15px; border-radius: 8px; border-left: 4px solid #000000; margin: 20px 0;">
-<div style="font-style: italic; color: #475569; line-height: 1.6;">
-TBD
-</div>
-</div>
-<div style="font-size: 0.85rem; color: #94a3b8; border-top: 1px solid #eee; padding-top: 10px; margin-top: 10px;">
-<strong>Type:</strong> In-person | <strong>Conflict of Interest:</strong> TBD
-</div>
-</div>
-
 <!-- Ian -->
 <div id="ian" style="background-color:#fff; border-radius:12px; padding: 25px; margin-top: 20px; border: 1px solid #000;">
 <h3 style="margin-top: 0; color: #334155;">I don't know</h3>
@@ -240,7 +250,7 @@ Idk
 <div style="background-color: #ffffff; border: 1px solid #000000; border-radius: 15px; padding: 30px; margin-bottom: 30px;">
 <h2 style="margin-top: 0; color: #000000; text-align: center; border-bottom: 1px solid #000000; padding-bottom: 10px;">🖼️ Posters</h2>
 <div style="text-align: center; color: #64748b; padding: 20px; font-style: italic;">
-Coming soon!
+No posters scheduled (no one signed up).
 </div>
 </div>
 

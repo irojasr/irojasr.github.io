@@ -126,41 +126,110 @@ layout: page
   <strong>🐢 Some important notes:</strong>
   <ul>
     <li>Drinking is encouraged before, during, and after talks. Remember, drinking too little water is too easy, but drinking too much water is too hard.</li>
-    <li>Poster presenters: I actually may get some tape to put up your posters, unsure lol. Plan on getting something to make them visible.</li>
+    <li>Poster presenters: Never mind, no one signed up for posters!</li>
   </ul>
+</div>
+
+&nbsp;
+
+<div style="max-width: 800px; margin: 0 auto; background-color:#f9f9f9; border-radius:10px; padding: 25px; text-align: center; border: 2px solid #84cc16;">
+  <h3 style="margin-top: 0; color: #3f6212;">🦎 Official Conference Sponsor</h3>
+  <img src="bolon_foundation.png" alt="Bolon Foundation" style="max-width: 220px; width: 100%; height: auto; margin: 15px auto; display: block;" />
+  <p style="font-size: 1.05rem; margin-bottom: 6px;">
+    We are proudly sponsored by the <strong>Bolon Foundation</strong>!
+  </p>
+  <p style="font-size: 0.9rem; color: #64748b; margin-top: 0;">
+    Be sure to check out the official <strong>Sponsor Talk</strong> by Sean "The Chameleon" Bolon during the conference.
+  </p>
 </div>
 
 &nbsp;
 
 <h3>🌟 Plenary Speakers</h3>
 <div style="max-width: 800px; margin: 0 auto; background-color:#f9f9f9; border-radius:10px; padding: 20px; margin-bottom: 2em;">
-  • <strong><a href="https://sites.google.com/view/makennagreenwalt/home" target="_blank">Makenna Greenwalt</a></strong>: <a href="TalksPosters.html#makenna">Mathematicians or Moles? A First Study in the Mesmerizing Psychology of Derek Moran and Enrique Mercado</a><br>
-  • <strong>Paka</strong>: <a href="TalksPosters.html#paka">Welcome to the 3rd floor</a><br>
-  • <strong>Joel</strong>: <a href="TalksPosters.html#joel">No se</a><br>
-  • <strong>Eamon</strong>: <a href="TalksPosters.html#eamon">Ahorita le aviso</a>
+  • <strong><a href="https://sites.google.com/view/makennagreenwalt/home" target="_blank">Makenna Greenwalt</a></strong>: <a href="TalksPosters.html#makenna">Mathematicians or Moles? A First Study in the Mesmerizing Psychology of Derek Moran and Enrique Mercado</a>
 </div>
 
 <h3>📢 Speakers</h3>
 <div style="max-width: 800px; margin: 0 auto; background-color:#f9f9f9; border-radius:10px; padding: 20px; margin-bottom: 2em;">
+  • <strong><a href="https://www.youtube.com/twigmittens" target="_blank">Sean "The Chameleon" Bolon</a></strong>: <a href="TalksPosters.html#sean">Millimeters Matter</a> <em>(Sponsor Talk &mdash; Bolon Foundation, 4-5 mins)</em><br>
+  • <strong>Michael Moy</strong>: <a href="TalksPosters.html#michaelmoy">A rubber band, a mug, and 3-sphere</a> <em>(8 mins)</em><br>
+  • <s><strong><a href="https://www.jon-kim.net" target="_blank">Jon Kim</a></strong>: <a href="TalksPosters.html#jonkim">On the current state of the WWE Big Show</a></s> <em>(Cancelled &mdash; couldn't make it)</em>
+</div>
+
+<h3>🤔 Potential Speakers</h3>
+<div style="max-width: 800px; margin: 0 auto; background-color:#f9f9f9; border-radius:10px; padding: 20px; margin-bottom: 2em;">
+  • <strong>Paka</strong>: <a href="TalksPosters.html#paka">Welcome to the 3rd floor</a><br>
+  • <strong>Joel</strong>: <a href="TalksPosters.html#joel">No se</a><br>
+  • <strong>Eamon</strong>: <a href="TalksPosters.html#eamon">Ahorita le aviso</a><br>
   • <strong>Marieca (Ma-ree-sa)</strong>: <a href="TalksPosters.html#marieca">Why YoonHyuk Kim is literally the devil</a><br>
-  • <strong><a href="https://www.jon-kim.net" target="_blank">Jon Kim</a></strong>: <a href="TalksPosters.html#jonkim">On the current state of the WWE Big Show</a><br>
   • <strong><a href="https://joegeisz.github.io/" target="_blank">Joe</a></strong>: <a href="TalksPosters.html#joe">uuuuuuuhhhhhhhhhhhh.........</a><br>
   • <strong><a href="https://irojasr.github.io" target="_blank">El Manimal</a></strong>: <a href="TalksPosters.html#elmanimal">Things Hidden Since the Foundation of the World</a><br>
-  • <strong><a href="https://www.youtube.com/twigmittens" target="_blank">Sean "The Chameleon" Bolon</a></strong>: <a href="TalksPosters.html#sean">The Life and Lies of Ignacio: A Neurological Menace</a><br>
   • <strong><a href="https://sites.google.com/view/viviandeleon/home" target="_blank">Vivian</a></strong>: <a href="TalksPosters.html#vivian">tbd</a><br>
   • <strong>Amari</strong>: <a href="TalksPosters.html#amari">is this a conference or a birthday party I'm so confused</a><br>
-  • <strong>Michael Moy</strong>: <a href="TalksPosters.html#michaelmoy">Not sure</a><br>
   • <strong><a href="https://jorqueraian.github.io/" target="_blank">Ian</a></strong>: <a href="TalksPosters.html#ian">I don't know</a>
 </div>
 
 <h3>🖼️ Posters</h3>
 <div style="max-width: 800px; margin: 0 auto; background-color:#f9f9f9; border-radius:10px; padding: 20px; margin-bottom: 2em;">
-  Will fill out when I get your details from the form.
+  No posters scheduled (no one signed up).
 </div>
 
 <h3>📅 Schedule</h3>
 <div style="max-width: 800px; margin: 0 auto; background-color:#f9f9f9; border-radius:10px; padding: 20px; margin-bottom: 2em;">
-  Schedule coming soon! 
+  <h4 style="margin-top: 0; color: #1e293b; border-bottom: 1px solid #cbd5e1; padding-bottom: 8px;">
+    🗓️ Tuesday, September 22, 2026
+  </h4>
+  <p style="font-size: 0.95rem; color: #64748b; margin-top: 5px;">
+    Talks are scheduled back-to-back around noon (accounting for ~10–15 minutes each including Q&A):
+  </p>
+
+  <table width="100%" cellpadding="8" cellspacing="0" style="border-collapse: collapse; margin-top: 15px; font-size: 0.95rem;">
+    <thead>
+      <tr style="background-color: #f1f5f9; text-align: left; border-bottom: 2px solid #cbd5e1;">
+        <th style="padding: 10px; width: 28%;">Time</th>
+        <th style="padding: 10px; width: 28%;">Speaker</th>
+        <th style="padding: 10px; width: 44%;">Talk Title</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr style="border-bottom: 1px solid #e2e8f0;">
+        <td style="padding: 10px; font-weight: 600; color: #334155;">12:00 PM &ndash; 12:15 PM</td>
+        <td style="padding: 10px;">
+          <a href="https://sites.google.com/view/makennagreenwalt/home" target="_blank"><strong>Makenna Greenwalt</strong></a><br>
+          <span style="font-size: 0.8rem; color: #d97706; font-weight: 600;">🌟 Plenary Talk</span>
+        </td>
+        <td style="padding: 10px;">
+          <a href="TalksPosters.html#makenna">Mathematicians or Moles? A First Study in the Mesmerizing Psychology of Derek Moran and Enrique Mercado</a>
+        </td>
+      </tr>
+      <tr style="border-bottom: 1px solid #e2e8f0; background-color: #fafafa;">
+        <td style="padding: 10px; font-weight: 600; color: #334155;">12:15 PM &ndash; 12:30 PM</td>
+        <td style="padding: 10px;">
+          <a href="https://www.youtube.com/twigmittens" target="_blank"><strong>Sean Bolon</strong></a><br>
+          <span style="font-size: 0.8rem; color: #15803d; font-weight: 600;">🦎 Sponsor Talk</span>
+        </td>
+        <td style="padding: 10px;">
+          <a href="TalksPosters.html#sean">Millimeters Matter</a> <span style="font-size: 0.85rem; color: #64748b;">(4-5 mins)</span>
+        </td>
+      </tr>
+      <tr style="border-bottom: 1px solid #e2e8f0;">
+        <td style="padding: 10px; font-weight: 600; color: #334155;">12:30 PM &ndash; 12:45 PM</td>
+        <td style="padding: 10px;">
+          <strong>Michael Moy</strong>
+        </td>
+        <td style="padding: 10px;">
+          <a href="TalksPosters.html#michaelmoy">A rubber band, a mug, and 3-sphere</a> <span style="font-size: 0.85rem; color: #64748b;">(8 mins)</span>
+        </td>
+      </tr>
+      <tr style="background-color: #f8fafc;">
+        <td style="padding: 10px; font-weight: 600; color: #64748b;">12:45 PM &ndash; 1:00 PM</td>
+        <td colspan="2" style="padding: 10px; color: #64748b; font-style: italic;">
+          🍻 Q&A overflow, socializing, & conference celebration
+        </td>
+      </tr>
+    </tbody>
+  </table>
 </div>
 
 <div style="text-align: center; padding-top: 1em; padding-bottom: 1em;">
