@@ -102,9 +102,11 @@ layout: page
   <strong>📍 Logistics:</strong>
   <ul>
     <li>Note: There is <strong>no funding</strong> available.</li>
-    <li>Talks will take place somewhere in <strong>Fort Collins</strong> (see the registration page for details).</li>
-    <li>Exact rooms and locations will be finalized and communicated at a later date.</li>
+    <li><strong>Location:</strong> Talks will take place in <strong>Weber room 15</strong>, located in the basement of the Weber building (<a href="https://maps.app.goo.gl/1a6xwWgA2U9dCcUR9" target="_blank">Google Maps</a>).</li>
   </ul>
+  <div style="margin-top: 15px; text-align: center;">
+    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3030.4302740008957!2d-105.08471192379957!3d40.576256971414324!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x87694a577ec5e8f7%3A0x9473294e41e7e7c9!2sLouis%20R.%20Weber%2C%20Fort%20Collins%2C%20CO%2080523!5e0!3m2!1sen!2sus!4v1790019678226!5m2!1sen!2sus" width="100%" height="350" style="border:0; border-radius: 10px; max-width: 600px;" allowfullscreen="" loading="lazy" referrerpolicy="strict-origin-when-cross-origin"></iframe>
+  </div>
 </div>
 
 &nbsp;
@@ -180,7 +182,10 @@ layout: page
   <h4 style="margin-top: 0; color: #1e293b; border-bottom: 1px solid #cbd5e1; padding-bottom: 8px;">
     🗓️ Tuesday, September 22, 2026
   </h4>
-  <p style="font-size: 0.95rem; color: #64748b; margin-top: 5px;">
+  <p style="font-size: 0.95rem; color: #334155; margin-top: 5px; margin-bottom: 5px;">
+    📍 <strong>Location:</strong> Weber room 15 (Basement of the Weber building) &mdash; <a href="https://maps.app.goo.gl/1a6xwWgA2U9dCcUR9" target="_blank">Google Maps</a>
+  </p>
+  <p style="font-size: 0.95rem; color: #64748b; margin-top: 0;">
     Talks are scheduled back-to-back around noon (accounting for ~10–15 minutes each including Q&A):
   </p>
 
@@ -225,7 +230,7 @@ layout: page
       <tr style="background-color: #f8fafc;">
         <td style="padding: 10px; font-weight: 600; color: #64748b;">12:45 PM &ndash; 1:00 PM</td>
         <td colspan="2" style="padding: 10px; color: #64748b; font-style: italic;">
-          🍻 Q&A overflow, socializing, & conference celebration
+          Q&A overflow, socializing, & conference celebration
         </td>
       </tr>
     </tbody>
