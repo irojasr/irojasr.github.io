@@ -59,6 +59,25 @@ No se
 </div>
 </div>
 
+<!-- Workshop - Ignacio Rojas -->
+<div id="workshop" style="background-color:#fff; border-radius:12px; padding: 25px; margin-top: 20px; border: 1px solid #000;">
+<div style="display: inline-block; background: #e0e7ff; color: #4338ca; font-size: 0.8rem; font-weight: bold; padding: 3px 10px; border-radius: 20px; border: 1px solid #a5b4fc; margin-bottom: 10px;">
+  🛠️ Workshop
+</div>
+<h3 style="margin-top: 0; color: #334155;">In which I help Sam run AI locally</h3>
+<p style="font-size: 1.1rem; font-weight: 600; margin-bottom: 10px;">
+<a href="../index" target="_blank">Ignacio Rojas</a>
+</p>
+<div style="background: #f8fafc; padding: 15px; border-radius: 8px; border-left: 4px solid #000000; margin: 20px 0;">
+<div style="font-style: italic; color: #475569; line-height: 1.6;">
+The title is self-explanatory: I will help Sam install Codex, Antigravity, or Claude to run AI locally.
+</div>
+</div>
+<div style="font-size: 0.85rem; color: #94a3b8; border-top: 1px solid #eee; padding-top: 10px; margin-top: 10px;">
+<strong>Type:</strong> In-person Workshop | <strong>Duration:</strong> 30 minutes | <strong>Conflict of Interest:</strong> None reported
+</div>
+</div>
+
 <!-- Trevor Overton -->
 <div id="trevor" style="background-color:#fff; border-radius:12px; padding: 25px; margin-top: 20px; border: 1px solid #000;">
 <h3 style="margin-top: 0; color: #334155;">What the Ballmer's Peak Can Do for You and I</h3>

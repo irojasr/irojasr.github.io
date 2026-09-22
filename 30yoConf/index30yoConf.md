@@ -155,6 +155,7 @@ layout: page
 <h3>📢 Speakers</h3>
 <div style="max-width: 800px; margin: 0 auto; background-color:#f9f9f9; border-radius:10px; padding: 20px; margin-bottom: 2em;">
   • <strong>Joel Barraza</strong>: <a href="TalksPosters.html#joel">No se</a> <em>(10 mins)</em><br>
+  • <strong>Ignacio Rojas</strong>: <a href="TalksPosters.html#workshop">In which I help Sam run AI locally</a> <em>(Workshop, 30 mins)</em><br>
   • <strong>Trevor Overton</strong>: <a href="TalksPosters.html#trevor">What the Ballmer's Peak Can Do for You and I</a> <em>(20 mins)</em><br>
   • <strong><a href="https://www.youtube.com/twigmittens" target="_blank">Sean "The Chameleon" Bolon</a></strong>: <a href="TalksPosters.html#sean">Millimeters Matter</a> <em>(Sponsor Talk &mdash; Bolon Foundation, 10 mins)</em><br>
   • <strong>Michael Moy</strong>: <a href="TalksPosters.html#michaelmoy">A rubber band, a mug, and 3-sphere</a> <em>(10 mins)</em><br>
@@ -208,8 +209,19 @@ layout: page
           <a href="TalksPosters.html#joel">No se</a> <span style="font-size: 0.85rem; color: #64748b;">(10 mins)</span>
         </td>
       </tr>
+      <tr style="border-bottom: 1px solid #e2e8f0; background-color: #fafafa;">
+        <td style="padding: 10px; font-weight: 600; color: #334155;">10:30 AM &ndash; 11:00 AM</td>
+        <td style="padding: 10px;">
+          <strong>Ignacio Rojas</strong><br>
+          <span style="font-size: 0.8rem; color: #6366f1; font-weight: 600;">🛠️ Workshop</span>
+        </td>
+        <td style="padding: 10px;">
+          <a href="TalksPosters.html#workshop">In which I help Sam run AI locally</a> <span style="font-size: 0.85rem; color: #64748b;">(30 mins)</span><br>
+          <span style="font-size: 0.85rem; color: #64748b;">Helping Sam install Codex, Antigravity, or Claude locally.</span>
+        </td>
+      </tr>
       <tr style="background-color: #f8fafc; border-bottom: 1px solid #e2e8f0;">
-        <td style="padding: 8px 10px; font-size: 0.85rem; color: #94a3b8;">10:30 AM &ndash; 11:30 AM</td>
+        <td style="padding: 8px 10px; font-size: 0.85rem; color: #94a3b8;">11:00 AM &ndash; 11:30 AM</td>
         <td colspan="2" style="padding: 8px 10px; font-size: 0.85rem; color: #94a3b8; font-style: italic;">
           ☕ Intermission &amp; informal discussion
         </td>
