@@ -1,0 +1,1493 @@
+<!--
+  Orthogonal Grid Simulation — Cyclic Predation Cellular Automaton
+  
+  Original idea and mathematical formulation: irojasr
+  Created with the assistance of Gemini (Google DeepMind),
+  used as a coding tool under human direction.
+
+  In the spirit of the Leiden Declaration on Artificial Intelligence
+  and Mathematics (2 June 2026, ../Leiden_Declaration_on_Artificial_Intelligence_and_Mathematics.pdf):
+  - The human author retains full creative ownership and responsibility
+    for this work.
+  - AI was used as a development tool, not as an author or co-creator.
+  - This disclosure is made in accordance with the Declaration's
+    recommendations on transparent tool use and proper attribution.
+-->
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Play Grid Simulation — Orthogonal Predation Automaton</title>
+  <meta name="description" content="Interactive orthogonal grid cellular automaton. Draw patterns, adjust dimensions, and explore cyclic predation dynamics.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-color: #0b0d17;
+      --bg-grad-start: #16182a;
+      --bg-grad-end: #0b0d17;
+      --panel-bg: rgba(255, 255, 255, 0.04);
+      --panel-hover: rgba(255, 255, 255, 0.07);
+      --border-color: rgba(255, 255, 255, 0.12);
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --accent-cyan: #00f0ff;
+      --accent-pink: #ff006a;
+      --accent-blue: #3b82f6;
+      --accent-green: #10b981;
+      --btn-bg: rgba(255, 255, 255, 0.08);
+      --btn-hover: rgba(255, 255, 255, 0.15);
+      --btn-active: rgba(255, 255, 255, 0.22);
+      --canvas-border: rgba(255, 255, 255, 0.15);
+      --shadow: rgba(0, 0, 0, 0.4);
+      --font-mono: 'JetBrains Mono', monospace;
+    }
+
+    [data-theme="light"] {
+      --bg-color: #f8fafc;
+      --bg-grad-start: #edf2f7;
+      --bg-grad-end: #f8fafc;
+      --panel-bg: #ffffff;
+      --panel-hover: #f1f5f9;
+      --border-color: #cbd5e1;
+      --text-main: #0f172a;
+      --text-muted: #64748b;
+      --btn-bg: #e2e8f0;
+      --btn-hover: #cbd5e1;
+      --btn-active: #94a3b8;
+      --canvas-border: #cbd5e1;
+      --shadow: rgba(0, 0, 0, 0.08);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background-color: var(--bg-color);
+      background-image: radial-gradient(circle at 50% 0%, var(--bg-grad-start) 0%, var(--bg-grad-end) 100%);
+      color: var(--text-main);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 16px 12px 60px;
+      transition: background-color .3s, color .3s;
+    }
+
+    .top-bar {
+      width: 100%;
+      max-width: 860px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+      padding: 0 4px;
+    }
+
+    .nav-links a {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 0.85rem;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover {
+      color: var(--accent-cyan);
+    }
+
+    .theme-toggle-btn {
+      background: var(--btn-bg);
+      border: 1px solid var(--border-color);
+      color: var(--text-main);
+      padding: 6px 12px;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: background 0.2s;
+    }
+
+    .theme-toggle-btn:hover {
+      background: var(--btn-hover);
+    }
+
+    .header {
+      text-align: center;
+      margin-bottom: 16px;
+      width: 100%;
+      max-width: 860px;
+    }
+
+    h1 {
+      font-size: 2.2rem;
+      font-weight: 800;
+      background: linear-gradient(135deg, var(--accent-cyan), var(--accent-pink));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 6px;
+      letter-spacing: -0.02em;
+    }
+
+    .subtitle {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+      max-width: 680px;
+      margin: 0 auto;
+      line-height: 1.5;
+    }
+
+    .rule-pill {
+      display: inline-block;
+      background: var(--panel-bg);
+      border: 1px solid var(--border-color);
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 0.82rem;
+      color: var(--accent-cyan);
+      margin-top: 8px;
+      font-family: var(--font-mono);
+    }
+
+    /* Main Container */
+    .app-container {
+      width: 100%;
+      max-width: 860px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 14px;
+    }
+
+    /* Status HUD */
+    .hud-card {
+      width: 100%;
+      background: var(--panel-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 12px 16px;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      box-shadow: 0 4px 12px var(--shadow);
+      backdrop-filter: blur(10px);
+    }
+
+    .hud-metrics {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    .metric-group {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .metric-label {
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--text-muted);
+      font-weight: 600;
+    }
+
+    .metric-val {
+      font-family: var(--font-mono);
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--text-main);
+    }
+
+    .status-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 10px;
+      border-radius: 16px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      background: rgba(16, 185, 129, 0.15);
+      color: var(--accent-green);
+      border: 1px solid rgba(16, 185, 129, 0.3);
+    }
+
+    .status-badge.paused {
+      background: rgba(245, 158, 11, 0.15);
+      color: #f59e0b;
+      border-color: rgba(245, 158, 11, 0.3);
+    }
+
+    .status-badge.stable {
+      background: rgba(148, 163, 184, 0.15);
+      color: #94a3b8;
+      border-color: rgba(148, 163, 184, 0.3);
+    }
+
+    .inspector-badge {
+      font-family: var(--font-mono);
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .inspector-color-dot {
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      border: 1px solid rgba(255, 255, 255, 0.5);
+      display: inline-block;
+    }
+
+    /* Simulation Canvas Stage */
+    .canvas-wrapper {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      background: var(--panel-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 14px;
+      padding: 16px;
+      box-shadow: 0 6px 20px var(--shadow);
+      position: relative;
+      overflow: hidden;
+    }
+
+    #simCanvas {
+      background-color: #000000;
+      border: 1px solid var(--canvas-border);
+      border-radius: 8px;
+      cursor: crosshair;
+      touch-action: none;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+      max-width: 100%;
+    }
+
+    .canvas-hint {
+      margin-top: 8px;
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      text-align: center;
+    }
+
+    /* Palette Bar */
+    .palette-card {
+      width: 100%;
+      background: var(--panel-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 14px 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      box-shadow: 0 4px 12px var(--shadow);
+    }
+
+    .palette-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .palette-title {
+      font-size: 0.85rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--text-main);
+    }
+
+    .palette-buttons {
+      display: grid;
+      grid-template-columns: repeat(10, 1fr);
+      gap: 8px;
+      width: 100%;
+    }
+
+    @media (max-width: 600px) {
+      .palette-buttons {
+        grid-template-columns: repeat(5, 1fr);
+      }
+    }
+
+    .palette-btn {
+      border: 2px solid transparent;
+      border-radius: 8px;
+      padding: 8px 4px;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-mono);
+      font-weight: 700;
+      font-size: 1.1rem;
+      transition: transform 0.1s, border-color 0.15s, filter 0.15s;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+    }
+
+    .palette-btn:hover {
+      transform: translateY(-2px);
+    }
+
+    .palette-btn.active {
+      border-color: #ffffff;
+      box-shadow: 0 0 12px rgba(255, 255, 255, 0.6);
+      transform: scale(1.06);
+    }
+
+    .palette-btn.disabled {
+      opacity: 0.25;
+      filter: grayscale(80%);
+      cursor: not-allowed;
+      pointer-events: none;
+    }
+
+    .palette-key-hint {
+      font-size: 0.65rem;
+      opacity: 0.8;
+      margin-top: 2px;
+      font-weight: 400;
+    }
+
+    /* Primary Simulation Controls */
+    .controls-card {
+      width: 100%;
+      background: var(--panel-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 14px 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      box-shadow: 0 4px 12px var(--shadow);
+    }
+
+    .btn-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .action-btn {
+      background: var(--btn-bg);
+      border: 1px solid var(--border-color);
+      color: var(--text-main);
+      padding: 9px 16px;
+      border-radius: 8px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: background 0.15s, transform 0.1s, border-color 0.15s;
+    }
+
+    .action-btn:hover {
+      background: var(--btn-hover);
+      border-color: rgba(255, 255, 255, 0.3);
+      transform: translateY(-1px);
+    }
+
+    .action-btn:active {
+      background: var(--btn-active);
+      transform: translateY(1px);
+    }
+
+    .action-btn.primary {
+      background: linear-gradient(135deg, var(--accent-blue), #2563eb);
+      color: #ffffff;
+      border: none;
+      box-shadow: 0 2px 8px rgba(37, 99, 235, 0.4);
+    }
+
+    .action-btn.primary:hover {
+      background: linear-gradient(135deg, #60a5fa, #1d4ed8);
+    }
+
+    .action-btn.danger {
+      background: rgba(239, 68, 68, 0.15);
+      color: #ef4444;
+      border-color: rgba(239, 68, 68, 0.3);
+    }
+
+    .action-btn.danger:hover {
+      background: rgba(239, 68, 68, 0.25);
+    }
+
+    /* Options & Configuration Rows */
+    .config-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 12px;
+      width: 100%;
+      padding-top: 6px;
+      border-top: 1px solid var(--border-color);
+    }
+
+    .config-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .config-label {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      color: var(--text-muted);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .config-inputs {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    input[type="range"] {
+      flex: 1;
+      height: 6px;
+      border-radius: 3px;
+      background: var(--btn-bg);
+      outline: none;
+      cursor: pointer;
+      accent-color: var(--accent-cyan);
+    }
+
+    input[type="number"] {
+      width: 62px;
+      background: var(--btn-bg);
+      border: 1px solid var(--border-color);
+      color: var(--text-main);
+      padding: 5px 8px;
+      border-radius: 6px;
+      font-family: var(--font-mono);
+      font-size: 0.85rem;
+      text-align: center;
+    }
+
+    .toggle-group {
+      display: flex;
+      background: var(--btn-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      overflow: hidden;
+      width: 100%;
+    }
+
+    .toggle-btn {
+      flex: 1;
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
+      padding: 7px 10px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      cursor: pointer;
+      text-align: center;
+      transition: background 0.15s, color 0.15s;
+    }
+
+    .toggle-btn.active {
+      background: var(--panel-hover);
+      color: var(--accent-cyan);
+      box-shadow: inset 0 -2px 0 var(--accent-cyan);
+    }
+
+    /* Presets Strip */
+    .presets-strip {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      align-items: center;
+      margin-top: 4px;
+    }
+
+    .preset-pill {
+      background: var(--btn-bg);
+      border: 1px solid var(--border-color);
+      color: var(--text-muted);
+      padding: 4px 10px;
+      border-radius: 14px;
+      font-size: 0.75rem;
+      font-family: var(--font-mono);
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+
+    .preset-pill:hover {
+      background: var(--btn-hover);
+      color: var(--text-main);
+      border-color: var(--accent-cyan);
+    }
+
+    /* Explanatory Collapsible Card */
+    .explanation-card {
+      width: 100%;
+      background: var(--panel-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 14px 18px;
+      font-size: 0.85rem;
+      line-height: 1.6;
+      color: var(--text-muted);
+    }
+
+    .explanation-card summary {
+      cursor: pointer;
+      font-weight: 700;
+      color: var(--text-main);
+      user-select: none;
+      outline: none;
+    }
+
+    .explanation-card ul {
+      margin-top: 10px;
+      padding-left: 20px;
+    }
+
+    .explanation-card li {
+      margin-bottom: 6px;
+    }
+
+    /* Footer */
+    .footer {
+      max-width: 860px;
+      width: 100%;
+      text-align: center;
+      margin-top: 30px;
+      padding: 18px;
+      color: var(--text-muted);
+      font-size: 0.75rem;
+      border-top: 1px solid var(--border-color);
+    }
+
+    .footer a {
+      color: var(--accent-cyan);
+      text-decoration: none;
+    }
+
+    .footer a:hover {
+      text-decoration: underline;
+    }
+
+    /* Screen Reader Only */
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="top-bar">
+    <div class="nav-links">
+      <a href="../index.html">← Main Site</a>
+    </div>
+    <button class="theme-toggle-btn" id="themeToggleBtn" aria-label="Toggle visual theme">
+      <span id="themeIcon">☀️</span> <span id="themeText">Light</span>
+    </button>
+  </div>
+
+  <header class="header">
+    <h1>Orthogonal Grid Simulation</h1>
+    <p class="subtitle">
+      A cyclic cellular automaton governed by orthogonal dominance.
+    </p>
+    <div class="rule-pill">
+      Rule: Cell k devours adjacent orthogonal (k + 1) → turns it into k
+    </div>
+  </header>
+
+  <main class="app-container">
+
+    <!-- Status HUD -->
+    <section class="hud-card" aria-label="Simulation Status">
+      <div class="hud-metrics">
+        <div class="metric-group">
+          <span class="metric-label">Time Step</span>
+          <span class="metric-val" id="stepCounter">0</span>
+        </div>
+        <div class="metric-group">
+          <span class="metric-label">Grid Size (m × n)</span>
+          <span class="metric-val" id="gridDimText">20 × 20</span>
+        </div>
+        <div class="metric-group">
+          <span class="metric-label">State</span>
+          <span class="status-badge paused" id="statusBadge">⏸ Paused</span>
+        </div>
+      </div>
+
+      <div class="inspector-badge" id="inspectorBadge">
+        <span>Hover/Draw:</span>
+        <span class="inspector-color-dot" id="inspectorDot" style="background-color: #ef4444;"></span>
+        <span id="inspectorText">Cell (0, 0) = 1</span>
+      </div>
+    </section>
+
+    <!-- Canvas Stage -->
+    <div class="canvas-wrapper">
+      <canvas id="simCanvas" width="600" height="600" aria-label="Interactive cellular automaton grid"></canvas>
+      <div class="canvas-hint">
+        🎨 Click or drag on the grid to paint with the active palette color. Drawing is active during simulation.
+      </div>
+    </div>
+
+    <!-- Palette Bar -->
+    <section class="palette-card" aria-label="Color Palette">
+      <div class="palette-header">
+        <span class="palette-title">Color Palette (Values 1 to <span id="maxValDisplay">10</span>)</span>
+        <span style="font-size: 0.75rem; color: var(--text-muted);">Shortcuts: Keys 1–9, 0</span>
+      </div>
+      <div class="palette-buttons" id="paletteContainer" role="radiogroup" aria-label="Select Drawing Value">
+        <!-- Injected via JavaScript -->
+      </div>
+    </section>
+
+    <!-- Simulation Controls -->
+    <section class="controls-card" aria-label="Simulation Controls">
+      <!-- Buttons Strip -->
+      <div class="btn-row">
+        <button class="action-btn primary" id="runPauseBtn" aria-label="Run or Pause Simulation">
+          <span id="runPauseIcon">▶</span> <span id="runPauseLabel">Run</span>
+        </button>
+        <button class="action-btn" id="stepBtn" aria-label="Advance One Step">
+          ⏭ Step
+        </button>
+        <button class="action-btn" id="randomizeBtn" aria-label="Randomize Grid">
+          🎲 Randomize
+        </button>
+        <button class="action-btn" id="resetBtn" aria-label="Reset to Initial Configuration">
+          ↺ Reset
+        </button>
+        <button class="action-btn danger" id="clearBtn" aria-label="Clear Grid">
+          ✕ Clear
+        </button>
+      </div>
+
+      <!-- Configurations Grid -->
+      <div class="config-grid">
+        <!-- Speed Slider -->
+        <div class="config-group">
+          <div class="config-label">
+            <span>Speed</span>
+            <span id="speedDisplay" style="font-family: var(--font-mono); color: var(--text-main);">10 fps</span>
+          </div>
+          <div class="config-inputs">
+            <input type="range" id="speedSlider" min="1" max="60" value="10" aria-label="Simulation Speed in Frames Per Second">
+          </div>
+        </div>
+
+        <!-- Max States (K) -->
+        <div class="config-group">
+          <div class="config-label">
+            <span>States (K)</span>
+            <span id="statesCountDisplay" style="font-family: var(--font-mono); color: var(--text-main);">10</span>
+          </div>
+          <div class="config-inputs">
+            <input type="range" id="statesSlider" min="2" max="10" value="10" aria-label="Number of states in cycle">
+          </div>
+        </div>
+
+        <!-- Boundary Toggle -->
+        <div class="config-group">
+          <div class="config-label">Boundary Condition</div>
+          <div class="toggle-group" role="group" aria-label="Boundary Mode">
+            <button class="toggle-btn active" id="btnPeriodic" aria-pressed="true">Periodic (Toroid)</button>
+            <button class="toggle-btn" id="btnFixed" aria-pressed="false">Fixed (Walls)</button>
+          </div>
+        </div>
+
+        <!-- Arithmetic Rule Toggle -->
+        <div class="config-group">
+          <div class="config-label">Value Succession</div>
+          <div class="toggle-group" role="group" aria-label="Succession Mode">
+            <button class="toggle-btn active" id="btnCyclic" aria-pressed="true">Cyclic (K → 1)</button>
+            <button class="toggle-btn" id="btnLinear" aria-pressed="false">Linear (1 &lt; K)</button>
+          </div>
+        </div>
+
+        <!-- Grid Dimension Controls -->
+        <div class="config-group">
+          <div class="config-label">Rows (m) &amp; Cols (n)</div>
+          <div class="config-inputs">
+            <label for="inputRows" style="font-size: 0.75rem; color: var(--text-muted);">m:</label>
+            <input type="number" id="inputRows" min="1" max="60" value="20">
+            <label for="inputCols" style="font-size: 0.75rem; color: var(--text-muted);">n:</label>
+            <input type="number" id="inputCols" min="1" max="60" value="20">
+            <button class="action-btn" id="applyDimBtn" style="padding: 5px 10px; font-size: 0.8rem;">Apply</button>
+          </div>
+        </div>
+
+        <!-- Display Toggle -->
+        <div class="config-group">
+          <div class="config-label">Overlay Numbers</div>
+          <div class="toggle-group" role="group" aria-label="Show numbers inside cells">
+            <button class="toggle-btn active" id="btnNumbersAuto" aria-pressed="true">Auto</button>
+            <button class="toggle-btn" id="btnNumbersOn" aria-pressed="false">On</button>
+            <button class="toggle-btn" id="btnNumbersOff" aria-pressed="false">Off</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Presets Strip -->
+      <div style="padding-top: 8px; border-top: 1px solid var(--border-color);">
+        <div style="font-size: 0.7rem; font-weight: 700; text-transform: uppercase; color: var(--text-muted); margin-bottom: 6px;">
+          Configuration Presets:
+        </div>
+        <div class="presets-strip">
+          <button class="preset-pill" data-m="1" data-n="4" data-k="4" data-mode="cyclic-periodic" title="Permutation test on 1x4">1 × 4 Permutation</button>
+          <button class="preset-pill" data-m="1" data-n="10" data-k="10" data-mode="cyclic-periodic" title="Full 1..10 cyclic wave">1 × 10 Permutation</button>
+          <button class="preset-pill" data-m="10" data-n="10" data-k="10" data-mode="random" title="10x10 Random Grid">10 × 10 Random</button>
+          <button class="preset-pill" data-m="20" data-n="20" data-k="10" data-mode="random" title="20x20 Standard Grid">20 × 20 Standard</button>
+          <button class="preset-pill" data-m="35" data-n="35" data-k="10" data-mode="random" title="35x35 High-Density Spirals">35 × 35 Spirals</button>
+          <button class="preset-pill" data-m="25" data-n="25" data-k="10" data-mode="diamond" title="Single low-value diamond seed">Diamond Seed</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Mathematical Details Collapsible Card -->
+    <details class="explanation-card">
+      <summary>📐 Mathematical Rules, Edge Cases &amp; Conventions</summary>
+      <ul>
+        <li><strong>Update Rule:</strong> If a cell has value \(k\), and an adjacent orthogonal neighbor has value exactly \(k+1\), the neighbor becomes \(k\). (Equivalently, a cell in state \(v\) converts to \(v-1\) if at least one orthogonal neighbor has value \(v-1\)).</li>
+        <li><strong>Simultaneous Execution:</strong> Transitions are strictly synchronous (\(A^{(t)} \mapsto A^{(t+1)}\)) using double buffering. Scan order does not affect dynamics.</li>
+        <li><strong>Conflict Freeness:</strong> Because each cell \(v\) only ever converts to its unique predecessor \(\text{pred}(v)\), competing updates to the same cell always assign the identical value. Conflicts are mathematically impossible.</li>
+        <li><strong>Cyclic vs. Linear Succession:</strong> In cyclic mode (\(\mathbb{Z}_K\)), the maximum state \(K\) wraps to \(1\), meaning \(K\) converts an adjacent \(1\) into \(K\). In linear mode, \(1\) cannot be converted and \(K\) cannot convert anything.</li>
+        <li><strong>Boundary Topologies:</strong> In periodic mode, coordinates wrap toroidally modulo \(m\) and \(n\). In degenerate grids (\(1 \times n\), \(m \times 1\), \(1 \times 1\)), self-neighbors are strictly excluded.</li>
+        <li><strong>The \(1 \times n\) Permutation Theorem:</strong> Under periodic boundaries with cycle modulus \(K = n\), the configuration \((1, 2, \dots, n)\) undergoes a cyclic right-shift at every step: \(A^{(t+1)}_i = A^{(t)}_{(i-1)\bmod n}\).</li>
+      </ul>
+    </details>
+
+    <div class="sr-only" aria-live="polite" id="ariaLiveRegion">Simulation loaded.</div>
+
+  </main>
+
+  <footer class="footer">
+    Original idea &amp; mathematical design: <strong>irojasr</strong> · Interactive implementation created with Gemini (Google DeepMind).<br>
+    AI tool use disclosed per the <a href="../Leiden_Declaration_on_Artificial_Intelligence_and_Mathematics.pdf" target="_blank" rel="noopener">Leiden Declaration on AI and Mathematics</a>.
+  </footer>
+
+  <script>
+    /**
+     * PALETTE CONFIGURATION (Values 1 through 10)
+     */
+    const PALETTE = [
+      { val: 1, name: 'Coral Red', hex: '#ef4444', text: '#ffffff' },
+      { val: 2, name: 'Deep Orange', hex: '#f97316', text: '#ffffff' },
+      { val: 3, name: 'Amber Gold', hex: '#f59e0b', text: '#000000' },
+      { val: 4, name: 'Emerald Green', hex: '#10b981', text: '#ffffff' },
+      { val: 5, name: 'Teal Cyan', hex: '#06b6d4', text: '#000000' },
+      { val: 6, name: 'Sky Blue', hex: '#3b82f6', text: '#ffffff' },
+      { val: 7, name: 'Indigo', hex: '#6366f1', text: '#ffffff' },
+      { val: 8, name: 'Purple', hex: '#a855f7', text: '#ffffff' },
+      { val: 9, name: 'Magenta Pink', hex: '#ec4899', text: '#ffffff' },
+      { val: 10, name: 'Slate Charcoal', hex: '#334155', text: '#ffffff' }
+    ];
+
+    /**
+     * SIMULATION STATE
+     */
+    let m = 20; // rows
+    let n = 20; // columns
+    let maxValue = 10; // K
+    let periodic = true;
+    let cyclic = true;
+    let numberOverlayMode = 'auto'; // 'auto', 'on', 'off'
+
+    let currentGrid = new Uint8Array(m * n);
+    let initialGrid = new Uint8Array(m * n);
+    let stepCount = 0;
+    let isRunning = false;
+    let simFps = 10;
+    let animFrameId = null;
+    let lastStepTime = 0;
+
+    let selectedValue = 1;
+    let isPointerDown = false;
+    let hoveredCell = { r: 0, c: 0 };
+
+    // Canvas DOM
+    const canvas = document.getElementById('simCanvas');
+    const ctx = canvas.getContext('2d');
+
+    /**
+     * PURE SIMULATION ADVANCE FUNCTION
+     */
+    function getNeighbors(r, c, rows, cols, isPeriodic) {
+      const neighbors = [];
+      // Vertical
+      if (rows > 1) {
+        if (isPeriodic) {
+          const up = ((r - 1 + rows) % rows) * cols + c;
+          const down = ((r + 1) % rows) * cols + c;
+          neighbors.push(up);
+          if (down !== up) neighbors.push(down);
+        } else {
+          if (r > 0) neighbors.push((r - 1) * cols + c);
+          if (r < rows - 1) neighbors.push((r + 1) * cols + c);
+        }
+      }
+      // Horizontal
+      if (cols > 1) {
+        if (isPeriodic) {
+          const left = r * cols + ((c - 1 + cols) % cols);
+          const right = r * cols + ((c + 1) % cols);
+          neighbors.push(left);
+          if (right !== left) neighbors.push(right);
+        } else {
+          if (c > 0) neighbors.push(r * cols + (c - 1));
+          if (c < cols - 1) neighbors.push(r * cols + (c + 1));
+        }
+      }
+
+      // Deduplicate coordinates
+      return Array.from(new Set(neighbors));
+    }
+
+    function advanceGrid(grid, rows, cols, options) {
+      const nextGrid = new Uint8Array(rows * cols);
+      const isPeriodic = options.periodic;
+      const isCyclic = options.cyclic;
+      const kMax = options.maxValue;
+
+      for (let r = 0; r < rows; r++) {
+        for (let c = 0; c < cols; c++) {
+          const idx = r * cols + c;
+          const v = grid[idx];
+
+          let pred = null;
+          if (isCyclic) {
+            pred = (v === 1) ? kMax : (v - 1);
+          } else {
+            pred = (v > 1) ? (v - 1) : null;
+          }
+
+          let willChange = false;
+          if (pred !== null) {
+            const nbrIndices = getNeighbors(r, c, rows, cols, isPeriodic);
+            for (let i = 0; i < nbrIndices.length; i++) {
+              if (grid[nbrIndices[i]] === pred) {
+                willChange = true;
+                break;
+              }
+            }
+          }
+
+          nextGrid[idx] = willChange ? pred : v;
+        }
+      }
+
+      return nextGrid;
+    }
+
+    /**
+     * INITIALIZATION & SEEDING
+     */
+    function seedRandom() {
+      for (let i = 0; i < m * n; i++) {
+        currentGrid[i] = Math.floor(Math.random() * maxValue) + 1;
+      }
+      saveInitialSnapshot();
+      stepCount = 0;
+      updateUIStatus('Paused');
+      render();
+    }
+
+    function seedPermutation() {
+      for (let i = 0; i < m * n; i++) {
+        currentGrid[i] = (i % maxValue) + 1;
+      }
+      saveInitialSnapshot();
+      stepCount = 0;
+      updateUIStatus('Paused');
+      render();
+    }
+
+    function seedDiamond() {
+      currentGrid.fill(2);
+      const midR = Math.floor(m / 2);
+      const midC = Math.floor(n / 2);
+      currentGrid[midR * n + midC] = 1;
+      saveInitialSnapshot();
+      stepCount = 0;
+      updateUIStatus('Paused');
+      render();
+    }
+
+    function clearGrid() {
+      currentGrid.fill(selectedValue);
+      saveInitialSnapshot();
+      stepCount = 0;
+      updateUIStatus('Paused');
+      render();
+    }
+
+    function saveInitialSnapshot() {
+      initialGrid = new Uint8Array(currentGrid);
+    }
+
+    function restoreInitialSnapshot() {
+      currentGrid = new Uint8Array(initialGrid);
+      stepCount = 0;
+      pauseSim();
+      updateUIStatus('Paused');
+      render();
+      announceLive('Grid reset to initial configuration.');
+    }
+
+    /**
+     * RESIZING GRID
+     */
+    function resizeGrid(newM, newN) {
+      newM = Math.max(1, Math.min(60, newM));
+      newN = Math.max(1, Math.min(60, newN));
+
+      const newGrid = new Uint8Array(newM * newN);
+      newGrid.fill(selectedValue);
+
+      // Preserve existing cells from (0, 0)
+      const minR = Math.min(m, newM);
+      const minC = Math.min(n, newN);
+      for (let r = 0; r < minR; r++) {
+        for (let c = 0; c < minC; c++) {
+          newGrid[r * newN + c] = currentGrid[r * n + c];
+        }
+      }
+
+      m = newM;
+      n = newN;
+      currentGrid = newGrid;
+      saveInitialSnapshot();
+      stepCount = 0;
+      pauseSim();
+
+      document.getElementById('inputRows').value = m;
+      document.getElementById('inputCols').value = n;
+      document.getElementById('gridDimText').textContent = `${m} × ${n}`;
+
+      render();
+      announceLive(`Grid resized to ${m} by ${n}.`);
+    }
+
+    /**
+     * SIMULATION RUN / PAUSE / STEP LOOP
+     */
+    function stepSim() {
+      const options = { periodic, cyclic, maxValue };
+      const nextG = advanceGrid(currentGrid, m, n, options);
+
+      // Check for fixed point (stability)
+      let changed = false;
+      for (let i = 0; i < currentGrid.length; i++) {
+        if (currentGrid[i] !== nextG[i]) {
+          changed = true;
+          break;
+        }
+      }
+
+      currentGrid = nextG;
+      stepCount++;
+      document.getElementById('stepCounter').textContent = stepCount;
+
+      if (!changed && isRunning) {
+        pauseSim();
+        updateUIStatus('Stable (Fixed Point)');
+        announceLive('Simulation reached a fixed point.');
+      }
+
+      render();
+    }
+
+    function startSim() {
+      if (isRunning) return;
+      isRunning = true;
+      lastStepTime = performance.now();
+      updateUIStatus('Running');
+      document.getElementById('runPauseIcon').textContent = '⏸';
+      document.getElementById('runPauseLabel').textContent = 'Pause';
+      animFrameId = requestAnimationFrame(simLoop);
+      announceLive('Simulation running.');
+    }
+
+    function pauseSim() {
+      if (!isRunning) return;
+      isRunning = false;
+      if (animFrameId) {
+        cancelAnimationFrame(animFrameId);
+        animFrameId = null;
+      }
+      updateUIStatus('Paused');
+      document.getElementById('runPauseIcon').textContent = '▶';
+      document.getElementById('runPauseLabel').textContent = 'Run';
+      announceLive('Simulation paused.');
+    }
+
+    function toggleRunPause() {
+      if (isRunning) pauseSim();
+      else startSim();
+    }
+
+    function simLoop(now) {
+      if (!isRunning) return;
+
+      const intervalMs = 1000 / simFps;
+      const delta = now - lastStepTime;
+
+      if (delta >= intervalMs) {
+        lastStepTime = now - (delta % intervalMs);
+        stepSim();
+      }
+
+      animFrameId = requestAnimationFrame(simLoop);
+    }
+
+    function updateUIStatus(status) {
+      const badge = document.getElementById('statusBadge');
+      if (status === 'Running') {
+        badge.className = 'status-badge';
+        badge.textContent = '▶ Running';
+      } else if (status === 'Paused') {
+        badge.className = 'status-badge paused';
+        badge.textContent = '⏸ Paused';
+      } else {
+        badge.className = 'status-badge stable';
+        badge.textContent = '⏹ Fixed Point';
+      }
+    }
+
+    function announceLive(msg) {
+      document.getElementById('ariaLiveRegion').textContent = msg;
+    }
+
+    /**
+     * RENDERING ENGINE (CANVAS)
+     */
+    function render() {
+      const dpr = window.devicePixelRatio || 1;
+      const containerWidth = canvas.parentElement.clientWidth - 32;
+      const displaySize = Math.min(containerWidth, 600);
+
+      // Determine cell sizes preserving aspect ratio
+      const aspect = n / m;
+      let displayW, displayH;
+      if (aspect >= 1) {
+        displayW = displaySize;
+        displayH = Math.max(80, Math.round(displaySize / aspect));
+      } else {
+        displayH = displaySize;
+        displayW = Math.max(80, Math.round(displaySize * aspect));
+      }
+
+      if (canvas.width !== Math.round(displayW * dpr) || canvas.height !== Math.round(displayH * dpr)) {
+        canvas.width = Math.round(displayW * dpr);
+        canvas.height = Math.round(displayH * dpr);
+        canvas.style.width = displayW + 'px';
+        canvas.style.height = displayH + 'px';
+      }
+
+      ctx.save();
+      ctx.scale(dpr, dpr);
+
+      ctx.clearRect(0, 0, displayW, displayH);
+
+      const cellW = displayW / n;
+      const cellH = displayH / m;
+
+      const shouldShowNumbers = (numberOverlayMode === 'on') ||
+        (numberOverlayMode === 'auto' && cellW >= 18 && cellH >= 18);
+
+      const fontSize = Math.max(9, Math.min(18, Math.floor(Math.min(cellW, cellH) * 0.55)));
+      ctx.font = `600 ${fontSize}px var(--font-mono)`;
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+
+      for (let r = 0; r < m; r++) {
+        for (let c = 0; c < n; c++) {
+          const val = currentGrid[r * n + c];
+          const colorObj = PALETTE[val - 1] || PALETTE[0];
+
+          const x = c * cellW;
+          const y = r * cellH;
+
+          // Fill cell
+          ctx.fillStyle = colorObj.hex;
+          ctx.fillRect(x, y, cellW, cellH);
+
+          // Grid lines
+          ctx.strokeStyle = 'rgba(0, 0, 0, 0.18)';
+          ctx.lineWidth = 1;
+          ctx.strokeRect(x, y, cellW, cellH);
+
+          // Number label
+          if (shouldShowNumbers) {
+            ctx.fillStyle = colorObj.text;
+            ctx.fillText(val, x + cellW / 2, y + cellH / 2 + 1);
+          }
+        }
+      }
+
+      // Highlight hovered cell
+      if (hoveredCell.r >= 0 && hoveredCell.r < m && hoveredCell.c >= 0 && hoveredCell.c < n) {
+        const hx = hoveredCell.c * cellW;
+        const hy = hoveredCell.r * cellH;
+        ctx.strokeStyle = '#ffffff';
+        ctx.lineWidth = 2;
+        ctx.strokeRect(hx + 1, hy + 1, cellW - 2, cellH - 2);
+      }
+
+      ctx.restore();
+    }
+
+    /**
+     * POINTER & DRAWING INTERACTIONS
+     */
+    function getCellFromPointer(e) {
+      const rect = canvas.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+
+      if (x < 0 || x >= rect.width || y < 0 || y >= rect.height) return null;
+
+      const c = Math.floor((x / rect.width) * n);
+      const r = Math.floor((y / rect.height) * m);
+
+      if (r >= 0 && r < m && c >= 0 && c < n) {
+        return { r, c };
+      }
+      return null;
+    }
+
+    function paintCell(r, c) {
+      const idx = r * n + c;
+      if (currentGrid[idx] !== selectedValue) {
+        currentGrid[idx] = selectedValue;
+        saveInitialSnapshot();
+        render();
+        updateInspector(r, c);
+      }
+    }
+
+    function updateInspector(r, c) {
+      hoveredCell = { r, c };
+      const val = currentGrid[r * n + c];
+      const p = PALETTE[val - 1] || PALETTE[0];
+      document.getElementById('inspectorDot').style.backgroundColor = p.hex;
+      document.getElementById('inspectorText').textContent = `Cell (${r}, ${c}) = ${val} (${p.name})`;
+    }
+
+    canvas.addEventListener('pointerdown', (e) => {
+      isPointerDown = true;
+      canvas.setPointerCapture(e.pointerId);
+      const cell = getCellFromPointer(e);
+      if (cell) {
+        paintCell(cell.r, cell.c);
+      }
+    });
+
+    canvas.addEventListener('pointermove', (e) => {
+      const cell = getCellFromPointer(e);
+      if (cell) {
+        updateInspector(cell.r, cell.c);
+        if (isPointerDown) {
+          paintCell(cell.r, cell.c);
+        } else {
+          render();
+        }
+      }
+    });
+
+    canvas.addEventListener('pointerup', (e) => {
+      isPointerDown = false;
+      try { canvas.releasePointerCapture(e.pointerId); } catch (_) {}
+    });
+
+    canvas.addEventListener('pointercancel', () => { isPointerDown = false; });
+    canvas.addEventListener('pointerleave', () => {
+      hoveredCell = { r: -1, c: -1 };
+      render();
+    });
+
+    /**
+     * PALETTE CREATION & SELECTION
+     */
+    function buildPalette() {
+      const container = document.getElementById('paletteContainer');
+      container.innerHTML = '';
+
+      for (let i = 0; i < 10; i++) {
+        const item = PALETTE[i];
+        const btn = document.createElement('button');
+        btn.className = `palette-btn ${item.val === selectedValue ? 'active' : ''}`;
+        btn.style.backgroundColor = item.hex;
+        btn.style.color = item.text;
+        btn.id = `palette-btn-${item.val}`;
+        btn.setAttribute('role', 'radio');
+        btn.setAttribute('aria-checked', item.val === selectedValue ? 'true' : 'false');
+        btn.setAttribute('aria-label', `Value ${item.val}: ${item.name}`);
+
+        if (item.val > maxValue) {
+          btn.classList.add('disabled');
+        }
+
+        const keyHint = (item.val === 10) ? '0' : String(item.val);
+        btn.innerHTML = `
+          <span>${item.val}</span>
+          <span class="palette-key-hint">${keyHint}</span>
+        `;
+
+        btn.addEventListener('click', () => {
+          selectPalette(item.val);
+        });
+
+        container.appendChild(btn);
+      }
+
+      document.getElementById('maxValDisplay').textContent = maxValue;
+      document.getElementById('statesCountDisplay').textContent = maxValue;
+    }
+
+    function selectPalette(val) {
+      if (val > maxValue) return;
+      selectedValue = val;
+      document.querySelectorAll('.palette-btn').forEach(btn => {
+        btn.classList.remove('active');
+        btn.setAttribute('aria-checked', 'false');
+      });
+      const activeBtn = document.getElementById(`palette-btn-${val}`);
+      if (activeBtn) {
+        activeBtn.classList.add('active');
+        activeBtn.setAttribute('aria-checked', 'true');
+      }
+      announceLive(`Selected palette value ${val}`);
+    }
+
+    /**
+     * THEME TOGGLE
+     */
+    const themeBtn = document.getElementById('themeToggleBtn');
+    themeBtn.addEventListener('click', () => {
+      const html = document.documentElement;
+      const isDark = html.getAttribute('data-theme') === 'dark';
+      const newTheme = isDark ? 'light' : 'dark';
+      html.setAttribute('data-theme', newTheme);
+      document.getElementById('themeIcon').textContent = isDark ? '🌙' : '☀️';
+      document.getElementById('themeText').textContent = isDark ? 'Dark' : 'Light';
+      render();
+    });
+
+    /**
+     * EVENT LISTENERS
+     */
+    document.getElementById('runPauseBtn').addEventListener('click', toggleRunPause);
+    document.getElementById('stepBtn').addEventListener('click', () => {
+      pauseSim();
+      stepSim();
+    });
+    document.getElementById('randomizeBtn').addEventListener('click', () => {
+      pauseSim();
+      seedRandom();
+      announceLive('Grid randomized.');
+    });
+    document.getElementById('resetBtn').addEventListener('click', restoreInitialSnapshot);
+    document.getElementById('clearBtn').addEventListener('click', () => {
+      pauseSim();
+      clearGrid();
+      announceLive('Grid cleared.');
+    });
+
+    // Speed
+    const speedSlider = document.getElementById('speedSlider');
+    speedSlider.addEventListener('input', (e) => {
+      simFps = parseInt(e.target.value, 10);
+      document.getElementById('speedDisplay').textContent = `${simFps} fps`;
+    });
+
+    // States count slider
+    const statesSlider = document.getElementById('statesSlider');
+    statesSlider.addEventListener('input', (e) => {
+      maxValue = parseInt(e.target.value, 10);
+      buildPalette();
+      if (selectedValue > maxValue) selectPalette(1);
+      // Clamp any grid cells greater than new maxValue
+      let clamped = false;
+      for (let i = 0; i < currentGrid.length; i++) {
+        if (currentGrid[i] > maxValue) {
+          currentGrid[i] = ((currentGrid[i] - 1) % maxValue) + 1;
+          clamped = true;
+        }
+      }
+      if (clamped) saveInitialSnapshot();
+      render();
+    });
+
+    // Boundary Toggle
+    const btnPeriodic = document.getElementById('btnPeriodic');
+    const btnFixed = document.getElementById('btnFixed');
+    btnPeriodic.addEventListener('click', () => {
+      periodic = true;
+      btnPeriodic.classList.add('active');
+      btnPeriodic.setAttribute('aria-pressed', 'true');
+      btnFixed.classList.remove('active');
+      btnFixed.setAttribute('aria-pressed', 'false');
+      announceLive('Periodic boundary enabled.');
+    });
+    btnFixed.addEventListener('click', () => {
+      periodic = false;
+      btnFixed.classList.add('active');
+      btnFixed.setAttribute('aria-pressed', 'true');
+      btnPeriodic.classList.remove('active');
+      btnPeriodic.setAttribute('aria-pressed', 'false');
+      announceLive('Fixed boundary enabled.');
+    });
+
+    // Succession Rule Toggle
+    const btnCyclic = document.getElementById('btnCyclic');
+    const btnLinear = document.getElementById('btnLinear');
+    btnCyclic.addEventListener('click', () => {
+      cyclic = true;
+      btnCyclic.classList.add('active');
+      btnCyclic.setAttribute('aria-pressed', 'true');
+      btnLinear.classList.remove('active');
+      btnLinear.setAttribute('aria-pressed', 'false');
+      announceLive('Cyclic succession enabled.');
+    });
+    btnLinear.addEventListener('click', () => {
+      cyclic = false;
+      btnLinear.classList.add('active');
+      btnLinear.setAttribute('aria-pressed', 'true');
+      btnCyclic.classList.remove('active');
+      btnCyclic.setAttribute('aria-pressed', 'false');
+      announceLive('Linear succession enabled.');
+    });
+
+    // Number Overlay Toggle
+    const numAuto = document.getElementById('btnNumbersAuto');
+    const numOn = document.getElementById('btnNumbersOn');
+    const numOff = document.getElementById('btnNumbersOff');
+    function setNumMode(mode) {
+      numberOverlayMode = mode;
+      [numAuto, numOn, numOff].forEach(b => {
+        b.classList.remove('active');
+        b.setAttribute('aria-pressed', 'false');
+      });
+      if (mode === 'auto') { numAuto.classList.add('active'); numAuto.setAttribute('aria-pressed', 'true'); }
+      if (mode === 'on') { numOn.classList.add('active'); numOn.setAttribute('aria-pressed', 'true'); }
+      if (mode === 'off') { numOff.classList.add('active'); numOff.setAttribute('aria-pressed', 'false'); }
+      render();
+    }
+    numAuto.addEventListener('click', () => setNumMode('auto'));
+    numOn.addEventListener('click', () => setNumMode('on'));
+    numOff.addEventListener('click', () => setNumMode('off'));
+
+    // Apply Dimensions
+    document.getElementById('applyDimBtn').addEventListener('click', () => {
+      const newM = parseInt(document.getElementById('inputRows').value, 10);
+      const newN = parseInt(document.getElementById('inputCols').value, 10);
+      resizeGrid(newM, newN);
+    });
+
+    // Presets
+    document.querySelectorAll('.preset-pill').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const pm = parseInt(btn.dataset.m, 10);
+        const pn = parseInt(btn.dataset.n, 10);
+        const pk = parseInt(btn.dataset.k, 10);
+        const pmode = btn.dataset.mode;
+
+        maxValue = pk;
+        statesSlider.value = pk;
+        buildPalette();
+
+        if (pmode === 'cyclic-periodic') {
+          periodic = true;
+          cyclic = true;
+          btnPeriodic.click();
+          btnCyclic.click();
+          resizeGrid(pm, pn);
+          seedPermutation();
+        } else if (pmode === 'diamond') {
+          resizeGrid(pm, pn);
+          seedDiamond();
+        } else {
+          resizeGrid(pm, pn);
+          seedRandom();
+        }
+      });
+    });
+
+    // Keyboard navigation
+    window.addEventListener('keydown', (e) => {
+      if (e.target.tagName === 'INPUT') return; // Do not intercept inputs
+
+      if (e.code === 'Space') {
+        e.preventDefault();
+        toggleRunPause();
+      } else if (e.code === 'KeyS') {
+        pauseSim();
+        stepSim();
+      } else if (e.code === 'KeyR') {
+        restoreInitialSnapshot();
+      } else if (e.code === 'KeyN') {
+        pauseSim();
+        seedRandom();
+      } else if (e.code === 'KeyC') {
+        pauseSim();
+        clearGrid();
+      } else if (e.key >= '1' && e.key <= '9') {
+        selectPalette(parseInt(e.key, 10));
+      } else if (e.key === '0') {
+        selectPalette(10);
+      }
+    });
+
+    // Window resize
+    window.addEventListener('resize', () => {
+      render();
+    });
+
+    // Clean up animation on page unload
+    window.addEventListener('beforeunload', () => {
+      if (animFrameId) cancelAnimationFrame(animFrameId);
+    });
+
+    /**
+     * BOOTSTRAP
+     */
+    buildPalette();
+    seedRandom();
+  </script>
+</body>
+</html>

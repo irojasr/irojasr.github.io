@@ -154,6 +154,8 @@ layout: page
 
 <h3>📢 Speakers</h3>
 <div style="max-width: 800px; margin: 0 auto; background-color:#f9f9f9; border-radius:10px; padding: 20px; margin-bottom: 2em;">
+  • <strong>Joel Barraza</strong>: <a href="TalksPosters.html#joel">No se</a> <em>(10 mins)</em><br>
+  • <strong>Trevor Overton</strong>: <a href="TalksPosters.html#trevor">What the Ballmer's Peak Can Do for You and I</a> <em>(20 mins)</em><br>
   • <strong><a href="https://www.youtube.com/twigmittens" target="_blank">Sean "The Chameleon" Bolon</a></strong>: <a href="TalksPosters.html#sean">Millimeters Matter</a> <em>(Sponsor Talk &mdash; Bolon Foundation, 10 mins)</em><br>
   • <strong>Michael Moy</strong>: <a href="TalksPosters.html#michaelmoy">A rubber band, a mug, and 3-sphere</a> <em>(10 mins)</em><br>
   • <s><strong><a href="https://www.jon-kim.net" target="_blank">Jon Kim</a></strong>: <a href="TalksPosters.html#jonkim">On the current state of the WWE Big Show</a></s> <em>(Cancelled &mdash; couldn't make it)</em>
@@ -162,7 +164,6 @@ layout: page
 <h3>🤔 Potential Speakers</h3>
 <div style="max-width: 800px; margin: 0 auto; background-color:#f9f9f9; border-radius:10px; padding: 20px; margin-bottom: 2em;">
   • <strong>Paka</strong>: <a href="TalksPosters.html#paka">Welcome to the 3rd floor</a><br>
-  • <strong>Joel</strong>: <a href="TalksPosters.html#joel">No se</a><br>
   • <strong>Eamon</strong>: <a href="TalksPosters.html#eamon">Ahorita le aviso</a><br>
   • <strong>Marieca (Ma-ree-sa)</strong>: <a href="TalksPosters.html#marieca">Why YoonHyuk Kim is literally the devil</a><br>
   • <strong><a href="https://joegeisz.github.io/" target="_blank">Joe</a></strong>: <a href="TalksPosters.html#joe">uuuuuuuhhhhhhhhhhhh.........</a><br>
@@ -186,7 +187,7 @@ layout: page
     📍 <strong>Location:</strong> Weber room 15 (Basement of the Weber building) &mdash; <a href="https://maps.app.goo.gl/1a6xwWgA2U9dCcUR9" target="_blank">Google Maps</a>
   </p>
   <p style="font-size: 0.95rem; color: #64748b; margin-top: 0;">
-    Talks are scheduled back-to-back around noon starting at 11:50 AM:
+    Schedule of talks for Tuesday:
   </p>
 
   <table width="100%" cellpadding="8" cellspacing="0" style="border-collapse: collapse; margin-top: 15px; font-size: 0.95rem;">
@@ -199,6 +200,30 @@ layout: page
     </thead>
     <tbody>
       <tr style="border-bottom: 1px solid #e2e8f0;">
+        <td style="padding: 10px; font-weight: 600; color: #334155;">10:20 AM &ndash; 10:30 AM</td>
+        <td style="padding: 10px;">
+          <strong>Joel Barraza</strong>
+        </td>
+        <td style="padding: 10px;">
+          <a href="TalksPosters.html#joel">No se</a> <span style="font-size: 0.85rem; color: #64748b;">(10 mins)</span>
+        </td>
+      </tr>
+      <tr style="background-color: #f8fafc; border-bottom: 1px solid #e2e8f0;">
+        <td style="padding: 8px 10px; font-size: 0.85rem; color: #94a3b8;">10:30 AM &ndash; 11:30 AM</td>
+        <td colspan="2" style="padding: 8px 10px; font-size: 0.85rem; color: #94a3b8; font-style: italic;">
+          ☕ Intermission &amp; informal discussion
+        </td>
+      </tr>
+      <tr style="border-bottom: 1px solid #e2e8f0;">
+        <td style="padding: 10px; font-weight: 600; color: #334155;">11:30 AM &ndash; 11:50 AM</td>
+        <td style="padding: 10px;">
+          <strong>Trevor Overton</strong>
+        </td>
+        <td style="padding: 10px;">
+          <a href="TalksPosters.html#trevor">What the Ballmer's Peak Can Do for You and I</a> <span style="font-size: 0.85rem; color: #64748b;">(20 mins)</span>
+        </td>
+      </tr>
+      <tr style="border-bottom: 1px solid #e2e8f0; background-color: #fafafa;">
         <td style="padding: 10px; font-weight: 600; color: #334155;">11:50 AM &ndash; 12:25 PM</td>
         <td style="padding: 10px;">
           <a href="https://sites.google.com/view/makennagreenwalt/home" target="_blank"><strong>Makenna Greenwalt</strong></a><br>
@@ -209,7 +234,7 @@ layout: page
           <span style="font-size: 0.85rem; color: #64748b;">(11:50 AM &ndash; 12:20 PM talk + 5 min Q&A)</span>
         </td>
       </tr>
-      <tr style="border-bottom: 1px solid #e2e8f0; background-color: #fafafa;">
+      <tr style="border-bottom: 1px solid #e2e8f0;">
         <td style="padding: 10px; font-weight: 600; color: #334155;">12:25 PM &ndash; 12:35 PM</td>
         <td style="padding: 10px;">
           <a href="https://www.youtube.com/twigmittens" target="_blank"><strong>Sean Bolon</strong></a><br>
@@ -219,7 +244,7 @@ layout: page
           <a href="TalksPosters.html#sean">Millimeters Matter</a> <span style="font-size: 0.85rem; color: #64748b;">(10 mins)</span>
         </td>
       </tr>
-      <tr style="border-bottom: 1px solid #e2e8f0;">
+      <tr style="border-bottom: 1px solid #e2e8f0; background-color: #fafafa;">
         <td style="padding: 10px; font-weight: 600; color: #334155;">12:35 PM &ndash; 12:45 PM</td>
         <td style="padding: 10px;">
           <strong>Michael Moy</strong>

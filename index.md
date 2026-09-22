@@ -52,6 +52,7 @@ layout: page
         • <a href="o/ocPlay.html">Play oc</a><br />
         • <a href="o/oqPlay.html">Play oq</a><br />
         • <a href="o/otPlay.html">Play ot</a><br />
+        • <a href="gridSimulator/gridSimulator.html">Play gridSimulator</a><br />
         • <a href="harborSimulator/indexHarborSimulator.html">Play harborSimulator</a><br />
         • <a href="o/oqSolver.html">oqSolver</a><br />
         • <a href="o/otSolver.html">otSolver</a>

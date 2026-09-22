@@ -43,6 +43,38 @@ In this study, we propose a novel explanation for these qualities, as well as su
 <div style="background-color: #ffffff; border: 1px solid #000000; border-radius: 15px; padding: 30px; margin-bottom: 30px;">
 <h2 style="margin-top: 0; color: #000000; text-align: center; border-bottom: 1px solid #000000; padding-bottom: 10px;">📢 Speakers</h2>
 
+<!-- Joel Barraza -->
+<div id="joel" style="background-color:#fff; border-radius:12px; padding: 25px; margin-top: 20px; border: 1px solid #000;">
+<h3 style="margin-top: 0; color: #334155;">No se</h3>
+<p style="font-size: 1.1rem; font-weight: 600; margin-bottom: 10px;">
+Joel Barraza
+</p>
+<div style="background: #f8fafc; padding: 15px; border-radius: 8px; border-left: 4px solid #000000; margin: 20px 0;">
+<div style="font-style: italic; color: #475569; line-height: 1.6;">
+No se
+</div>
+</div>
+<div style="font-size: 0.85rem; color: #94a3b8; border-top: 1px solid #eee; padding-top: 10px; margin-top: 10px;">
+<strong>Type:</strong> In-person | <strong>Duration:</strong> 10 minutes | <strong>Conflict of Interest:</strong> No se
+</div>
+</div>
+
+<!-- Trevor Overton -->
+<div id="trevor" style="background-color:#fff; border-radius:12px; padding: 25px; margin-top: 20px; border: 1px solid #000;">
+<h3 style="margin-top: 0; color: #334155;">What the Ballmer's Peak Can Do for You and I</h3>
+<p style="font-size: 1.1rem; font-weight: 600; margin-bottom: 10px;">
+Trevor Overton
+</p>
+<div style="background: #f8fafc; padding: 15px; border-radius: 8px; border-left: 4px solid #000000; margin: 20px 0;">
+<div style="font-style: italic; color: #475569; line-height: 1.6;">
+In computer science, there is a phenomenon known as Ballmer's Peak where individuals are able to exploit specific blood alcohol concentrations to become extraordinarily good at coding. I posit that since computer science is nothing but an application of mathematics, Ballmer's Peak also exists for math research. In this talk, we discuss empirical observations and explore other ways we can generate and harness the Peak.
+</div>
+</div>
+<div style="font-size: 0.85rem; color: #94a3b8; border-top: 1px solid #eee; padding-top: 10px; margin-top: 10px;">
+<strong>Type:</strong> In-person | <strong>Duration:</strong> 20 minutes | <strong>Conflict of Interest:</strong> Big Drug
+</div>
+</div>
+
 <!-- Sean Bolon -->
 <div id="sean" style="background-color:#fff; border-radius:12px; padding: 25px; margin-top: 20px; border: 1px solid #000;">
 <div style="display: inline-block; background: #dcfce7; color: #15803d; font-size: 0.8rem; font-weight: bold; padding: 3px 10px; border-radius: 20px; border: 1px solid #86efac; margin-bottom: 10px;">
@@ -116,21 +148,6 @@ TBD
 </div>
 </div>
 
-<!-- Joel -->
-<div id="joel" style="background-color:#fff; border-radius:12px; padding: 25px; margin-top: 20px; border: 1px solid #000;">
-<h3 style="margin-top: 0; color: #334155;">No se</h3>
-<p style="font-size: 1.1rem; font-weight: 600; margin-bottom: 10px;">
-Joel
-</p>
-<div style="background: #f8fafc; padding: 15px; border-radius: 8px; border-left: 4px solid #000000; margin: 20px 0;">
-<div style="font-style: italic; color: #475569; line-height: 1.6;">
-No se
-</div>
-</div>
-<div style="font-size: 0.85rem; color: #94a3b8; border-top: 1px solid #eee; padding-top: 10px; margin-top: 10px;">
-<strong>Type:</strong> In-person | <strong>Conflict of Interest:</strong> No se
-</div>
-</div>
 
 <!-- Eamon -->
 <div id="eamon" style="background-color:#fff; border-radius:12px; padding: 25px; margin-top: 20px; border: 1px solid #000;">
