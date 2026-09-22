@@ -8,8 +8,12 @@ layout: page
 
 # Everyone is here!
 
-<div style="text-align: center; padding-bottom: 2em;">
-  <a href="index30yoConf">← Back to Conference Home</a>
+<div style="max-width: 900px; margin: 0 auto 1.5em auto; text-align: center;">
+  <div style="display: inline-flex; gap: 10px; background-color: #f1f5f9; padding: 6px; border-radius: 12px; border: 1px solid #e2e8f0; flex-wrap: wrap; justify-content: center;">
+    <a href="index30yoConf.html" style="color: #475569; font-weight: 500; padding: 8px 16px; border-radius: 8px; text-decoration: none;">🏠 Home &amp; Schedule</a>
+    <a href="TalksPosters.html" style="background-color: #ffffff; color: #1e293b; font-weight: 600; padding: 8px 16px; border-radius: 8px; text-decoration: none; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">🎤 Talks &amp; Abstracts</a>
+    <a href="photos.html" style="color: #475569; font-weight: 500; padding: 8px 16px; border-radius: 8px; text-decoration: none;">📸 Photos</a>
+  </div>
 </div>
 
 <div style="max-width: 900px; margin: 0 auto;">
@@ -59,18 +63,18 @@ No se
 </div>
 </div>
 
-<!-- Workshop - Ignacio Rojas -->
+<!-- Workshop - Ignacio Rojas & Sam Scheuerman -->
 <div id="workshop" style="background-color:#fff; border-radius:12px; padding: 25px; margin-top: 20px; border: 1px solid #000;">
 <div style="display: inline-block; background: #e0e7ff; color: #4338ca; font-size: 0.8rem; font-weight: bold; padding: 3px 10px; border-radius: 20px; border: 1px solid #a5b4fc; margin-bottom: 10px;">
   🛠️ Workshop
 </div>
-<h3 style="margin-top: 0; color: #334155;">In which I help Sam run AI locally</h3>
+<h3 style="margin-top: 0; color: #334155;">In which I help Sam run local AI, and Sam helps me with Gradescope</h3>
 <p style="font-size: 1.1rem; font-weight: 600; margin-bottom: 10px;">
-<a href="../index" target="_blank">Ignacio Rojas</a>
+<a href="../index" target="_blank">Ignacio Rojas</a> &amp; <a href="https://mathematics.colostate.edu/person/?id=B8E51A6BA7749A35A6556816C65B3AE8&sq=t" target="_blank">Sam Scheuerman</a> (<a href="mailto:sam.scheuerman@colostate.edu">email</a>)
 </p>
 <div style="background: #f8fafc; padding: 15px; border-radius: 8px; border-left: 4px solid #000000; margin: 20px 0;">
 <div style="font-style: italic; color: #475569; line-height: 1.6;">
-The title is self-explanatory: I will help Sam install Codex, Antigravity, or Claude to run AI locally.
+A mutual-aid workshop: Ignacio helps Sam install and run AI models (Codex, Antigravity, or Claude) locally, and Sam helps Ignacio set up homework assignments in Gradescope.
 </div>
 </div>
 <div style="font-size: 0.85rem; color: #94a3b8; border-top: 1px solid #eee; padding-top: 10px; margin-top: 10px;">

@@ -94,8 +94,16 @@ layout: page
 <!-- The subtitle is populated by the script at the bottom of the page -->
 
 
+<div style="max-width: 800px; margin: 0 auto 1.5em auto; text-align: center;">
+  <div style="display: inline-flex; gap: 10px; background-color: #f1f5f9; padding: 6px; border-radius: 12px; border: 1px solid #e2e8f0; flex-wrap: wrap; justify-content: center;">
+    <a href="index30yoConf.html" style="background-color: #ffffff; color: #1e293b; font-weight: 600; padding: 8px 16px; border-radius: 8px; text-decoration: none; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">🏠 Home &amp; Schedule</a>
+    <a href="TalksPosters.html" style="color: #475569; font-weight: 500; padding: 8px 16px; border-radius: 8px; text-decoration: none;">🎤 Talks &amp; Abstracts</a>
+    <a href="photos.html" style="color: #475569; font-weight: 500; padding: 8px 16px; border-radius: 8px; text-decoration: none;">📸 Photos</a>
+  </div>
+</div>
+
 <div style="max-width: 800px; margin: 0 auto; padding-top: 1em;">
-  Mfw it's my 30th birthday, and we are celebrating with a week long conference during <strong>September 21-25, 2026</strong>.
+  Mfw it's my 30th birthday, and we are celebrating with a one-day conference on <strong>Tuesday, September 22, 2026</strong>.
   <br><br>
   This is a -very chill- conference. People don't even need to talk about math and they can talk about whatever they want. It's just a conference for the funsies.
   <br><br>
@@ -155,7 +163,7 @@ layout: page
 <h3>📢 Speakers</h3>
 <div style="max-width: 800px; margin: 0 auto; background-color:#f9f9f9; border-radius:10px; padding: 20px; margin-bottom: 2em;">
   • <strong>Joel Barraza</strong>: <a href="TalksPosters.html#joel">No se</a> <em>(10 mins)</em><br>
-  • <strong>Ignacio Rojas</strong>: <a href="TalksPosters.html#workshop">In which I help Sam run AI locally</a> <em>(Workshop, 30 mins)</em><br>
+  • <strong><a href="../index" target="_blank">Ignacio Rojas</a> &amp; <a href="https://mathematics.colostate.edu/person/?id=B8E51A6BA7749A35A6556816C65B3AE8&sq=t" target="_blank">Sam Scheuerman</a></strong>: <a href="TalksPosters.html#workshop">In which I help Sam run local AI, and Sam helps me with Gradescope</a> <em>(Workshop, 30 mins)</em><br>
   • <strong>Trevor Overton</strong>: <a href="TalksPosters.html#trevor">What the Ballmer's Peak Can Do for You and I</a> <em>(20 mins)</em><br>
   • <strong><a href="https://www.youtube.com/twigmittens" target="_blank">Sean "The Chameleon" Bolon</a></strong>: <a href="TalksPosters.html#sean">Millimeters Matter</a> <em>(Sponsor Talk &mdash; Bolon Foundation, 10 mins)</em><br>
   • <strong>Michael Moy</strong>: <a href="TalksPosters.html#michaelmoy">A rubber band, a mug, and 3-sphere</a> <em>(10 mins)</em><br>
@@ -212,12 +220,12 @@ layout: page
       <tr style="border-bottom: 1px solid #e2e8f0; background-color: #fafafa;">
         <td style="padding: 10px; font-weight: 600; color: #334155;">10:30 AM &ndash; 11:00 AM</td>
         <td style="padding: 10px;">
-          <strong>Ignacio Rojas</strong><br>
+          <strong>Ignacio Rojas &amp; Sam Scheuerman</strong><br>
           <span style="font-size: 0.8rem; color: #6366f1; font-weight: 600;">🛠️ Workshop</span>
         </td>
         <td style="padding: 10px;">
-          <a href="TalksPosters.html#workshop">In which I help Sam run AI locally</a> <span style="font-size: 0.85rem; color: #64748b;">(30 mins)</span><br>
-          <span style="font-size: 0.85rem; color: #64748b;">Helping Sam install Codex, Antigravity, or Claude locally.</span>
+          <a href="TalksPosters.html#workshop">In which I help Sam run local AI, and Sam helps me with Gradescope</a> <span style="font-size: 0.85rem; color: #64748b;">(30 mins)</span><br>
+          <span style="font-size: 0.85rem; color: #64748b;">A mutual-aid session: running AI locally (Codex, Antigravity, Claude) in exchange for Gradescope homework setup.</span>
         </td>
       </tr>
       <tr style="background-color: #f8fafc; border-bottom: 1px solid #e2e8f0;">
@@ -238,7 +246,7 @@ layout: page
       <tr style="border-bottom: 1px solid #e2e8f0; background-color: #fafafa;">
         <td style="padding: 10px; font-weight: 600; color: #334155;">11:50 AM &ndash; 12:25 PM</td>
         <td style="padding: 10px;">
-          <a href="https://sites.google.com/view/makennagreenwalt/home" target="_blank"><strong>Makenna Greenwalt</strong></a><br>
+          <strong>Makenna Greenwalt</strong><br>
           <span style="font-size: 0.8rem; color: #d97706; font-weight: 600;">🌟 Plenary Talk</span>
         </td>
         <td style="padding: 10px;">
@@ -249,7 +257,7 @@ layout: page
       <tr style="border-bottom: 1px solid #e2e8f0;">
         <td style="padding: 10px; font-weight: 600; color: #334155;">12:25 PM &ndash; 12:35 PM</td>
         <td style="padding: 10px;">
-          <a href="https://www.youtube.com/twigmittens" target="_blank"><strong>Sean Bolon</strong></a><br>
+          <strong>Sean Bolon</strong><br>
           <span style="font-size: 0.8rem; color: #15803d; font-weight: 600;">🦎 Sponsor Talk</span>
         </td>
         <td style="padding: 10px;">
@@ -273,6 +281,14 @@ layout: page
       </tr>
     </tbody>
   </table>
+</div>
+
+<h3>📸 Photos from the Conference</h3>
+<div style="max-width: 800px; margin: 0 auto; background-color:#f9f9f9; border-radius:10px; padding: 20px; margin-bottom: 2em; text-align: center;">
+  <p style="margin-top: 0; color: #475569; font-size: 1rem;">
+    Photos from the conference will be posted in our gallery once they are collected!
+  </p>
+  <a href="photos.html" style="display: inline-block; background-color: #3b82f6; color: white; padding: 8px 18px; border-radius: 8px; text-decoration: none; font-weight: 600; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">View Photo Gallery 📸</a>
 </div>
 
 <div style="text-align: center; padding-top: 1em; padding-bottom: 1em;">
