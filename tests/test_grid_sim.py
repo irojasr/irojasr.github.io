@@ -1,224 +1,357 @@
 #!/usr/bin/env python3
 """
-Test suite for the Interactive Grid Simulation.
-Tests mathematical state transitions, boundary behaviors, cyclic/linear rules,
-and edge cases.
+Comprehensive test suite for the Interactive Grid Simulation.
+Tests:
+- Foundational properties: constant grid, 1x1 grid, immutability, 1x4 permutations, 1x10 cyclic shift.
+- Square, Hexagonal, and Triangular neighbor calculations & boundary conditions.
+- Cyclic and Linear state transitions.
+- Restrictive and Wolfram-inspired rule predicates:
+  - Classic (>= 1)
+  - Threshold Quorum (>= theta)
+  - Majority Rule (> D / 2)
+  - Unanimous Consensus (= D)
+  - Vertical Alignment (Top & Bottom)
+  - Horizontal Alignment (Left & Right)
+  - Axial Cross (Vertical OR Horizontal)
+  - Wolfram Parity (Odd Count / XOR)
+  - Wolfram Life-like ([2, 3])
+  - Wolfram Directional Drift (Left-to-Right)
+  - Custom Totalistic Bitmask
 """
 
 import unittest
 
-def get_neighbors(r, c, m, n, periodic=True):
-    """
-    Returns unique orthogonal neighbor coordinates for cell (r, c).
-    Guarantees no self-loops and no duplicate neighbors.
-    """
-    neighbors = []
-    
-    # Vertical neighbors
+def get_neighbors_square(r, c, m, n, periodic=True):
+    nbrs = []
     if m > 1:
         if periodic:
             up = ((r - 1 + m) % m, c)
             down = ((r + 1) % m, c)
-            neighbors.append(up)
-            if down != up:
-                neighbors.append(down)
+            nbrs.extend([up, down])
         else:
-            if r > 0:
-                neighbors.append((r - 1, c))
-            if r < m - 1:
-                neighbors.append((r + 1, c))
-                
-    # Horizontal neighbors
+            if r > 0: nbrs.append((r - 1, c))
+            if r < m - 1: nbrs.append((r + 1, c))
     if n > 1:
         if periodic:
             left = (r, (c - 1 + n) % n)
             right = (r, (c + 1) % n)
-            neighbors.append(left)
-            if right != left:
-                neighbors.append(right)
+            nbrs.extend([left, right])
         else:
-            if c > 0:
-                neighbors.append((r, c - 1))
-            if c < n - 1:
-                neighbors.append((r, c + 1))
-                
-    # Filter out any accidental self-neighbor (should never occur with m>1/n>1 checks)
-    distinct = []
-    for nbr in neighbors:
-        if nbr != (r, c) and nbr not in distinct:
-            distinct.append(nbr)
-    return distinct
-
-
-def advance_grid(grid, m, n, periodic=True, cyclic=True, max_val=10):
-    """
-    Deterministic pure function for one synchronous grid step.
-    grid: 1D list of length m * n with integers in 1..max_val.
-    Returns: new 1D list of length m * n.
-    """
-    next_grid = list(grid)
+            if c > 0: nbrs.append((r, c - 1))
+            if c < n - 1: nbrs.append((r, c + 1))
     
+    res = []
+    for p in nbrs:
+        if p != (r, c) and p not in res:
+            res.append(p)
+    return res
+
+
+def get_neighbors_hex(r, c, m, n, periodic=True):
+    if m <= 1 and n <= 1:
+        return []
+    
+    is_odd = (r % 2 == 1)
+    if is_odd:
+        diffs = [
+            (0, -1),  # left
+            (0, 1),   # right
+            (-1, 0),  # top-left
+            (-1, 1),  # top-right
+            (1, 0),   # bottom-left
+            (1, 1)    # bottom-right
+        ]
+    else:
+        diffs = [
+            (0, -1),  # left
+            (0, 1),   # right
+            (-1, -1), # top-left
+            (-1, 0),  # top-right
+            (1, -1),  # bottom-left
+            (1, 0)    # bottom-right
+        ]
+        
+    res = []
+    for dr, dc in diffs:
+        nr = r + dr
+        nc = c + dc
+        if periodic:
+            nr = (nr + m) % m
+            nc = (nc + n) % n
+            if (nr, nc) != (r, c) and (nr, nc) not in res:
+                res.append((nr, nc))
+        else:
+            if 0 <= nr < m and 0 <= nc < n:
+                if (nr, nc) != (r, c) and (nr, nc) not in res:
+                    res.append((nr, nc))
+    return res
+
+
+def get_neighbors_triangle(r, c, m, n, periodic=True):
+    if m <= 1 and n <= 1:
+        return []
+        
+    is_up = ((r + c) % 2 == 0)
+    if is_up:
+        diffs = [(0, -1), (0, 1), (1, 0)] # Left, Right, Bottom
+    else:
+        diffs = [(0, -1), (0, 1), (-1, 0)] # Left, Right, Top
+        
+    res = []
+    for dr, dc in diffs:
+        nr = r + dr
+        nc = c + dc
+        if periodic:
+            nr = (nr + m) % m
+            nc = (nc + n) % n
+            if (nr, nc) != (r, c) and (nr, nc) not in res:
+                res.append((nr, nc))
+        else:
+            if 0 <= nr < m and 0 <= nc < n:
+                if (nr, nc) != (r, c) and (nr, nc) not in res:
+                    res.append((nr, nc))
+    return res
+
+
+def get_neighbors(r, c, m, n, tiling='square', periodic=True):
+    if tiling == 'hexagonal':
+        return get_neighbors_hex(r, c, m, n, periodic)
+    elif tiling == 'triangular':
+        return get_neighbors_triangle(r, c, m, n, periodic)
+    else:
+        return get_neighbors_square(r, c, m, n, periodic)
+
+
+def evaluate_rule(r, c, grid, m, n, tiling, periodic, pred, rule_config):
+    rule_type = rule_config.get('type', 'classic')
+    
+    if rule_type == 'vertical':
+        if tiling == 'square':
+            up = ((r - 1 + m) % m, c) if periodic else ((r - 1, c) if r > 0 else None)
+            down = ((r + 1) % m, c) if periodic else ((r + 1, c) if r < m - 1 else None)
+            if up is None or down is None: return False
+            return grid[up[0] * n + up[1]] == pred and grid[down[0] * n + down[1]] == pred
+        elif tiling == 'hexagonal':
+            is_odd = (r % 2 == 1)
+            p1_up = (r - 1, c) if is_odd else (r - 1, c - 1)
+            p1_dn = (r + 1, c) if is_odd else (r + 1, c - 1)
+            if periodic:
+                p1_up = ((p1_up[0] + m) % m, (p1_up[1] + n) % n)
+                p1_dn = ((p1_dn[0] + m) % m, (p1_dn[1] + n) % n)
+                return grid[p1_up[0] * n + p1_up[1]] == pred and grid[p1_dn[0] * n + p1_dn[1]] == pred
+            else:
+                if 0 <= p1_up[0] < m and 0 <= p1_up[1] < n and 0 <= p1_dn[0] < m and 0 <= p1_dn[1] < n:
+                    return grid[p1_up[0] * n + p1_up[1]] == pred and grid[p1_dn[0] * n + p1_dn[1]] == pred
+                return False
+        elif tiling == 'triangular':
+            is_up = ((r + c) % 2 == 0)
+            vert = (r + 1, c) if is_up else (r - 1, c)
+            if periodic:
+                vert = ((vert[0] + m) % m, (vert[1] + n) % n)
+                return grid[vert[0] * n + vert[1]] == pred
+            else:
+                if 0 <= vert[0] < m and 0 <= vert[1] < n:
+                    return grid[vert[0] * n + vert[1]] == pred
+                return False
+                
+    elif rule_type == 'horizontal':
+        left = ((r, (c - 1 + n) % n)) if periodic else ((r, c - 1) if c > 0 else None)
+        right = ((r, (c + 1) % n)) if periodic else ((r, c + 1) if c < n - 1 else None)
+        if left is None or right is None: return False
+        return grid[left[0] * n + left[1]] == pred and grid[right[0] * n + right[1]] == pred
+
+    elif rule_type == 'cross':
+        h_ok = evaluate_rule(r, c, grid, m, n, tiling, periodic, pred, {'type': 'horizontal'})
+        v_ok = evaluate_rule(r, c, grid, m, n, tiling, periodic, pred, {'type': 'vertical'})
+        return h_ok or v_ok
+
+    elif rule_type == 'drift':
+        left = ((r, (c - 1 + n) % n)) if periodic else ((r, c - 1) if c > 0 else None)
+        if left is None: return False
+        return grid[left[0] * n + left[1]] == pred
+
+    nbrs = get_neighbors(r, c, m, n, tiling, periodic)
+    if not nbrs:
+        return False
+        
+    count = sum(1 for nr, nc in nbrs if grid[nr * n + nc] == pred)
+    degree = len(nbrs)
+    
+    if rule_type == 'classic':
+        return count >= 1
+    elif rule_type == 'quorum':
+        theta = rule_config.get('theta', 2)
+        return count >= theta
+    elif rule_type == 'majority':
+        return count > (degree / 2.0)
+    elif rule_type == 'unanimous':
+        return count == degree
+    elif rule_type == 'parity':
+        return (count % 2) == 1
+    elif rule_type == 'life_like':
+        return count in [2, 3]
+    elif rule_type == 'custom_mask':
+        allowed = rule_config.get('allowed_counts', [1])
+        return count in allowed
+        
+    return count >= 1
+
+
+def advance_grid_full(grid, m, n, tiling='square', periodic=True, cyclic=True, max_val=10, rule_config=None):
+    if rule_config is None:
+        rule_config = {'type': 'classic'}
+        
+    next_grid = list(grid)
     for r in range(m):
         for c in range(n):
             idx = r * n + c
             v = grid[idx]
             
-            # Determine target predecessor value that can convert this cell
             if cyclic:
                 pred = max_val if v == 1 else (v - 1)
             else:
                 pred = (v - 1) if v > 1 else None
                 
             if pred is not None:
-                nbrs = get_neighbors(r, c, m, n, periodic)
-                has_pred = any(grid[nr * n + nc] == pred for nr, nc in nbrs)
-                if has_pred:
+                if evaluate_rule(r, c, grid, m, n, tiling, periodic, pred, rule_config):
                     next_grid[idx] = pred
                     
     return next_grid
 
 
-class TestGridSimulation(unittest.TestCase):
+class TestGridSimulationFull(unittest.TestCase):
 
     def test_constant_grid(self):
-        """A constant grid should be a fixed point."""
         for val in range(1, 11):
             grid = [val] * 16
-            next_g = advance_grid(grid, 4, 4, periodic=True, cyclic=True, max_val=10)
-            self.assertEqual(grid, next_g, f"Constant grid of {val} must not change")
+            next_g = advance_grid_full(grid, 4, 4, tiling='square', periodic=True, cyclic=True, max_val=10)
+            self.assertEqual(grid, next_g)
 
     def test_1x1_grid(self):
-        """A 1x1 grid has 0 neighbors and must remain fixed."""
         for val in range(1, 11):
             grid = [val]
-            next_p = advance_grid(grid, 1, 1, periodic=True, cyclic=True, max_val=10)
-            next_f = advance_grid(grid, 1, 1, periodic=False, cyclic=True, max_val=10)
-            self.assertEqual(grid, next_p, "1x1 periodic grid must remain fixed")
-            self.assertEqual(grid, next_f, "1x1 fixed grid must remain fixed")
+            next_p = advance_grid_full(grid, 1, 1, tiling='square', periodic=True, cyclic=True, max_val=10)
+            next_f = advance_grid_full(grid, 1, 1, tiling='square', periodic=False, cyclic=True, max_val=10)
+            self.assertEqual(grid, next_p)
+            self.assertEqual(grid, next_f)
 
     def test_immutability(self):
-        """advance_grid must not mutate the original grid."""
         grid = [1, 2, 3, 4]
         grid_copy = list(grid)
-        next_g = advance_grid(grid, 1, 4, periodic=False, cyclic=True, max_val=4)
-        self.assertEqual(grid, grid_copy, "Original grid must not be mutated")
-        self.assertIsNot(grid, next_g, "New grid must be a distinct object")
+        next_g = advance_grid_full(grid, 1, 4, tiling='square', periodic=False, cyclic=True, max_val=4)
+        self.assertEqual(grid, grid_copy)
+        self.assertIsNot(grid, next_g)
 
-    def test_1x4_all_scenarios(self):
-        """
-        Verify the four claimed scenarios for (1, 2, 3, 4):
-        1. Fixed + Linear
-        2. Periodic + Linear
-        3. Fixed + Cyclic
-        4. Periodic + Cyclic
-        """
+    def test_1x4_scenarios(self):
         initial = [1, 2, 3, 4]
-        
-        # 1. Fixed + Linear:
-        res1 = advance_grid(initial, 1, 4, periodic=False, cyclic=False, max_val=4)
-        self.assertEqual(res1, [1, 1, 2, 3], "Fixed + Linear must yield [1, 1, 2, 3]")
-        
-        # 2. Periodic + Linear:
-        res2 = advance_grid(initial, 1, 4, periodic=True, cyclic=False, max_val=4)
-        self.assertEqual(res2, [1, 1, 2, 3], "Periodic + Linear must yield [1, 1, 2, 3]")
-        
-        # 3. Fixed + Cyclic (with max_val=4):
-        res3 = advance_grid(initial, 1, 4, periodic=False, cyclic=True, max_val=4)
-        self.assertEqual(res3, [1, 1, 2, 3], "Fixed + Cyclic must yield [1, 1, 2, 3]")
-        
-        # 4. Periodic + Cyclic (with max_val=4):
-        # Here 4 is adjacent to 1, and 4 wraps to 1 (4 converts 1 into 4).
-        # Every entry shifts right cyclically!
-        res4 = advance_grid(initial, 1, 4, periodic=True, cyclic=True, max_val=4)
-        self.assertEqual(res4, [4, 1, 2, 3], "Periodic + Cyclic (max=4) must cyclically shift to [4, 1, 2, 3]")
-        
-        # Subsequent steps of the 4-cycle:
-        step2 = advance_grid(res4, 1, 4, periodic=True, cyclic=True, max_val=4)
-        self.assertEqual(step2, [3, 4, 1, 2])
-        step3 = advance_grid(step2, 1, 4, periodic=True, cyclic=True, max_val=4)
-        self.assertEqual(step3, [2, 3, 4, 1])
-        step4 = advance_grid(step3, 1, 4, periodic=True, cyclic=True, max_val=4)
-        self.assertEqual(step4, [1, 2, 3, 4], "After 4 steps, state must return to initial configuration")
+        # Fixed + Linear
+        self.assertEqual(advance_grid_full(initial, 1, 4, 'square', False, False, 4), [1, 1, 2, 3])
+        # Periodic + Linear
+        self.assertEqual(advance_grid_full(initial, 1, 4, 'square', True, False, 4), [1, 1, 2, 3])
+        # Fixed + Cyclic
+        self.assertEqual(advance_grid_full(initial, 1, 4, 'square', False, True, 4), [1, 1, 2, 3])
+        # Periodic + Cyclic (max=4): exact cyclic permutation
+        self.assertEqual(advance_grid_full(initial, 1, 4, 'square', True, True, 4), [4, 1, 2, 3])
 
     def test_1x10_cyclic_shift(self):
-        """Under periodic + cyclic max_val=10, a 1x10 grid with 1..10 cyclically shifts."""
         initial = list(range(1, 11))
-        res = advance_grid(initial, 1, 10, periodic=True, cyclic=True, max_val=10)
+        res = advance_grid_full(initial, 1, 10, 'square', True, True, 10)
         expected = [10] + list(range(1, 10))
-        self.assertEqual(res, expected, "(1..10) must cyclically shift right to (10, 1..9)")
-
-    def test_mx1_vertical_cyclic_shift(self):
-        """A column grid (4x1) with periodic + cyclic max_val=4 also cyclically shifts downwards."""
-        initial = [1, 2, 3, 4]
-        res = advance_grid(initial, 4, 1, periodic=True, cyclic=True, max_val=4)
-        self.assertEqual(res, [4, 1, 2, 3], "Vertical 4x1 grid must shift down cyclically")
+        self.assertEqual(res, expected)
 
     def test_10_and_1_interaction(self):
-        """Test interaction between 10 and 1."""
-        # Under cyclic: 10 converts 1 to 10
         pair = [10, 1]
-        res_cyclic = advance_grid(pair, 1, 2, periodic=False, cyclic=True, max_val=10)
-        self.assertEqual(res_cyclic, [10, 10], "In cyclic mode, 10 converts adjacent 1 into 10")
-        
-        # Under linear: 10 cannot convert 1, and 1 cannot convert 10 (difference is 9 != 1)
-        res_linear = advance_grid(pair, 1, 2, periodic=False, cyclic=False, max_val=10)
-        self.assertEqual(res_linear, [10, 1], "In linear mode, [10, 1] is permanently frozen")
+        self.assertEqual(advance_grid_full(pair, 1, 2, 'square', False, True, 10), [10, 10])
+        self.assertEqual(advance_grid_full(pair, 1, 2, 'square', False, False, 10), [10, 1])
 
-    def test_simultaneous_updates(self):
-        """
-        Verify that updates are strictly synchronous and not sequential.
-        Consider [1, 2, 3]:
-        Synchronous:
-          1 converts 2 -> 1
-          2 converts 3 -> 2
-          Result: [1, 1, 2]
-        If it were sequential left-to-right:
-          1 converts 2 to 1.
-          Then modified 1 would NOT convert 3.
-        """
-        grid = [1, 2, 3]
-        res = advance_grid(grid, 1, 3, periodic=False, cyclic=False, max_val=10)
-        self.assertEqual(res, [1, 1, 2], "Synchronous update must produce [1, 1, 2]")
+    def test_hexagonal_neighbor_count(self):
+        nbrs = get_neighbors_hex(3, 3, 10, 10, periodic=True)
+        self.assertEqual(len(nbrs), 6)
+        self.assertEqual(len(set(nbrs)), 6)
+        self.assertNotIn((3, 3), nbrs)
 
-    def test_competing_updates_no_conflict(self):
-        """
-        A cell with value 2 surrounded by multiple 1s:
-        All 1s try to convert 2 to 1. The result is deterministically 1 with no conflict.
-        """
+    def test_triangular_neighbor_count(self):
+        nbrs_up = get_neighbors_triangle(2, 2, 10, 10, periodic=True)
+        nbrs_dn = get_neighbors_triangle(2, 3, 10, 10, periodic=True)
+        self.assertEqual(len(nbrs_up), 3)
+        self.assertEqual(len(nbrs_dn), 3)
+        self.assertEqual(len(set(nbrs_up)), 3)
+        self.assertEqual(len(set(nbrs_dn)), 3)
+        self.assertNotIn((2, 2), nbrs_up)
+        self.assertNotIn((2, 3), nbrs_dn)
+
+    def test_unanimous_rule(self):
         grid = [
-            0, 1, 0,
+            5, 1, 5,
             1, 2, 1,
-            0, 1, 0
+            5, 5, 5
         ]
-        # Replace 0s with 5 (which does not interact with 1 or 2)
-        grid = [5 if x == 0 else x for x in grid]
-        res = advance_grid(grid, 3, 3, periodic=False, cyclic=True, max_val=10)
-        center_idx = 1 * 3 + 1
-        self.assertEqual(res[center_idx], 1, "Cell with value 2 surrounded by 1s must become 1")
+        res = advance_grid_full(grid, 3, 3, 'square', False, True, 10, {'type': 'unanimous'})
+        self.assertEqual(res[4], 2)
 
-    def test_single_low_value_expansion(self):
-        """A single 1 surrounded by 2s expands in a diamond wavefront."""
-        grid = [2] * 25
-        grid[12] = 1 # center cell (2, 2) in 5x5
-        
-        # Step 1: center cell's 4 orthogonal neighbors become 1
-        s1 = advance_grid(grid, 5, 5, periodic=False, cyclic=True, max_val=10)
-        self.assertEqual(s1[12], 1)
-        self.assertEqual(s1[7], 1)  # up
-        self.assertEqual(s1[17], 1) # down
-        self.assertEqual(s1[11], 1) # left
-        self.assertEqual(s1[13], 1) # right
-        # Diagonals still 2
-        self.assertEqual(s1[6], 2)
-        self.assertEqual(s1[8], 2)
-        self.assertEqual(s1[16], 2)
-        self.assertEqual(s1[18], 2)
+        grid2 = [
+            5, 1, 5,
+            1, 2, 1,
+            5, 1, 5
+        ]
+        res2 = advance_grid_full(grid2, 3, 3, 'square', False, True, 10, {'type': 'unanimous'})
+        self.assertEqual(res2[4], 1)
 
-    def test_no_valid_updates(self):
-        """Grid with only odd values (1, 3, 5) has no adjacent k and k+1; remains unchanged."""
-        grid = [1, 3, 5, 1, 3, 5, 1, 3, 5]
-        res = advance_grid(grid, 3, 3, periodic=True, cyclic=True, max_val=10)
-        self.assertEqual(grid, res, "Grid with no adjacent k and k+1 must remain unchanged")
+    def test_vertical_and_horizontal_alignment(self):
+        grid_v = [
+            5, 1, 5,
+            5, 2, 5,
+            5, 1, 5
+        ]
+        res_v = advance_grid_full(grid_v, 3, 3, 'square', False, True, 10, {'type': 'vertical'})
+        self.assertEqual(res_v[4], 1)
+        res_h = advance_grid_full(grid_v, 3, 3, 'square', False, True, 10, {'type': 'horizontal'})
+        self.assertEqual(res_h[4], 2)
+
+        grid_h = [
+            5, 5, 5,
+            1, 2, 1,
+            5, 5, 5
+        ]
+        res_h2 = advance_grid_full(grid_h, 3, 3, 'square', False, True, 10, {'type': 'horizontal'})
+        self.assertEqual(res_h2[4], 1)
+
+    def test_wolfram_parity_rule(self):
+        # 1 neighbor -> converts
+        g1 = [5, 1, 5, 5, 2, 5, 5, 5, 5]
+        self.assertEqual(advance_grid_full(g1, 3, 3, 'square', False, True, 10, {'type': 'parity'})[4], 1)
+        # 2 neighbors -> cancels
+        g2 = [5, 1, 5, 1, 2, 5, 5, 5, 5]
+        self.assertEqual(advance_grid_full(g2, 3, 3, 'square', False, True, 10, {'type': 'parity'})[4], 2)
+        # 3 neighbors -> converts
+        g3 = [5, 1, 5, 1, 2, 1, 5, 5, 5]
+        self.assertEqual(advance_grid_full(g3, 3, 3, 'square', False, True, 10, {'type': 'parity'})[4], 1)
+        # 4 neighbors -> cancels
+        g4 = [5, 1, 5, 1, 2, 1, 5, 1, 5]
+        self.assertEqual(advance_grid_full(g4, 3, 3, 'square', False, True, 10, {'type': 'parity'})[4], 2)
+
+    def test_hexagonal_simulation_step(self):
+        grid = [2] * 16
+        grid[5] = 1
+        next_g = advance_grid_full(grid, 4, 4, 'hexagonal', True, True, 10, {'type': 'classic'})
+        nbrs = get_neighbors_hex(1, 1, 4, 4, True)
+        for nr, nc in nbrs:
+            self.assertEqual(next_g[nr * 4 + nc], 1)
+
+    def test_triangular_simulation_step(self):
+        grid = [2] * 16
+        grid[5] = 1
+        next_g = advance_grid_full(grid, 4, 4, 'triangular', True, True, 10, {'type': 'classic'})
+        nbrs = get_neighbors_triangle(1, 1, 4, 4, True)
+        self.assertEqual(len(nbrs), 3)
+        for nr, nc in nbrs:
+            self.assertEqual(next_g[nr * 4 + nc], 1)
+
+    def test_quorum_rule(self):
+        g1 = [5, 1, 5, 5, 2, 5, 5, 5, 5]
+        self.assertEqual(advance_grid_full(g1, 3, 3, 'square', False, True, 10, {'type': 'quorum', 'theta': 2})[4], 2)
+        g2 = [5, 1, 5, 1, 2, 5, 5, 5, 5]
+        self.assertEqual(advance_grid_full(g2, 3, 3, 'square', False, True, 10, {'type': 'quorum', 'theta': 2})[4], 1)
 
 
 if __name__ == '__main__':

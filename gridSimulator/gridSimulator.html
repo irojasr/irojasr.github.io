@@ -1,5 +1,6 @@
 <!--
-  Orthogonal Grid Simulation — Cyclic Predation Cellular Automaton
+  Orthogonal, Hexagonal & Triangular Grid Simulation
+  Cyclic Predation Cellular Automaton & Wolfram-Inspired Rule Engine
   
   Original idea and mathematical formulation: irojasr
   Created with the assistance of Gemini (Google DeepMind),
@@ -18,8 +19,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Play Grid Simulation — Orthogonal Predation Automaton</title>
-  <meta name="description" content="Interactive orthogonal grid cellular automaton. Draw patterns, adjust dimensions, and explore cyclic predation dynamics.">
+  <title>Play Grid Simulation — Euclidean Tilings &amp; Wolfram Rules</title>
+  <meta name="description" content="Interactive 2D cellular automaton with square, hexagonal, and triangular tilings, cyclic predation, and Wolfram-inspired evolution rules.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
@@ -83,7 +84,7 @@
 
     .top-bar {
       width: 100%;
-      max-width: 860px;
+      max-width: 880px;
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -124,9 +125,9 @@
 
     .header {
       text-align: center;
-      margin-bottom: 16px;
+      margin-bottom: 14px;
       width: 100%;
-      max-width: 860px;
+      max-width: 880px;
     }
 
     h1 {
@@ -142,7 +143,7 @@
     .subtitle {
       color: var(--text-muted);
       font-size: 0.95rem;
-      max-width: 680px;
+      max-width: 720px;
       margin: 0 auto;
       line-height: 1.5;
     }
@@ -151,18 +152,21 @@
       display: inline-block;
       background: var(--panel-bg);
       border: 1px solid var(--border-color);
-      padding: 4px 12px;
+      padding: 5px 14px;
       border-radius: 20px;
       font-size: 0.82rem;
       color: var(--accent-cyan);
       margin-top: 8px;
       font-family: var(--font-mono);
+      line-height: 1.4;
+      text-align: center;
+      box-shadow: 0 2px 8px var(--shadow);
     }
 
     /* Main Container */
     .app-container {
       width: 100%;
-      max-width: 860px;
+      max-width: 880px;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -270,7 +274,7 @@
     }
 
     #simCanvas {
-      background-color: #000000;
+      background-color: #05060a;
       border: 1px solid var(--canvas-border);
       border-radius: 8px;
       cursor: crosshair;
@@ -436,6 +440,17 @@
       background: rgba(239, 68, 68, 0.25);
     }
 
+    /* Sectional Controls */
+    .control-subcard {
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid var(--border-color);
+      border-radius: 10px;
+      padding: 10px 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
     /* Options & Configuration Rows */
     .config-grid {
       display: grid;
@@ -491,6 +506,29 @@
       text-align: center;
     }
 
+    select.custom-select {
+      width: 100%;
+      background: var(--btn-bg);
+      border: 1px solid var(--border-color);
+      color: var(--text-main);
+      padding: 8px 12px;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      font-family: inherit;
+      outline: none;
+      cursor: pointer;
+      transition: border-color 0.2s;
+    }
+
+    select.custom-select:focus {
+      border-color: var(--accent-cyan);
+    }
+
+    select.custom-select option {
+      background-color: #16182a;
+      color: #f8fafc;
+    }
+
     .toggle-group {
       display: flex;
       background: var(--btn-bg);
@@ -517,6 +555,33 @@
       background: var(--panel-hover);
       color: var(--accent-cyan);
       box-shadow: inset 0 -2px 0 var(--accent-cyan);
+    }
+
+    /* Bitmask pills */
+    .bitmask-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      align-items: center;
+    }
+
+    .mask-pill {
+      background: var(--btn-bg);
+      border: 1px solid var(--border-color);
+      color: var(--text-muted);
+      padding: 4px 10px;
+      border-radius: 6px;
+      font-size: 0.75rem;
+      font-family: var(--font-mono);
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+
+    .mask-pill.active {
+      background: var(--accent-cyan);
+      color: #0b0d17;
+      font-weight: 700;
+      border-color: var(--accent-cyan);
     }
 
     /* Presets Strip */
@@ -577,7 +642,7 @@
 
     /* Footer */
     .footer {
-      max-width: 860px;
+      max-width: 880px;
       width: 100%;
       text-align: center;
       margin-top: 30px;
@@ -622,12 +687,12 @@
   </div>
 
   <header class="header">
-    <h1>Orthogonal Grid Simulation</h1>
+    <h1>Orthogonal, Hexagonal &amp; Triangular Simulation</h1>
     <p class="subtitle">
-      A cyclic cellular automaton governed by orthogonal dominance.
+      Explore cyclic predation, directional alignments, and Wolfram-inspired rules across the three regular Euclidean tilings of the plane.
     </p>
-    <div class="rule-pill">
-      Rule: Cell k devours adjacent orthogonal (k + 1) → turns it into k
+    <div class="rule-pill" id="rulePill">
+      Tiling: Square (4) | Rule: Classic Predation (≥ 1 Neighbor)
     </div>
   </header>
 
@@ -645,6 +710,10 @@
           <span class="metric-val" id="gridDimText">20 × 20</span>
         </div>
         <div class="metric-group">
+          <span class="metric-label">Tiling Mode</span>
+          <span class="metric-val" id="tilingText" style="color: var(--accent-cyan);">Square</span>
+        </div>
+        <div class="metric-group">
           <span class="metric-label">State</span>
           <span class="status-badge paused" id="statusBadge">⏸ Paused</span>
         </div>
@@ -659,9 +728,9 @@
 
     <!-- Canvas Stage -->
     <div class="canvas-wrapper">
-      <canvas id="simCanvas" width="600" height="600" aria-label="Interactive cellular automaton grid"></canvas>
+      <canvas id="simCanvas" width="620" height="520" aria-label="Interactive cellular automaton grid"></canvas>
       <div class="canvas-hint">
-        🎨 Click or drag on the grid to paint with the active palette color. Drawing is active during simulation.
+        🎨 Click or drag on the grid to paint with the active palette color. Fully functional during simulation.
       </div>
     </div>
 
@@ -695,6 +764,63 @@
         <button class="action-btn danger" id="clearBtn" aria-label="Clear Grid">
           ✕ Clear
         </button>
+      </div>
+
+      <!-- Tiling & Rule Configuration Strip -->
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 10px;">
+        <!-- Tiling Selector -->
+        <div class="control-subcard">
+          <div class="config-label">
+            <span>2D Euclidean Tiling</span>
+            <span id="neighborDegreeText" style="font-family: var(--font-mono); color: var(--accent-cyan);">4 Neighbors</span>
+          </div>
+          <div class="toggle-group" role="group" aria-label="Select Tiling Mesh">
+            <button class="toggle-btn active" id="btnTilingSquare" aria-pressed="true">🟦 Square</button>
+            <button class="toggle-btn" id="btnTilingHex" aria-pressed="false">⬡ Hexagonal</button>
+            <button class="toggle-btn" id="btnTilingTri" aria-pressed="false">🔺 Triangular</button>
+          </div>
+        </div>
+
+        <!-- Rule Selector -->
+        <div class="control-subcard">
+          <div class="config-label">
+            <span>Evolution Rule</span>
+          </div>
+          <select class="custom-select" id="ruleSelect" aria-label="Select Cellular Automaton Rule">
+            <option value="classic">Classic Predation (Count ≥ 1)</option>
+            <option value="quorum">Threshold Quorum (Count ≥ θ)</option>
+            <option value="majority">Majority Rule (Count > Half Neighbors)</option>
+            <option value="unanimous">Unanimous Consensus (All Neighbors)</option>
+            <option value="vertical">Vertical Alignment (Top &amp; Bottom)</option>
+            <option value="horizontal">Horizontal Alignment (Left &amp; Right)</option>
+            <option value="cross">Axial Cross (Vertical OR Horizontal)</option>
+            <option value="parity">Wolfram Parity (Odd Count / XOR)</option>
+            <option value="life_like">Wolfram Life-like (Count in [2, 3])</option>
+            <option value="drift">Wolfram Drift (Left-to-Right)</option>
+            <option value="custom_mask">Custom Totalistic Bitmask</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Dynamic Rule Subcontrols -->
+      <div id="quorumControlRow" class="control-subcard" style="display: none;">
+        <div class="config-label">
+          <span>Quorum Threshold (θ)</span>
+          <span id="quorumValDisplay" style="font-family: var(--font-mono); color: var(--accent-cyan);">2</span>
+        </div>
+        <div class="config-inputs">
+          <input type="range" id="quorumSlider" min="2" max="6" value="2" aria-label="Quorum Threshold">
+        </div>
+      </div>
+
+      <div id="customMaskControlRow" class="control-subcard" style="display: none;">
+        <div class="config-label">
+          <span>Triggering Neighbor Counts</span>
+          <span style="font-size: 0.72rem; color: var(--text-muted);">Toggle allowed counts</span>
+        </div>
+        <div class="bitmask-container" id="maskContainer">
+          <!-- Injected via JS -->
+        </div>
       </div>
 
       <!-- Configurations Grid -->
@@ -768,26 +894,33 @@
           Configuration Presets:
         </div>
         <div class="presets-strip">
-          <button class="preset-pill" data-m="1" data-n="4" data-k="4" data-mode="cyclic-periodic" title="Permutation test on 1x4">1 × 4 Permutation</button>
-          <button class="preset-pill" data-m="1" data-n="10" data-k="10" data-mode="cyclic-periodic" title="Full 1..10 cyclic wave">1 × 10 Permutation</button>
-          <button class="preset-pill" data-m="10" data-n="10" data-k="10" data-mode="random" title="10x10 Random Grid">10 × 10 Random</button>
-          <button class="preset-pill" data-m="20" data-n="20" data-k="10" data-mode="random" title="20x20 Standard Grid">20 × 20 Standard</button>
-          <button class="preset-pill" data-m="35" data-n="35" data-k="10" data-mode="random" title="35x35 High-Density Spirals">35 × 35 Spirals</button>
-          <button class="preset-pill" data-m="25" data-n="25" data-k="10" data-mode="diamond" title="Single low-value diamond seed">Diamond Seed</button>
+          <button class="preset-pill" data-tiling="square" data-rule="classic" data-m="20" data-n="20" data-k="10" data-seed="random">Square Classic</button>
+          <button class="preset-pill" data-tiling="hexagonal" data-rule="classic" data-m="20" data-n="20" data-k="10" data-seed="random">Hexagon Honeycomb</button>
+          <button class="preset-pill" data-tiling="triangular" data-rule="parity" data-m="24" data-n="32" data-k="10" data-seed="diamond">Triangular Snowflake (Parity)</button>
+          <button class="preset-pill" data-tiling="square" data-rule="parity" data-m="25" data-n="25" data-k="10" data-seed="diamond">Wolfram Parity Tapestry</button>
+          <button class="preset-pill" data-tiling="square" data-rule="cross" data-m="25" data-n="25" data-k="10" data-seed="random">Axis Laser Beams</button>
+          <button class="preset-pill" data-tiling="hexagonal" data-rule="unanimous" data-m="20" data-n="20" data-k="10" data-seed="random">Unanimous Fortress</button>
+          <button class="preset-pill" data-tiling="square" data-rule="classic" data-m="1" data-n="4" data-k="4" data-seed="perm">1 × 4 Permutation</button>
+          <button class="preset-pill" data-tiling="square" data-rule="classic" data-m="1" data-n="10" data-k="10" data-seed="perm">1 × 10 Permutation</button>
         </div>
       </div>
     </section>
 
     <!-- Mathematical Details Collapsible Card -->
     <details class="explanation-card">
-      <summary>📐 Mathematical Rules, Edge Cases &amp; Conventions</summary>
+      <summary>📐 Tilings, Wolfram Rules &amp; Mathematical Specifications</summary>
       <ul>
-        <li><strong>Update Rule:</strong> If a cell has value \(k\), and an adjacent orthogonal neighbor has value exactly \(k+1\), the neighbor becomes \(k\). (Equivalently, a cell in state \(v\) converts to \(v-1\) if at least one orthogonal neighbor has value \(v-1\)).</li>
-        <li><strong>Simultaneous Execution:</strong> Transitions are strictly synchronous (\(A^{(t)} \mapsto A^{(t+1)}\)) using double buffering. Scan order does not affect dynamics.</li>
-        <li><strong>Conflict Freeness:</strong> Because each cell \(v\) only ever converts to its unique predecessor \(\text{pred}(v)\), competing updates to the same cell always assign the identical value. Conflicts are mathematically impossible.</li>
-        <li><strong>Cyclic vs. Linear Succession:</strong> In cyclic mode (\(\mathbb{Z}_K\)), the maximum state \(K\) wraps to \(1\), meaning \(K\) converts an adjacent \(1\) into \(K\). In linear mode, \(1\) cannot be converted and \(K\) cannot convert anything.</li>
-        <li><strong>Boundary Topologies:</strong> In periodic mode, coordinates wrap toroidally modulo \(m\) and \(n\). In degenerate grids (\(1 \times n\), \(m \times 1\), \(1 \times 1\)), self-neighbors are strictly excluded.</li>
-        <li><strong>The \(1 \times n\) Permutation Theorem:</strong> Under periodic boundaries with cycle modulus \(K = n\), the configuration \((1, 2, \dots, n)\) undergoes a cyclic right-shift at every step: \(A^{(t+1)}_i = A^{(t)}_{(i-1)\bmod n}\).</li>
+        <li><strong>Regular Euclidean Tilings:</strong>
+          <ul>
+            <li><strong>Square ($\{4, 4\}$):</strong> Each cell shares edges with 4 orthogonal neighbors (Up, Down, Left, Right).</li>
+            <li><strong>Hexagonal ($\{6, 3\}$):</strong> Pointy-topped hexagons with 6 edge-sharing neighbors (odd-r offset layout).</li>
+            <li><strong>Triangular ($\{3, 6\}$):</strong> Alternating Up ($\Delta$) and Down ($\nabla$) equilateral triangles sharing 3 edges with adjacent triangles.</li>
+          </ul>
+        </li>
+        <li><strong>Update Rule Formulation:</strong> A cell in state \(v\) transitions to its predecessor \(\text{pred}(v)\) at time \(t+1\) if and only if its neighborhood satisfies the active rule predicate for value \(\text{pred}(v)\).</li>
+        <li><strong>Wolfram Parity (Rule 90/150 style):</strong> Target converts if the count of predecessor neighbors is odd (\(C_P \bmod 2 = 1\)). Even counts cancel out, generating self-similar fractal carpets.</li>
+        <li><strong>Directional Alignments:</strong> Constrains updates along physical axes. Vertical requires both Up &amp; Down neighbors to match; Horizontal requires Left &amp; Right.</li>
+        <li><strong>Simultaneous Execution:</strong> Transitions are strictly synchronous (\(A^{(t)} \mapsto A^{(t+1)}\)) using double buffering. Scan order does not bias wave propagation.</li>
       </ul>
     </details>
 
@@ -825,6 +958,10 @@
     let maxValue = 10; // K
     let periodic = true;
     let cyclic = true;
+    let currentTiling = 'square'; // 'square', 'hexagonal', 'triangular'
+    let currentRule = 'classic';
+    let quorumTheta = 2;
+    let customMask = new Set([1]);
     let numberOverlayMode = 'auto'; // 'auto', 'on', 'off'
 
     let currentGrid = new Uint8Array(m * n);
@@ -844,44 +981,187 @@
     const ctx = canvas.getContext('2d');
 
     /**
-     * PURE SIMULATION ADVANCE FUNCTION
+     * NEIGHBORHOOD TOPOLOGIES
      */
-    function getNeighbors(r, c, rows, cols, isPeriodic) {
-      const neighbors = [];
-      // Vertical
+    function getNeighborsSquare(r, c, rows, cols, isPeriodic) {
+      const nbrs = [];
       if (rows > 1) {
         if (isPeriodic) {
           const up = ((r - 1 + rows) % rows) * cols + c;
           const down = ((r + 1) % rows) * cols + c;
-          neighbors.push(up);
-          if (down !== up) neighbors.push(down);
+          nbrs.push(up);
+          if (down !== up) nbrs.push(down);
         } else {
-          if (r > 0) neighbors.push((r - 1) * cols + c);
-          if (r < rows - 1) neighbors.push((r + 1) * cols + c);
+          if (r > 0) nbrs.push((r - 1) * cols + c);
+          if (r < rows - 1) nbrs.push((r + 1) * cols + c);
         }
       }
-      // Horizontal
       if (cols > 1) {
         if (isPeriodic) {
           const left = r * cols + ((c - 1 + cols) % cols);
           const right = r * cols + ((c + 1) % cols);
-          neighbors.push(left);
-          if (right !== left) neighbors.push(right);
+          nbrs.push(left);
+          if (right !== left) nbrs.push(right);
         } else {
-          if (c > 0) neighbors.push(r * cols + (c - 1));
-          if (c < cols - 1) neighbors.push(r * cols + (c + 1));
+          if (c > 0) nbrs.push(r * cols + (c - 1));
+          if (c < cols - 1) nbrs.push(r * cols + (c + 1));
         }
       }
-
-      // Deduplicate coordinates
-      return Array.from(new Set(neighbors));
+      return Array.from(new Set(nbrs));
     }
 
+    function getNeighborsHex(r, c, rows, cols, isPeriodic) {
+      if (rows <= 1 && cols <= 1) return [];
+      const isOdd = (r % 2 === 1);
+      const diffs = isOdd
+        ? [[0, -1], [0, 1], [-1, 0], [-1, 1], [1, 0], [1, 1]]
+        : [[0, -1], [0, 1], [-1, -1], [-1, 0], [1, -1], [1, 0]];
+
+      const nbrs = [];
+      for (let i = 0; i < diffs.length; i++) {
+        let nr = r + diffs[i][0];
+        let nc = c + diffs[i][1];
+        if (isPeriodic) {
+          nr = (nr + rows) % rows;
+          nc = (nc + cols) % cols;
+          const idx = nr * cols + nc;
+          if ((nr !== r || nc !== c) && !nbrs.includes(idx)) {
+            nbrs.push(idx);
+          }
+        } else {
+          if (nr >= 0 && nr < rows && nc >= 0 && nc < cols) {
+            const idx = nr * cols + nc;
+            if ((nr !== r || nc !== c) && !nbrs.includes(idx)) {
+              nbrs.push(idx);
+            }
+          }
+        }
+      }
+      return nbrs;
+    }
+
+    function getNeighborsTriangle(r, c, rows, cols, isPeriodic) {
+      if (rows <= 1 && cols <= 1) return [];
+      const isUp = ((r + c) % 2 === 0);
+      const diffs = isUp
+        ? [[0, -1], [0, 1], [1, 0]]  // Left, Right, Bottom
+        : [[0, -1], [0, 1], [-1, 0]]; // Left, Right, Top
+
+      const nbrs = [];
+      for (let i = 0; i < diffs.length; i++) {
+        let nr = r + diffs[i][0];
+        let nc = c + diffs[i][1];
+        if (isPeriodic) {
+          nr = (nr + rows) % rows;
+          nc = (nc + cols) % cols;
+          const idx = nr * cols + nc;
+          if ((nr !== r || nc !== c) && !nbrs.includes(idx)) {
+            nbrs.push(idx);
+          }
+        } else {
+          if (nr >= 0 && nr < rows && nc >= 0 && nc < cols) {
+            const idx = nr * cols + nc;
+            if ((nr !== r || nc !== c) && !nbrs.includes(idx)) {
+              nbrs.push(idx);
+            }
+          }
+        }
+      }
+      return nbrs;
+    }
+
+    function getNeighbors(r, c, rows, cols, tiling, isPeriodic) {
+      if (tiling === 'hexagonal') return getNeighborsHex(r, c, rows, cols, isPeriodic);
+      if (tiling === 'triangular') return getNeighborsTriangle(r, c, rows, cols, isPeriodic);
+      return getNeighborsSquare(r, c, rows, cols, isPeriodic);
+    }
+
+    /**
+     * RULE EVALUATOR
+     */
+    function evaluateRule(r, c, grid, rows, cols, tiling, isPeriodic, pred) {
+      // 1. Directional alignment checks
+      if (currentRule === 'vertical') {
+        if (tiling === 'square') {
+          const upR = isPeriodic ? ((r - 1 + rows) % rows) : (r > 0 ? r - 1 : null);
+          const dnR = isPeriodic ? ((r + 1) % rows) : (r < rows - 1 ? r + 1 : null);
+          if (upR === null || dnR === null) return false;
+          return (grid[upR * cols + c] === pred && grid[dnR * cols + c] === pred);
+        } else if (tiling === 'hexagonal') {
+          const isOdd = (r % 2 === 1);
+          const p1_up_r = r - 1, p1_up_c = isOdd ? c : c - 1;
+          const p1_dn_r = r + 1, p1_dn_c = isOdd ? c : c - 1;
+          if (isPeriodic) {
+            const u = ((p1_up_r + rows) % rows) * cols + ((p1_up_c + cols) % cols);
+            const d = ((p1_dn_r + rows) % rows) * cols + ((p1_dn_c + cols) % cols);
+            return (grid[u] === pred && grid[d] === pred);
+          } else {
+            if (p1_up_r >= 0 && p1_up_r < rows && p1_up_c >= 0 && p1_up_c < cols &&
+                p1_dn_r >= 0 && p1_dn_r < rows && p1_dn_c >= 0 && p1_dn_c < cols) {
+              return (grid[p1_up_r * cols + p1_up_c] === pred && grid[p1_dn_r * cols + p1_dn_c] === pred);
+            }
+            return false;
+          }
+        } else if (tiling === 'triangular') {
+          const isUp = ((r + c) % 2 === 0);
+          const vr = isUp ? r + 1 : r - 1;
+          if (isPeriodic) {
+            const vIdx = ((vr + rows) % rows) * cols + c;
+            return grid[vIdx] === pred;
+          } else {
+            if (vr >= 0 && vr < rows) return grid[vr * cols + c] === pred;
+            return false;
+          }
+        }
+      } else if (currentRule === 'horizontal') {
+        const leftC = isPeriodic ? ((c - 1 + cols) % cols) : (c > 0 ? c - 1 : null);
+        const rightC = isPeriodic ? ((c + 1) % cols) : (c < cols - 1 ? c + 1 : null);
+        if (leftC === null || rightC === null) return false;
+        return (grid[r * cols + leftC] === pred && grid[r * cols + rightC] === pred);
+      } else if (currentRule === 'cross') {
+        const prevRule = currentRule;
+        currentRule = 'horizontal';
+        const hOk = evaluateRule(r, c, grid, rows, cols, tiling, isPeriodic, pred);
+        currentRule = 'vertical';
+        const vOk = evaluateRule(r, c, grid, rows, cols, tiling, isPeriodic, pred);
+        currentRule = prevRule;
+        return (hOk || vOk);
+      } else if (currentRule === 'drift') {
+        const leftC = isPeriodic ? ((c - 1 + cols) % cols) : (c > 0 ? c - 1 : null);
+        if (leftC === null) return false;
+        return (grid[r * cols + leftC] === pred);
+      }
+
+      // 2. Count-based rules
+      const nbrs = getNeighbors(r, c, rows, cols, tiling, isPeriodic);
+      if (nbrs.length === 0) return false;
+
+      let count = 0;
+      for (let i = 0; i < nbrs.length; i++) {
+        if (grid[nbrs[i]] === pred) count++;
+      }
+      const degree = nbrs.length;
+
+      if (currentRule === 'classic') return count >= 1;
+      if (currentRule === 'quorum') return count >= quorumTheta;
+      if (currentRule === 'majority') return count > (degree / 2);
+      if (currentRule === 'unanimous') return count === degree;
+      if (currentRule === 'parity') return (count % 2 === 1); // Wolfram Rule 90/150 style
+      if (currentRule === 'life_like') return (count === 2 || count === 3);
+      if (currentRule === 'custom_mask') return customMask.has(count);
+
+      return count >= 1;
+    }
+
+    /**
+     * SIMULATION STATE ADVANCE
+     */
     function advanceGrid(grid, rows, cols, options) {
       const nextGrid = new Uint8Array(rows * cols);
       const isPeriodic = options.periodic;
       const isCyclic = options.cyclic;
       const kMax = options.maxValue;
+      const tiling = options.tiling;
 
       for (let r = 0; r < rows; r++) {
         for (let c = 0; c < cols; c++) {
@@ -897,13 +1177,7 @@
 
           let willChange = false;
           if (pred !== null) {
-            const nbrIndices = getNeighbors(r, c, rows, cols, isPeriodic);
-            for (let i = 0; i < nbrIndices.length; i++) {
-              if (grid[nbrIndices[i]] === pred) {
-                willChange = true;
-                break;
-              }
-            }
+            willChange = evaluateRule(r, c, grid, rows, cols, tiling, isPeriodic, pred);
           }
 
           nextGrid[idx] = willChange ? pred : v;
@@ -968,9 +1242,6 @@
       announceLive('Grid reset to initial configuration.');
     }
 
-    /**
-     * RESIZING GRID
-     */
     function resizeGrid(newM, newN) {
       newM = Math.max(1, Math.min(60, newM));
       newN = Math.max(1, Math.min(60, newN));
@@ -978,7 +1249,6 @@
       const newGrid = new Uint8Array(newM * newN);
       newGrid.fill(selectedValue);
 
-      // Preserve existing cells from (0, 0)
       const minR = Math.min(m, newM);
       const minC = Math.min(n, newN);
       for (let r = 0; r < minR; r++) {
@@ -1003,13 +1273,12 @@
     }
 
     /**
-     * SIMULATION RUN / PAUSE / STEP LOOP
+     * SIMULATION LOOP
      */
     function stepSim() {
-      const options = { periodic, cyclic, maxValue };
+      const options = { periodic, cyclic, maxValue, tiling: currentTiling };
       const nextG = advanceGrid(currentGrid, m, n, options);
 
-      // Check for fixed point (stability)
       let changed = false;
       for (let i = 0; i < currentGrid.length; i++) {
         if (currentGrid[i] !== nextG[i]) {
@@ -1062,7 +1331,6 @@
 
     function simLoop(now) {
       if (!isRunning) return;
-
       const intervalMs = 1000 / simFps;
       const delta = now - lastStepTime;
 
@@ -1093,23 +1361,72 @@
     }
 
     /**
-     * RENDERING ENGINE (CANVAS)
+     * DYNAMIC RULE PILL UPDATE
+     */
+    function updateRulePill() {
+      const tilingNames = { square: 'Square (4)', hexagonal: 'Hexagonal (6)', triangular: 'Triangular (3)' };
+      const ruleNames = {
+        classic: 'Classic Predation (≥ 1)',
+        quorum: `Threshold Quorum (≥ ${quorumTheta})`,
+        majority: 'Majority Rule (> Half)',
+        unanimous: 'Unanimous Consensus (All)',
+        vertical: 'Vertical Alignment (Top & Bottom)',
+        horizontal: 'Horizontal Alignment (Left & Right)',
+        cross: 'Axial Cross (V or H)',
+        parity: 'Wolfram Parity (Odd Count / XOR)',
+        life_like: 'Wolfram Life-like (2 or 3)',
+        drift: 'Wolfram Drift (Left → Right)',
+        custom_mask: `Custom Mask [${Array.from(customMask).sort().join(',')}]`
+      };
+      document.getElementById('rulePill').textContent =
+        `Tiling: ${tilingNames[currentTiling]} | Rule: ${ruleNames[currentRule] || currentRule}`;
+    }
+
+    /**
+     * GEOMETRIC RENDERING (SQUARE, HEXAGONAL, TRIANGULAR)
      */
     function render() {
       const dpr = window.devicePixelRatio || 1;
-      const containerWidth = canvas.parentElement.clientWidth - 32;
-      const displaySize = Math.min(containerWidth, 600);
+      const containerW = canvas.parentElement.clientWidth - 32;
+      const maxDisplayW = Math.min(containerW, 640);
+      const maxDisplayH = 540;
 
-      // Determine cell sizes preserving aspect ratio
-      const aspect = n / m;
       let displayW, displayH;
-      if (aspect >= 1) {
-        displayW = displaySize;
-        displayH = Math.max(80, Math.round(displaySize / aspect));
-      } else {
-        displayH = displaySize;
-        displayW = Math.max(80, Math.round(displaySize * aspect));
+
+      if (currentTiling === 'square') {
+        const aspect = n / m;
+        if (aspect >= 1) {
+          displayW = maxDisplayW;
+          displayH = Math.max(90, Math.round(maxDisplayW / aspect));
+        } else {
+          displayH = maxDisplayH;
+          displayW = Math.max(90, Math.round(maxDisplayH * aspect));
+        }
+      } else if (currentTiling === 'hexagonal') {
+        const totalWUnits = (n + 0.5) * Math.sqrt(3);
+        const totalHUnits = 1 + (m - 1) * 1.5;
+        const aspect = totalWUnits / totalHUnits;
+        if (aspect >= 1) {
+          displayW = maxDisplayW;
+          displayH = Math.max(90, Math.round(maxDisplayW / aspect));
+        } else {
+          displayH = maxDisplayH;
+          displayW = Math.max(90, Math.round(maxDisplayH * aspect));
+        }
+      } else { // triangular
+        const totalWUnits = (n + 1) * 0.5;
+        const totalHUnits = m * Math.sqrt(3) / 2;
+        const aspect = totalWUnits / totalHUnits;
+        if (aspect >= 1) {
+          displayW = maxDisplayW;
+          displayH = Math.max(90, Math.round(maxDisplayW / aspect));
+        } else {
+          displayH = maxDisplayH;
+          displayW = Math.max(90, Math.round(maxDisplayH * aspect));
+        }
       }
+
+      displayH = Math.min(displayH, 600);
 
       if (canvas.width !== Math.round(displayW * dpr) || canvas.height !== Math.round(displayH * dpr)) {
         canvas.width = Math.round(displayW * dpr);
@@ -1120,9 +1437,20 @@
 
       ctx.save();
       ctx.scale(dpr, dpr);
-
       ctx.clearRect(0, 0, displayW, displayH);
 
+      if (currentTiling === 'square') {
+        renderSquare(displayW, displayH);
+      } else if (currentTiling === 'hexagonal') {
+        renderHexagonal(displayW, displayH);
+      } else {
+        renderTriangular(displayW, displayH);
+      }
+
+      ctx.restore();
+    }
+
+    function renderSquare(displayW, displayH) {
       const cellW = displayW / n;
       const cellH = displayH / m;
 
@@ -1138,20 +1466,16 @@
         for (let c = 0; c < n; c++) {
           const val = currentGrid[r * n + c];
           const colorObj = PALETTE[val - 1] || PALETTE[0];
-
           const x = c * cellW;
           const y = r * cellH;
 
-          // Fill cell
           ctx.fillStyle = colorObj.hex;
           ctx.fillRect(x, y, cellW, cellH);
 
-          // Grid lines
-          ctx.strokeStyle = 'rgba(0, 0, 0, 0.18)';
+          ctx.strokeStyle = 'rgba(0, 0, 0, 0.2)';
           ctx.lineWidth = 1;
           ctx.strokeRect(x, y, cellW, cellH);
 
-          // Number label
           if (shouldShowNumbers) {
             ctx.fillStyle = colorObj.text;
             ctx.fillText(val, x + cellW / 2, y + cellH / 2 + 1);
@@ -1159,20 +1483,167 @@
         }
       }
 
-      // Highlight hovered cell
       if (hoveredCell.r >= 0 && hoveredCell.r < m && hoveredCell.c >= 0 && hoveredCell.c < n) {
-        const hx = hoveredCell.c * cellW;
-        const hy = hoveredCell.r * cellH;
         ctx.strokeStyle = '#ffffff';
-        ctx.lineWidth = 2;
-        ctx.strokeRect(hx + 1, hy + 1, cellW - 2, cellH - 2);
+        ctx.lineWidth = 2.5;
+        ctx.strokeRect(hoveredCell.c * cellW + 1, hoveredCell.r * cellH + 1, cellW - 2, cellH - 2);
+      }
+    }
+
+    function renderHexagonal(displayW, displayH) {
+      const totalWUnits = (n + 0.5) * Math.sqrt(3);
+      const totalHUnits = 1 + (m - 1) * 1.5;
+      const R = Math.min(displayW / totalWUnits, displayH / totalHUnits) * 0.98;
+      const dx = Math.sqrt(3) * R;
+      const dy = 1.5 * R;
+
+      const gridW = (n + 0.5) * dx;
+      const gridH = (m - 1) * dy + 2 * R;
+      const ox = (displayW - gridW) / 2 + dx / 2;
+      const oy = (displayH - gridH) / 2 + R;
+
+      const shouldShowNumbers = (numberOverlayMode === 'on') ||
+        (numberOverlayMode === 'auto' && R >= 12);
+      const fontSize = Math.max(9, Math.min(18, Math.floor(R * 0.75)));
+      ctx.font = `600 ${fontSize}px var(--font-mono)`;
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+
+      for (let r = 0; r < m; r++) {
+        const rowOffsetX = (r % 2 === 1) ? (dx / 2) : 0;
+        const cy = oy + r * dy;
+        for (let c = 0; c < n; c++) {
+          const cx = ox + c * dx + rowOffsetX;
+          const val = currentGrid[r * n + c];
+          const colorObj = PALETTE[val - 1] || PALETTE[0];
+
+          ctx.beginPath();
+          for (let k = 0; k < 6; k++) {
+            const angle = Math.PI / 6 + k * (Math.PI / 3);
+            const vx = cx + R * Math.cos(angle);
+            const vy = cy + R * Math.sin(angle);
+            if (k === 0) ctx.moveTo(vx, vy);
+            else ctx.lineTo(vx, vy);
+          }
+          ctx.closePath();
+
+          ctx.fillStyle = colorObj.hex;
+          ctx.fill();
+          ctx.strokeStyle = 'rgba(0, 0, 0, 0.22)';
+          ctx.lineWidth = 1;
+          ctx.stroke();
+
+          if (shouldShowNumbers) {
+            ctx.fillStyle = colorObj.text;
+            ctx.fillText(val, cx, cy + 1);
+          }
+        }
       }
 
-      ctx.restore();
+      if (hoveredCell.r >= 0 && hoveredCell.r < m && hoveredCell.c >= 0 && hoveredCell.c < n) {
+        const hr = hoveredCell.r;
+        const hc = hoveredCell.c;
+        const hcx = ox + hc * dx + ((hr % 2 === 1) ? (dx / 2) : 0);
+        const hcy = oy + hr * dy;
+        ctx.beginPath();
+        for (let k = 0; k < 6; k++) {
+          const angle = Math.PI / 6 + k * (Math.PI / 3);
+          const vx = hcx + R * Math.cos(angle);
+          const vy = hcy + R * Math.sin(angle);
+          if (k === 0) ctx.moveTo(vx, vy);
+          else ctx.lineTo(vx, vy);
+        }
+        ctx.closePath();
+        ctx.strokeStyle = '#ffffff';
+        ctx.lineWidth = 2.5;
+        ctx.stroke();
+      }
+    }
+
+    function renderTriangular(displayW, displayH) {
+      const totalWUnits = (n + 1) * 0.5;
+      const totalHUnits = m * Math.sqrt(3) / 2;
+      const s = Math.min(displayW / totalWUnits, displayH / totalHUnits) * 0.98;
+      const h = s * Math.sqrt(3) / 2;
+
+      const gridW = totalWUnits * s;
+      const gridH = totalHUnits * s / (s ? 1 : 1);
+      const ox = (displayW - gridW) / 2;
+      const oy = (displayH - (m * h)) / 2;
+
+      const shouldShowNumbers = (numberOverlayMode === 'on') ||
+        (numberOverlayMode === 'auto' && s >= 24);
+      const fontSize = Math.max(9, Math.min(18, Math.floor(s * 0.45)));
+      ctx.font = `600 ${fontSize}px var(--font-mono)`;
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+
+      for (let r = 0; r < m; r++) {
+        const yTop = oy + r * h;
+        const yBot = yTop + h;
+
+        for (let c = 0; c < n; c++) {
+          const val = currentGrid[r * n + c];
+          const colorObj = PALETTE[val - 1] || PALETTE[0];
+          const isUp = ((r + c) % 2 === 0);
+
+          ctx.beginPath();
+          let centroidY;
+          const centroidX = ox + (c + 1) * (s / 2);
+
+          if (isUp) {
+            ctx.moveTo(centroidX, yTop);
+            ctx.lineTo(ox + c * (s / 2), yBot);
+            ctx.lineTo(ox + (c + 2) * (s / 2), yBot);
+            centroidY = yTop + (2 / 3) * h;
+          } else {
+            ctx.moveTo(ox + c * (s / 2), yTop);
+            ctx.lineTo(ox + (c + 2) * (s / 2), yTop);
+            ctx.lineTo(centroidX, yBot);
+            centroidY = yTop + (1 / 3) * h;
+          }
+          ctx.closePath();
+
+          ctx.fillStyle = colorObj.hex;
+          ctx.fill();
+          ctx.strokeStyle = 'rgba(0, 0, 0, 0.22)';
+          ctx.lineWidth = 1;
+          ctx.stroke();
+
+          if (shouldShowNumbers) {
+            ctx.fillStyle = colorObj.text;
+            ctx.fillText(val, centroidX, centroidY);
+          }
+        }
+      }
+
+      if (hoveredCell.r >= 0 && hoveredCell.r < m && hoveredCell.c >= 0 && hoveredCell.c < n) {
+        const hr = hoveredCell.r;
+        const hc = hoveredCell.c;
+        const yTop = oy + hr * h;
+        const yBot = yTop + h;
+        const isUp = ((hr + hc) % 2 === 0);
+        const centroidX = ox + (hc + 1) * (s / 2);
+
+        ctx.beginPath();
+        if (isUp) {
+          ctx.moveTo(centroidX, yTop);
+          ctx.lineTo(ox + hc * (s / 2), yBot);
+          ctx.lineTo(ox + (hc + 2) * (s / 2), yBot);
+        } else {
+          ctx.moveTo(ox + hc * (s / 2), yTop);
+          ctx.lineTo(ox + (hc + 2) * (s / 2), yTop);
+          ctx.lineTo(centroidX, yBot);
+        }
+        ctx.closePath();
+        ctx.strokeStyle = '#ffffff';
+        ctx.lineWidth = 2.5;
+        ctx.stroke();
+      }
     }
 
     /**
-     * POINTER & DRAWING INTERACTIONS
+     * POINTER PICKING FOR ALL THREE GEOMETRIES
      */
     function getCellFromPointer(e) {
       const rect = canvas.getBoundingClientRect();
@@ -1181,13 +1652,83 @@
 
       if (x < 0 || x >= rect.width || y < 0 || y >= rect.height) return null;
 
-      const c = Math.floor((x / rect.width) * n);
-      const r = Math.floor((y / rect.height) * m);
-
-      if (r >= 0 && r < m && c >= 0 && c < n) {
-        return { r, c };
+      if (currentTiling === 'square') {
+        const cellW = rect.width / n;
+        const cellH = rect.height / m;
+        const c = Math.floor(x / cellW);
+        const r = Math.floor(y / cellH);
+        if (r >= 0 && r < m && c >= 0 && c < n) return { r, c };
+        return null;
       }
-      return null;
+
+      if (currentTiling === 'hexagonal') {
+        const totalWUnits = (n + 0.5) * Math.sqrt(3);
+        const totalHUnits = 1 + (m - 1) * 1.5;
+        const R = Math.min(rect.width / totalWUnits, rect.height / totalHUnits) * 0.98;
+        const dx = Math.sqrt(3) * R;
+        const dy = 1.5 * R;
+        const gridW = (n + 0.5) * dx;
+        const gridH = (m - 1) * dy + 2 * R;
+        const ox = (rect.width - gridW) / 2 + dx / 2;
+        const oy = (rect.height - gridH) / 2 + R;
+
+        const rApprox = Math.round((y - oy) / dy);
+        let best = null;
+        let bestDist = Infinity;
+
+        for (let dr = -1; dr <= 1; dr++) {
+          const candR = rApprox + dr;
+          if (candR < 0 || candR >= m) continue;
+          const rowOffsetX = (candR % 2 === 1) ? (dx / 2) : 0;
+          const cApprox = Math.round((x - ox - rowOffsetX) / dx);
+          for (let dc = -1; dc <= 1; dc++) {
+            const candC = cApprox + dc;
+            if (candC < 0 || candC >= n) continue;
+            const cx = ox + candC * dx + rowOffsetX;
+            const cy = oy + candR * dy;
+            const distSq = (x - cx) ** 2 + (y - cy) ** 2;
+            if (distSq < bestDist) {
+              bestDist = distSq;
+              best = { r: candR, c: candC };
+            }
+          }
+        }
+        return best;
+      }
+
+      // Triangular picking
+      const totalWUnits = (n + 1) * 0.5;
+      const totalHUnits = m * Math.sqrt(3) / 2;
+      const s = Math.min(rect.width / totalWUnits, rect.height / totalHUnits) * 0.98;
+      const h = s * Math.sqrt(3) / 2;
+      const gridW = totalWUnits * s;
+      const ox = (rect.width - gridW) / 2;
+      const oy = (rect.height - (m * h)) / 2;
+
+      const rApprox = Math.floor((y - oy) / h);
+      const cApprox = Math.floor((x - ox) / (s / 2)) - 1;
+
+      let best = null;
+      let bestDist = Infinity;
+
+      for (let dr = -1; dr <= 1; dr++) {
+        const candR = rApprox + dr;
+        if (candR < 0 || candR >= m) continue;
+        const yTop = oy + candR * h;
+        for (let dc = -2; dc <= 2; dc++) {
+          const candC = cApprox + dc;
+          if (candC < 0 || candC >= n) continue;
+          const isUp = ((candR + candC) % 2 === 0);
+          const cx = ox + (candC + 1) * (s / 2);
+          const cy = isUp ? (yTop + (2 / 3) * h) : (yTop + (1 / 3) * h);
+          const distSq = (x - cx) ** 2 + (y - cy) ** 2;
+          if (distSq < bestDist) {
+            bestDist = distSq;
+            best = { r: candR, c: candC };
+          }
+        }
+      }
+      return best;
     }
 
     function paintCell(r, c) {
@@ -1204,28 +1745,33 @@
       hoveredCell = { r, c };
       const val = currentGrid[r * n + c];
       const p = PALETTE[val - 1] || PALETTE[0];
+      const pred = cyclic ? ((val === 1) ? maxValue : val - 1) : ((val > 1) ? val - 1 : null);
+      const nbrs = getNeighbors(r, c, m, n, currentTiling, periodic);
+      let matchCount = 0;
+      if (pred !== null) {
+        for (let i = 0; i < nbrs.length; i++) {
+          if (currentGrid[nbrs[i]] === pred) matchCount++;
+        }
+      }
+
       document.getElementById('inspectorDot').style.backgroundColor = p.hex;
-      document.getElementById('inspectorText').textContent = `Cell (${r}, ${c}) = ${val} (${p.name})`;
+      document.getElementById('inspectorText').textContent =
+        `Cell (${r}, ${c}) = ${val} | Pred ${pred || 'None'}: ${matchCount}/${nbrs.length}`;
     }
 
     canvas.addEventListener('pointerdown', (e) => {
       isPointerDown = true;
       canvas.setPointerCapture(e.pointerId);
       const cell = getCellFromPointer(e);
-      if (cell) {
-        paintCell(cell.r, cell.c);
-      }
+      if (cell) paintCell(cell.r, cell.c);
     });
 
     canvas.addEventListener('pointermove', (e) => {
       const cell = getCellFromPointer(e);
       if (cell) {
         updateInspector(cell.r, cell.c);
-        if (isPointerDown) {
-          paintCell(cell.r, cell.c);
-        } else {
-          render();
-        }
+        if (isPointerDown) paintCell(cell.r, cell.c);
+        else render();
       }
     });
 
@@ -1295,6 +1841,90 @@
     }
 
     /**
+     * CUSTOM TOTALISTIC MASK CONTROLS
+     */
+    function buildMaskButtons() {
+      const cont = document.getElementById('maskContainer');
+      cont.innerHTML = '';
+      const maxCount = (currentTiling === 'hexagonal') ? 6 : (currentTiling === 'square' ? 4 : 3);
+      for (let c = 1; c <= maxCount; c++) {
+        const pill = document.createElement('button');
+        pill.className = `mask-pill ${customMask.has(c) ? 'active' : ''}`;
+        pill.textContent = `Count = ${c}`;
+        pill.addEventListener('click', () => {
+          if (customMask.has(c)) customMask.delete(c);
+          else customMask.add(c);
+          pill.classList.toggle('active', customMask.has(c));
+          updateRulePill();
+        });
+        cont.appendChild(pill);
+      }
+    }
+
+    /**
+     * TILING SWITCHER
+     */
+    const btnSquare = document.getElementById('btnTilingSquare');
+    const btnHex = document.getElementById('btnTilingHex');
+    const btnTri = document.getElementById('btnTilingTri');
+
+    function setTiling(tiling) {
+      currentTiling = tiling;
+      [btnSquare, btnHex, btnTri].forEach(b => {
+        b.classList.remove('active');
+        b.setAttribute('aria-pressed', 'false');
+      });
+
+      if (tiling === 'square') {
+        btnSquare.classList.add('active');
+        btnSquare.setAttribute('aria-pressed', 'true');
+        document.getElementById('tilingText').textContent = 'Square';
+        document.getElementById('neighborDegreeText').textContent = '4 Neighbors';
+      } else if (tiling === 'hexagonal') {
+        btnHex.classList.add('active');
+        btnHex.setAttribute('aria-pressed', 'true');
+        document.getElementById('tilingText').textContent = 'Hexagonal';
+        document.getElementById('neighborDegreeText').textContent = '6 Neighbors';
+      } else {
+        btnTri.classList.add('active');
+        btnTri.setAttribute('aria-pressed', 'true');
+        document.getElementById('tilingText').textContent = 'Triangular';
+        document.getElementById('neighborDegreeText').textContent = '3 Neighbors';
+      }
+
+      buildMaskButtons();
+      updateRulePill();
+      render();
+      announceLive(`Tiling set to ${tiling}.`);
+    }
+
+    btnSquare.addEventListener('click', () => setTiling('square'));
+    btnHex.addEventListener('click', () => setTiling('hexagonal'));
+    btnTri.addEventListener('click', () => setTiling('triangular'));
+
+    /**
+     * RULE SELECTOR & SUB-OPTIONS
+     */
+    const ruleSelect = document.getElementById('ruleSelect');
+    const quorumRow = document.getElementById('quorumControlRow');
+    const customMaskRow = document.getElementById('customMaskControlRow');
+    const quorumSlider = document.getElementById('quorumSlider');
+
+    ruleSelect.addEventListener('change', (e) => {
+      currentRule = e.target.value;
+      quorumRow.style.display = (currentRule === 'quorum') ? 'flex' : 'none';
+      customMaskRow.style.display = (currentRule === 'custom_mask') ? 'flex' : 'none';
+      updateRulePill();
+      announceLive(`Rule set to ${currentRule}.`);
+    });
+
+    quorumSlider.addEventListener('input', (e) => {
+      quorumTheta = parseInt(e.target.value, 10);
+      document.getElementById('quorumValDisplay').textContent = quorumTheta;
+      updateRulePill();
+    });
+
+    /**
      * THEME TOGGLE
      */
     const themeBtn = document.getElementById('themeToggleBtn');
@@ -1309,7 +1939,7 @@
     });
 
     /**
-     * EVENT LISTENERS
+     * PRIMARY SIMULATION EVENT LISTENERS
      */
     document.getElementById('runPauseBtn').addEventListener('click', toggleRunPause);
     document.getElementById('stepBtn').addEventListener('click', () => {
@@ -1328,28 +1958,23 @@
       announceLive('Grid cleared.');
     });
 
-    // Speed
-    const speedSlider = document.getElementById('speedSlider');
-    speedSlider.addEventListener('input', (e) => {
+    // Speed Slider
+    document.getElementById('speedSlider').addEventListener('input', (e) => {
       simFps = parseInt(e.target.value, 10);
       document.getElementById('speedDisplay').textContent = `${simFps} fps`;
     });
 
-    // States count slider
-    const statesSlider = document.getElementById('statesSlider');
-    statesSlider.addEventListener('input', (e) => {
+    // States Slider
+    document.getElementById('statesSlider').addEventListener('input', (e) => {
       maxValue = parseInt(e.target.value, 10);
       buildPalette();
       if (selectedValue > maxValue) selectPalette(1);
-      // Clamp any grid cells greater than new maxValue
-      let clamped = false;
       for (let i = 0; i < currentGrid.length; i++) {
         if (currentGrid[i] > maxValue) {
           currentGrid[i] = ((currentGrid[i] - 1) % maxValue) + 1;
-          clamped = true;
         }
       }
-      if (clamped) saveInitialSnapshot();
+      saveInitialSnapshot();
       render();
     });
 
@@ -1422,27 +2047,28 @@
     // Presets
     document.querySelectorAll('.preset-pill').forEach(btn => {
       btn.addEventListener('click', () => {
+        const pTiling = btn.dataset.tiling;
+        const pRule = btn.dataset.rule;
         const pm = parseInt(btn.dataset.m, 10);
         const pn = parseInt(btn.dataset.n, 10);
         const pk = parseInt(btn.dataset.k, 10);
-        const pmode = btn.dataset.mode;
+        const pSeed = btn.dataset.seed;
 
         maxValue = pk;
-        statesSlider.value = pk;
+        document.getElementById('statesSlider').value = pk;
         buildPalette();
 
-        if (pmode === 'cyclic-periodic') {
-          periodic = true;
-          cyclic = true;
-          btnPeriodic.click();
-          btnCyclic.click();
-          resizeGrid(pm, pn);
+        setTiling(pTiling);
+        ruleSelect.value = pRule;
+        ruleSelect.dispatchEvent(new Event('change'));
+
+        resizeGrid(pm, pn);
+
+        if (pSeed === 'perm') {
           seedPermutation();
-        } else if (pmode === 'diamond') {
-          resizeGrid(pm, pn);
+        } else if (pSeed === 'diamond') {
           seedDiamond();
         } else {
-          resizeGrid(pm, pn);
           seedRandom();
         }
       });
@@ -1450,7 +2076,7 @@
 
     // Keyboard navigation
     window.addEventListener('keydown', (e) => {
-      if (e.target.tagName === 'INPUT') return; // Do not intercept inputs
+      if (e.target.tagName === 'INPUT' || e.target.tagName === 'SELECT') return;
 
       if (e.code === 'Space') {
         e.preventDefault();
@@ -1473,12 +2099,7 @@
       }
     });
 
-    // Window resize
-    window.addEventListener('resize', () => {
-      render();
-    });
-
-    // Clean up animation on page unload
+    window.addEventListener('resize', () => { render(); });
     window.addEventListener('beforeunload', () => {
       if (animFrameId) cancelAnimationFrame(animFrameId);
     });
@@ -1487,6 +2108,8 @@
      * BOOTSTRAP
      */
     buildPalette();
+    buildMaskButtons();
+    updateRulePill();
     seedRandom();
   </script>
 </body>
