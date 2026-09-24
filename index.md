@@ -64,7 +64,7 @@ layout: page
 &nbsp;
 
 <h3>TO DO</h3>
-<p>Actually put the cool links to my notes and past hws in the teaching link. Fix the important pictures.</p>
+<p>Actually put the cool links to my notes and past hws in the teaching link. Fix the important pictures.</ Lucien was herep>
 
 <hr />
 <div style="text-align: center; font-size: 0.75em; color: gray; margin-top: 2em;">
